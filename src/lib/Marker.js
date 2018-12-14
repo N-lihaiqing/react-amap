@@ -22,42 +22,42 @@ export class Marker extends Component {
   constructor() {
     super();
     this.refElement = null;
-    this._entity = null;
-    debug(__com__, 'constructor', this._entity);
+    this.entity = null;
+    debug(__com__, 'constructor', this.entity);
   }
 
   componentWillMount() {
-    debug(__com__, 'componentWillMount', this.props.children, this._entity);
+    debug(__com__, 'componentWillMount', this.props.children, this.entity);
   }
 
   componentDidMount() {
-    debug(__com__, 'componentDidMount', this.props.children, this._entity);
+    debug(__com__, 'componentDidMount', this.props.children, this.entity);
     let { __map__, options, events, children } = this.props;
     //let opts = { ...(options || {}), map: __map__, content: children };
     let opts = { ...(options || {}), map: __map__ };
-    this._entity = createMarker(opts, events);
-    if (this._entity) {
-      if (this.props.refer) this.props.refer(this._entity);
+    this.entity = createMarker(opts, events);
+    if (this.entity) {
+      if (this.props.refer) this.props.refer(this.entity);
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    debug(__com__, 'componentWillReceiveProps', this.props.children, this._entity);
+    debug(__com__, 'componentWillReceiveProps', this.props.children, this.entity);
   }
 
   componentWillUpdate() {
-    debug(__com__, 'componentWillUpdate', this.props.children, this._entity);
+    debug(__com__, 'componentWillUpdate', this.props.children, this.entity);
   }
 
   componentDidUpdate(prevProps) {
-    debug(__com__, 'componentDidUpdate', this.props.children, this._entity);
+    debug(__com__, 'componentDidUpdate', this.props.children, this.entity);
     let { __map__, options, events, children } = this.props;
     //let opts = { ...(options || {}), map: __map__, content: children };
     let opts = { ...(options || {}), map: __map__ };
-    if (!this._entity) {
-      this._entity = createMarker(opts, events);
-      if (this._entity) {
-        if (this.props.refer) this.props.refer(this._entity);
+    if (!this.entity) {
+      this.entity = createMarker(opts, events);
+      if (this.entity) {
+        if (this.props.refer) this.props.refer(this.entity);
       }
       return;
     }
@@ -68,22 +68,22 @@ export class Marker extends Component {
       map: prevProps.__map__,
       content: prevProps.children
     };
-    updateMarker(this._entity, opts, events, oldOpts, prevProps.events);
+    updateMarker(this.entity, opts, events, oldOpts, prevProps.events);
   }
 
   componentWillUnmount() {
-    debug(__com__, 'componentWillUnmount', this.props.children, this._entity);
-    if (this._entity) {
-      //   this._entity.clearMap();
-      this._entity.stopMove();
-      this._entity.setMap(null);
-      this._entity = null;
-      if (this.props.refer) this.props.refer(this._entity);
+    debug(__com__, 'componentWillUnmount', this.props.children, this.entity);
+    if (this.entity) {
+      //   this.entity.clearMap();
+      this.entity.stopMove();
+      this.entity.setMap(null);
+      this.entity = null;
+      if (this.props.refer) this.props.refer(this.entity);
     }
   }
 
   // shouldComponentUpdate(nextProps, nextState) {
-  //   debug(__com__, 'shouldComponentUpdate', this._entity);
+  //   debug(__com__, 'shouldComponentUpdate', this.entity);
   //   let { AMap: oldAMap, refer: oldRefer, options: oldOptions, events: oldEvents } = this.props;
   //   let { AMap: newAMap, refer: newRefer, options: newOptions, events: newEvents } = nextProps;
   //   if (oldAMap === newAMap && oldRefer === newRefer && oldOptions === newOptions && oldEvents === newEvents) {
@@ -94,7 +94,7 @@ export class Marker extends Component {
   //   return true;
   // }
   render() {
-    debug(__com__, 'render', this._entity);
+    debug(__com__, 'render', this.entity);
     return null;
   }
 }

@@ -12,13 +12,14 @@ import Polygon from './lib/Polygon';
 import Polyline from './lib/Polyline';
 import Circle from './lib/Circle';
 import InfoWindow from './lib/InfoWindow';
+import AMapPage from './AMapPage';
 
 class MarkerTest extends Component {
   constructor() {
     super();
     this.state = {};
-    this._setMapRefer = this._setMapRefer.bind(this);
-    this._setMarkerRefer = this._setMarkerRefer.bind(this);
+    this.setMapRefer = this.setMapRefer.bind(this);
+    this.setMarkerRefer = this.setMarkerRefer.bind(this);
   }
 
   componentDidMount() {
@@ -26,15 +27,15 @@ class MarkerTest extends Component {
       this.setState({ AMap });
     });
   }
-  _setMapRefer (refer) {
+  setMapRefer (refer) {
     this.mapRefer = refer;
     window.$map = this.mapRefer;
-    console.log('_setMapRefer:', this.mapRefer, this.markerRefer);
+    console.log('setMapRefer:', this.mapRefer, this.markerRefer);
   }
-  _setMarkerRefer (refer) {
+  setMarkerRefer (refer) {
     this.markerRefer = refer;
     window.$marker = this.markerRefer;
-    console.log('_setMarkerRefer:', this.mapRefer, this.markerRefer);
+    console.log('setMarkerRefer:', this.mapRefer, this.markerRefer);
   }
 
   render() {
@@ -42,12 +43,12 @@ class MarkerTest extends Component {
     window.$map = this.mapRefer;
     window.$marker = this.markerRefer;
     console.log('render:', this.mapRefer, this.markerRefer);
-    let markerIcon = 'https://webapi.amap.com/theme/v1.3/markers/n/mark_b.png';
+    let markerIcon = 'https://webapi.amap.com/theme/v1.3/markers/n/markb.png';
     switch (this.state.markerIndex) {
-      case 1: markerIcon = 'https://webapi.amap.com/theme/v1.3/markers/n/mark_r.png'; break;
-      case 2: markerIcon = 'https://webapi.amap.com/theme/v1.3/markers/n/mark_r.png'; break;
+      case 1: markerIcon = 'http://a.amap.com/jsapi_demos/static/demo-center/icons/dir-marker.png'; break;
+      case 2: markerIcon = 'http://a.amap.com/jsapi_demos/static/demo-center/icons/dir-via-marker.png'; break;
       default:
-      case 0: markerIcon = 'https://webapi.amap.com/theme/v1.3/markers/n/mark_b.png'; break;
+      case 0: markerIcon = '//a.amap.com/jsapi_demos/static/demo-center/icons/dir-marker.png'; break;
     }
     return (
       <div>
@@ -62,13 +63,13 @@ class MarkerTest extends Component {
           </span>
         </div>
         <Map
-          refer={this._setMapRefer}
+          refer={this.setMapRefer}
           style={{ width: 1200, height: 800 }}
           options={{ center, zoom:13 }}
         >
           <LayerTraffic options={{ interval:20,opacity:0.8 }} />
           <Marker
-            refer={this._setMarkerRefer}
+            refer={this.setMarkerRefer}
             options={{
               icon: markerIcon,
               position: center
@@ -87,10 +88,10 @@ class MarkerCarMoveTest extends Component {
   constructor() {
     super();
     this.state = {};
-    this._setMapRefer = this._setMapRefer.bind(this);
-    this._mapDblclick = this._mapDblclick.bind(this);
-    this._carMoving = this._carMoving.bind(this);
-    this._logging = this._logging.bind(this);
+    this.setMapRefer = this.setMapRefer.bind(this);
+    this.mapDblclick = this.mapDblclick.bind(this);
+    this.carMoving = this.carMoving.bind(this);
+    this.logging = this.logging.bind(this);
   }
 
   componentDidMount() {
@@ -119,28 +120,28 @@ class MarkerCarMoveTest extends Component {
       this.setState({ AMap, lineArr, carOffset });
     });
   }
-  _setMapRefer (refer) {
+  setMapRefer (refer) {
     this.mapRefer = refer;
   }
 
-  _mapDblclick() {
+  mapDblclick() {
     this.setState({msg:'双击了Map!'});
   }
-  _carMoving(e) {
+  carMoving(e) {
     this.setState({msg: '车在开', passedPath: e.passedPath});
   }
-  _logging(e) {
+  logging(e) {
     this.setState({msg: 'log:'+JSON.stringify(e.data)});
   }
 
   render() {
     console.log('mapRefer:', this.mapRefer && this.mapRefer.getLayers());
-    let markerIcon = 'https://webapi.amap.com/theme/v1.3/markers/n/mark_b.png';
+    let markerIcon = 'https://webapi.amap.com/theme/v1.3/markers/n/markb.png';
     switch (this.state.markerIndex) {
-      case 1: markerIcon = 'https://webapi.amap.com/theme/v1.3/markers/n/mark_r.png'; break;
-      case 2: markerIcon = 'https://webapi.amap.com/theme/v1.3/markers/n/mark_r.png'; break;
+      case 1: markerIcon = 'https://webapi.amap.com/theme/v1.3/markers/n/markr.png'; break;
+      case 2: markerIcon = 'https://webapi.amap.com/theme/v1.3/markers/n/markr.png'; break;
       default:
-      case 0: markerIcon = 'https://webapi.amap.com/theme/v1.3/markers/n/mark_b.png'; break;
+      case 0: markerIcon = 'https://webapi.amap.com/theme/v1.3/markers/n/markb.png'; break;
     }
     return (
       <div>
@@ -198,12 +199,12 @@ class MarkerCarMoveTest extends Component {
           {'消息:'+this.state.msg}
         </div>
         <Map
-          refer={this._setMapRefer}
+          refer={this.setMapRefer}
           style={{ width: 1200, height: 800 }}
           options={{ center: this.state.center, zoom:13 }}
           events={{
-            click:this._logging,
-            dblclick: this._mapDblclick,
+            click:this.logging,
+            dblclick: this.mapDblclick,
           }}
       >
           <LayerTraffic options={{ interval:20,opacity:0.8 }} />
@@ -214,7 +215,7 @@ class MarkerCarMoveTest extends Component {
               position: this.state.position || [116.405467, 39.907761]
             }}
             events={{
-              click:this._logging
+              click:this.logging
             }}
           >
           </Marker>
@@ -222,7 +223,7 @@ class MarkerCarMoveTest extends Component {
           {this.state.showMarker &&
           <Marker
             options={{
-              icon: 'https://webapi.amap.com/theme/v1.3/markers/n/mark_b.png',
+              icon: 'https://webapi.amap.com/theme/v1.3/markers/n/markb.png',
               position: [116.385428, 39.92723],
               content:'<div class="marker-route marker-marker-bus-from"></div>',
               label: {
@@ -231,7 +232,7 @@ class MarkerCarMoveTest extends Component {
               }
             }}
             events={{
-              click:this._logging
+              click:this.logging
             }}
           />
           }
@@ -244,7 +245,7 @@ class MarkerCarMoveTest extends Component {
               autoRotation: true
             }}
             events={{
-              moving:this._carMoving
+              moving:this.carMoving
             }}
           />
           <Polyline
@@ -256,7 +257,7 @@ class MarkerCarMoveTest extends Component {
               // strokeStyle: "solid"  //线样式
             }}
             events={{
-              click:this._logging
+              click:this.logging
             }}
           />
           <Polyline
@@ -269,7 +270,7 @@ class MarkerCarMoveTest extends Component {
               // strokeStyle: "solid"  //线样式
             }}
             events={{
-              click:this._logging
+              click:this.logging
             }}
           />
         </Map>
@@ -284,32 +285,32 @@ class MassMarkTest extends Component {
   constructor() {
     super();
     this.state = {};
-    this._mapDblclick = this._mapDblclick.bind(this);
-    this._mapClick = this._mapClick.bind(this);
-    this._changeStyle = this._changeStyle.bind(this);
-    this._setMapRefer = this._setMapRefer.bind(this);
-    this._setMassRefer = this._setMassRefer.bind(this);
+    this.mapDblclick = this.mapDblclick.bind(this);
+    this.mapClick = this.mapClick.bind(this);
+    this.changeStyle = this.changeStyle.bind(this);
+    this.setMapRefer = this.setMapRefer.bind(this);
+    this.setMassRefer = this.setMassRefer.bind(this);
   }
 
   componentDidMount() {
     loadMap('0325e3d6d69cd56de4980b4f28906fd8').then(AMap => {
-      // let style = [{
-      //   url: 'https://a.amap.com/jsapi_demos/static/images/mass0.png',
-      //   anchor: new AMap.Pixel(16, 16),
-      //   size: new AMap.Size(21, 21)
-      // },{
-      //   url: 'https://a.amap.com/jsapi_demos/static/images/mass1.png',
-      //   anchor: new AMap.Pixel(24, 24),
-      //   size: new AMap.Size(17, 17)
-      // },{
-      //   url: 'https://a.amap.com/jsapi_demos/static/images/mass2.png',
-      //   anchor: new AMap.Pixel(23, 23),
-      //   size: new AMap.Size(5, 5)
-      // }];
+      let style = [{
+        url: 'https://a.amap.com/jsapidemos/static/images/mass0.png',
+        anchor: new AMap.Pixel(16, 16),
+        size: new AMap.Size(21, 21)
+      },{
+        url: 'https://a.amap.com/jsapidemos/static/images/mass1.png',
+        anchor: new AMap.Pixel(24, 24),
+        size: new AMap.Size(17, 17)
+      },{
+        url: 'https://a.amap.com/jsapidemos/static/images/mass2.png',
+        anchor: new AMap.Pixel(23, 23),
+        size: new AMap.Size(5, 5)
+      }];
 
       this.setState({ AMap });
     });
-    loadJs('https://a.amap.com/jsapi_demos/static/citys.js','js').then(ret => {
+    loadJs('https://a.amap.com/jsapidemos/static/citys.js','js').then(ret => {
       console.log('ret:', ret, window.citys);
       // this.setState({citys:window.citys});
       let citys = window.citys.map ((item, index) => {
@@ -319,19 +320,19 @@ class MassMarkTest extends Component {
     })
   }
 
-  _getStyle() {
+  getStyle() {
     if (!this.styles) {
       if (window.AMap) {
         this.styles = [{
-          url: 'https://a.amap.com/jsapi_demos/static/images/mass0.png',
+          url: 'https://a.amap.com/jsapidemos/static/images/mass0.png',
           anchor: new window.AMap.Pixel(16, 16),
           size: new window.AMap.Size(21, 21)
         },{
-          url: 'https://a.amap.com/jsapi_demos/static/images/mass1.png',
+          url: 'https://a.amap.com/jsapidemos/static/images/mass1.png',
           anchor: new window.AMap.Pixel(24, 24),
           size: new window.AMap.Size(17, 17)
         },{
-          url: 'https://a.amap.com/jsapi_demos/static/images/mass2.png',
+          url: 'https://a.amap.com/jsapidemos/static/images/mass2.png',
           anchor: new window.AMap.Pixel(23, 23),
           size: new window.AMap.Size(5, 5)
         }];
@@ -340,35 +341,35 @@ class MassMarkTest extends Component {
     return this.styles;
   }
 
-  _mapDblclick() {
+  mapDblclick() {
     if (this.massRefer) {
       this.massRefer.show();
       this.massRefer.setData(this.state.citys);
     }
     this.setState({msg:'双击了Map!'});
   }
-  _mapClick() {
+  mapClick() {
     if (this.mapRefer) {
       let layers= this.mapRefer.getLayers();
-      console.log('_mapClick:', layers);
+      console.log('mapClick:', layers);
     }
   }
-  _changeStyle(item) {
+  changeStyle(item) {
     let style = (item.style+1) % 3;
     let data = this.state.citys
     let data2 = [...data];
     data2[item.id] = {...item, style};
     this.setState({citys:data2});
   }
-  _setMapRefer (refer) {
+  setMapRefer (refer) {
     this.mapRefer = refer;
   }
-  _setMassRefer (refer) {
+  setMassRefer (refer) {
     this.massRefer = refer;
   }
 
   render() {
-    let massStyles = this._getStyle();
+    let massStyles = this.getStyle();
     return (
       <div>
       <div>
@@ -386,17 +387,17 @@ class MassMarkTest extends Component {
           {'消息:'+this.state.msg}
         </div>
         <Map
-          refer={this._setMapRefer}
+          refer={this.setMapRefer}
           style={{ width: 1100, height: 800 }}
           options={{ center: this.state.center }}
           events={{
             // click:e=>this.setState({msg: '点击了Map'}),
-            dblclick: this._mapDblclick,
-            click:this._mapClick
+            dblclick: this.mapDblclick,
+            click:this.mapClick
           }}
       >
           <MassMarks
-            refer={this._setMassRefer}
+            refer={this.setMassRefer}
             options={{
               data: this.state.citys,
               opacity:0.8,
@@ -407,7 +408,7 @@ class MassMarkTest extends Component {
             events={{
               click:e=> {
                 console.log('e:', e);
-                this._changeStyle(e.data);
+                this.changeStyle(e.data);
                 this.setState({msg: '点击了MassMarks:'+JSON.stringify(e.data)})
               }
             }}
@@ -425,8 +426,8 @@ class PolygonTest extends Component {
   constructor() {
     super();
     this.state = {};
-    this._mapDblclick = this._mapDblclick.bind(this);
-    this._changeStyle = this._changeStyle.bind(this);
+    this.mapDblclick = this.mapDblclick.bind(this);
+    this.changeStyle = this.changeStyle.bind(this);
   }
 
   componentDidMount() {
@@ -441,10 +442,10 @@ class PolygonTest extends Component {
     });
   }
 
-  _mapDblclick() {
+  mapDblclick() {
     this.setState({msg:'双击了Map!'});
   }
-  _changeStyle() {
+  changeStyle() {
     this.setState({poly:1})
   }
 
@@ -479,7 +480,7 @@ class PolygonTest extends Component {
           options={{ center: this.state.center, layers: this.state.layers }}
           events={{
             // click:e=>this.setState({msg: '点击了Map'}),
-            dblclick: this._mapDblclick,
+            dblclick: this.mapDblclick,
           }}
       >
           <Polygon
@@ -495,7 +496,7 @@ class PolygonTest extends Component {
             events={{
               click:e=> {
                 console.log('e:', e);
-                this._changeStyle(e.data);
+                this.changeStyle(e.data);
                 this.setState({msg: '点击了Poly:'+JSON.stringify(e.data)})
               }
             }}
@@ -525,18 +526,18 @@ class CircleTest extends Component {
     });
   }
 
-  _mapDblclick = (e) => {
+  mapDblclick = (e) => {
     let center = [e.lnglat.getLng(), e.lnglat.getLat()];
     this.setState({msg:'双击了Map!', center});
   }
-  _mapClick = (e) => {
+  mapClick = (e) => {
     let center = [e.lnglat.getLng(), e.lnglat.getLat()];
     this.setState({msg:'双击了Map!', center});
   }
-  _changeRadius200 = () => {
+  changeRadius200 = () => {
     this.setState({radius:500})
   }
-  _changeRadius1000 = () => {
+  changeRadius1000 = () => {
     this.setState({radius:2000})
   }
 
@@ -547,8 +548,8 @@ class CircleTest extends Component {
       <div>
         <div style={{margin:2}}>
           <span style={{marginRight:2}}>改变半径radius:</span>
-          <input type='button' onClick={this._changeRadius200} value='radius200' />
-          <input type='button' onClick={this._changeRadius1000} value='radius1000' />
+          <input type='button' onClick={this.changeRadius200} value='radius200' />
+          <input type='button' onClick={this.changeRadius1000} value='radius1000' />
         </div>
         <div style={{margin:2}}>
           {'消息:'+this.state.msg}
@@ -557,8 +558,8 @@ class CircleTest extends Component {
           style={{ width: 1100, height: 800 }}
           options={{ center: this.state.center, layers: this.state.layers }}
           events={{
-            click: this._mapClick,
-            dblclick: this._mapDblclick,
+            click: this.mapClick,
+            dblclick: this.mapDblclick,
           }}
       >
           <Circle
@@ -572,7 +573,7 @@ class CircleTest extends Component {
               fillOpacity: 0.35,//填充透明度
               }}
             events={{
-              click:this._mapClick
+              click:this.mapClick
             }}
           />
         </Map>
@@ -586,7 +587,7 @@ class InfoWindowTest extends Component {
   constructor() {
     super();
     this.state = {};
-    this._closeInfoWindow = this._closeInfoWindow.bind(this);
+    this.closeInfoWindow = this.closeInfoWindow.bind(this);
   }
 
   componentDidMount() {
@@ -598,7 +599,7 @@ class InfoWindowTest extends Component {
       this.setState({ AMap, layers: [roadNet], center: center1, center1, center2, offset });
     });
   }
-  _closeInfoWindow(evt) {
+  closeInfoWindow(evt) {
     console.log ('close infowindow!');
     this.setState({isOpen:false})
   }
@@ -633,7 +634,7 @@ class InfoWindowTest extends Component {
               offset: this.state.offset
               }}
             events={{
-              close: this._closeInfoWindow
+              close: this.closeInfoWindow
             }}
           />
           )}
@@ -653,6 +654,7 @@ class App extends Component {
   render() {
     return (
       <div>
+        {/*<AMapPage/>*/}
         <div>
           <span style={{padding:5, margin: 5, backgroundColor:(this.state.test === 'marker')?'#ff0':'#fff'}} onClick={()=>this.setState({test: 'marker'})}> MarkerTest </span>
           <span style={{padding:5, margin: 5, backgroundColor:(this.state.test === 'markercarmove')?'#ff0':'#fff'}} onClick={()=>this.setState({test: 'markercarmove'})}> 移动的汽车(MarkerCarMoveTest) </span>

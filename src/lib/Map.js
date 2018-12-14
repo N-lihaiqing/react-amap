@@ -8,61 +8,61 @@ const debug = () => {};
 
 export class Map extends Component {
   static propTypes = {
-    refer: PropTypes.func, // 类似ref的函数形式,可以让父组件调用_entity
+    refer: PropTypes.func, // 类似ref的函数形式,可以让父组件调用entity
     options: PropTypes.object,
-    events: PropTypes.object
-    //   zoom: PropTypes.number, // 10, //设置地图显示的缩放级别
-    //   center: PropTypes.array, // [116.397428, 39.90923]，//设置地图中心点坐标
-    //   layers: PropTypes.array, // [new AMap.TileLayer.Satellite()],  //设置图层,可设置成包含一个或多个图层的数组
-    //   mapStyle: PropTypes.string, // 'amap://styles/whitesmoke',  //设置地图的显示样式
-    //   viewMode: PropTypes.string, // '2D',  //设置地图模式
-    //   lang: PropTypes.string, // 'zh_cn',  //设置地图语言类型
-    //   events: PropTypes.object, // {'click': function}, // 事件map
+    events: PropTypes.object,
+      zoom: PropTypes.number, // 10, //设置地图显示的缩放级别
+      center: PropTypes.array, // [116.397428, 39.90923]，//设置地图中心点坐标
+      layers: PropTypes.array, // [new AMap.TileLayer.Satellite()],  //设置图层,可设置成包含一个或多个图层的数组
+      mapStyle: PropTypes.string, // 'amap://styles/whitesmoke',  //设置地图的显示样式
+      viewMode: PropTypes.string, // '2D',  //设置地图模式
+      lang: PropTypes.string, // 'zh_cn',  //设置地图语言类型
+      // events: PropTypes.object // {'click': function}, // 事件map
   };
   constructor() {
     super();
     this.refElement = null;
-    this._entity = null;
-    debug(__com__, 'component constructor', this._entity);
+    this.entity = null;
+    debug(__com__, 'component constructor', this.entity);
   }
 
   componentWillMount() {
-    debug(__com__, 'componentWillMount', this._entity, 'layerCount:'+(this._entity && this._entity.getLayers().length));
+    debug(__com__, 'componentWillMount', this.entity, 'layerCount:'+(this.entity && this.entity.getLayers().length));
   }
 
   componentDidMount() {
-    debug(__com__, 'componentDidMount', this._entity, 'layerCount:'+(this._entity && this._entity.getLayers().length));
+    debug(__com__, 'componentDidMount', this.entity, 'layerCount:'+(this.entity && this.entity.getLayers().length));
     let { options, events } = this.props;
-    this._entity = createMap(this.refElement, options, events);
-    if (this._entity) {
-      if (this.props.refer) this.props.refer(this._entity);
-      this.setState({ __map__: this._entity });
+    this.entity = createMap(this.refElement, options, events);
+    if (this.entity) {
+      if (this.props.refer) this.props.refer(this.entity);
+      this.setState({ __map__: this.entity });
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    debug(__com__, 'componentWillReceiveProps', this._entity, 'layerCount:'+(this._entity && this._entity.getLayers().length));
+    debug(__com__, 'componentWillReceiveProps', this.entity, 'layerCount:'+(this.entity && this.entity.getLayers().length));
   }
 
   componentWillUpdate() {
-    debug(__com__, 'componentWillUpdate', this._entity, 'layerCount:'+(this._entity && this._entity.getLayers().length));
+    debug(__com__, 'componentWillUpdate', this.entity, 'layerCount:'+(this.entity && this.entity.getLayers().length));
   }
 
   componentDidUpdate(prevProps) {
-    debug(__com__, 'componentDidUpdate', this._entity, 'layerCount:'+(this._entity && this._entity.getLayers().length));
+    debug(__com__, 'componentDidUpdate', this.entity, 'layerCount:'+(this.entity && this.entity.getLayers().length));
     let { options, events } = this.props;
-    if (!this._entity) {
-      this._entity = createMap(this.refElement, options, events);
-      if (this._entity) {
-        if (this.props.refer) this.props.refer(this._entity);
-        this.setState({ __map__: this._entity });
+    if (!this.entity) {
+      this.entity = createMap(this.refElement, options, events);
+      if (this.entity) {
+        if (this.props.refer) this.props.refer(this.entity);
+        this.setState({ __map__: this.entity });
       }
       return;
     }
     // need check props changes, then update.
-    //updateMap(this._entity, this.props, prevProps);
+    //updateMap(this.entity, this.props, prevProps);
     updateMap(
-      this._entity,
+      this.entity,
       options,
       events,
       prevProps.options,
@@ -71,13 +71,13 @@ export class Map extends Component {
   }
 
   componentWillUnmount() {
-    debug(__com__, 'componentWillUnmount', this._entity, 'layerCount:'+(this._entity && this._entity.getLayers().length));
-    if (this._entity) {
-      //   this._entity.clearMap();
-      this._entity.destroy();
-      //   delete this._entity;
-      this._entity = null;
-      if (this.props.refer) this.props.refer(this._entity, 'layerCount:'+(this._entity && this._entity.getLayers().length));
+    debug(__com__, 'componentWillUnmount', this.entity, 'layerCount:'+(this.entity && this.entity.getLayers().length));
+    if (this.entity) {
+      //   this.entity.clearMap();
+      this.entity.destroy();
+      //   delete this.entity;
+      this.entity = null;
+      if (this.props.refer) this.props.refer(this.entity, 'layerCount:'+(this.entity && this.entity.getLayers().length));
     }
   }
 
@@ -103,7 +103,7 @@ export class Map extends Component {
     });
   }
   // shouldComponentUpdate(nextProps, nextState) {
-  //   debug(__com__, 'shouldComponentUpdate', this._entity);
+  //   debug(__com__, 'shouldComponentUpdate', this.entity);
   //   let { AMap: oldAMap, refer: oldRefer, options: oldOptions, events: oldEvents } = this.props;
   //   let { AMap: newAMap, refer: newRefer, options: newOptions, events: newEvents } = nextProps;
   //   if (oldAMap === newAMap && oldRefer === newRefer && oldOptions === newOptions && oldEvents === newEvents) {
@@ -114,7 +114,7 @@ export class Map extends Component {
   //   return true;
   // }
   render() {
-    debug(__com__, 'render', this._entity, 'layerCount:'+(this._entity && this._entity.getLayers().length));
+    debug(__com__, 'render', this.entity, 'layerCount:'+(this.entity && this.entity.getLayers().length));
     let { className, style, children } = this.props;
     let restProps = {};
     if (className) restProps = { ...restProps, className };
@@ -127,7 +127,7 @@ export class Map extends Component {
         }}
         {...restProps}
       >
-        {this.renderChildren(children, this._entity)}
+        {this.renderChildren(children, this.entity)}
       </div>
     );
   }

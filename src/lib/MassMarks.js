@@ -15,42 +15,42 @@ export class MassMarks extends Component {
   constructor() {
     super();
     this.refElement = null;
-    this._entity = null;
-    debug(__com__, 'constructor', this._entity);
+    this.entity = null;
+    debug(__com__, 'constructor', this.entity);
   }
 
   componentWillMount() {
-    debug(__com__, 'componentWillMount', this.props, this._entity);
+    debug(__com__, 'componentWillMount', this.props, this.entity);
   }
 
   componentDidMount() {
-    debug(__com__, 'componentDidMount', this.props, this._entity);
+    debug(__com__, 'componentDidMount', this.props, this.entity);
     let { __map__, options, events, children } = this.props;
     //let opts = { ...(options || {}), map: __map__, content: children };
     let opts = { ...(options || {}), map: __map__ };
-    this._entity = createMassMarks(opts, events);
-    if (this._entity) {
-      if (this.props.refer) this.props.refer(this._entity);
+    this.entity = createMassMarks(opts, events);
+    if (this.entity) {
+      if (this.props.refer) this.props.refer(this.entity);
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    debug(__com__, 'componentWillReceiveProps', this.props, this._entity);
+    debug(__com__, 'componentWillReceiveProps', this.props, this.entity);
   }
 
   componentWillUpdate() {
-    debug(__com__, 'componentWillUpdate', this.props, this._entity);
+    debug(__com__, 'componentWillUpdate', this.props, this.entity);
   }
 
   componentDidUpdate(prevProps) {
-    debug(__com__, 'componentDidUpdate', this.props, this._entity);
+    debug(__com__, 'componentDidUpdate', this.props, this.entity);
     let { __map__, options, events } = this.props;
     let opts = { ...(options || {}), map: __map__ };
-    if (!this._entity) {
+    if (!this.entity) {
       debug(__com__, 'componentDidUpdate', opts, events);
-      this._entity = createMassMarks(opts, events);
-      if (this._entity) {
-        if (this.props.refer) this.props.refer(this._entity);
+      this.entity = createMassMarks(opts, events);
+      if (this.entity) {
+        if (this.props.refer) this.props.refer(this.entity);
       }
       return;
     }
@@ -60,25 +60,25 @@ export class MassMarks extends Component {
       ...(prevProps.options || {}),
       map: prevProps.__map__
     };
-    updateMassMarks(this._entity, opts, events, oldOpts, prevProps.events);
+    updateMassMarks(this.entity, opts, events, oldOpts, prevProps.events);
   }
 
   componentWillUnmount() {
-    debug(__com__, 'componentWillUnmount', this.props, this._entity);
-    if (this._entity) {
-      this._entity.setMap(null);
-      // delete this._entity;
-      this._entity = null;
-      if (this.props.refer) this.props.refer(this._entity);
+    debug(__com__, 'componentWillUnmount', this.props, this.entity);
+    if (this.entity) {
+      this.entity.setMap(null);
+      // delete this.entity;
+      this.entity = null;
+      if (this.props.refer) this.props.refer(this.entity);
     }
   }
 
   // shouldComponentUpdate(nextProps, nextState) {
-  //   debug(__com__, 'shouldComponentUpdate', this._entity);
+  //   debug(__com__, 'shouldComponentUpdate', this.entity);
   //   return false;
   // }
   render() {
-    debug(__com__, 'render', this._entity);
+    debug(__com__, 'render', this.entity);
     return null;
   }
 }
