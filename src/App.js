@@ -654,8 +654,8 @@ class App extends Component {
   render() {
     return (
       <div>
-        {/*<AMapPage/>*/}
-        <div>
+        <AMapPage/>
+        {/*<div>
           <span style={{padding:5, margin: 5, backgroundColor:(this.state.test === 'marker')?'#ff0':'#fff'}} onClick={()=>this.setState({test: 'marker'})}> MarkerTest </span>
           <span style={{padding:5, margin: 5, backgroundColor:(this.state.test === 'markercarmove')?'#ff0':'#fff'}} onClick={()=>this.setState({test: 'markercarmove'})}> 移动的汽车(MarkerCarMoveTest) </span>
           <span style={{padding:5, margin: 5, backgroundColor:(this.state.test === 'massmarks')?'#ff0':'#fff'}} onClick={()=>this.setState({test: 'massmarks'})}> MassMarksTest </span>
@@ -683,7 +683,7 @@ class App extends Component {
           <InfoWindowTest />
           }
 
-        </div>
+        </div>*/}
       </div>
     );
   }

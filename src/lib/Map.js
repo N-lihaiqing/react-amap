@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { createMap, updateMap } from './api';
 
 const __com__ = 'Map';
-//const debug = console.log;
 const debug = () => {};
 
 export class Map extends Component {
@@ -23,15 +22,12 @@ export class Map extends Component {
     super();
     this.refElement = null;
     this.entity = null;
-    debug(__com__, 'component constructor', this.entity);
   }
 
   componentWillMount() {
-    debug(__com__, 'componentWillMount', this.entity, 'layerCount:'+(this.entity && this.entity.getLayers().length));
   }
 
   componentDidMount() {
-    debug(__com__, 'componentDidMount', this.entity, 'layerCount:'+(this.entity && this.entity.getLayers().length));
     let { options, events } = this.props;
     this.entity = createMap(this.refElement, options, events);
     if (this.entity) {
@@ -41,15 +37,12 @@ export class Map extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    debug(__com__, 'componentWillReceiveProps', this.entity, 'layerCount:'+(this.entity && this.entity.getLayers().length));
   }
 
   componentWillUpdate() {
-    debug(__com__, 'componentWillUpdate', this.entity, 'layerCount:'+(this.entity && this.entity.getLayers().length));
   }
 
   componentDidUpdate(prevProps) {
-    debug(__com__, 'componentDidUpdate', this.entity, 'layerCount:'+(this.entity && this.entity.getLayers().length));
     let { options, events } = this.props;
     if (!this.entity) {
       this.entity = createMap(this.refElement, options, events);
@@ -71,7 +64,6 @@ export class Map extends Component {
   }
 
   componentWillUnmount() {
-    debug(__com__, 'componentWillUnmount', this.entity, 'layerCount:'+(this.entity && this.entity.getLayers().length));
     if (this.entity) {
       //   this.entity.clearMap();
       this.entity.destroy();
@@ -90,31 +82,16 @@ export class Map extends Component {
          * 2. DOM 元素
          */
         if (cType.preventAmap || typeof cType === 'string') {
-          debug(__com__, 'component renderChildren orig');
           return child;
         }
-        debug(__com__, 'component renderChildren add __map__');
         return React.cloneElement(child, {
           __map__
         });
       }
-      debug(__com__, 'component renderChildren null');
       return child;
     });
   }
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   debug(__com__, 'shouldComponentUpdate', this.entity);
-  //   let { AMap: oldAMap, refer: oldRefer, options: oldOptions, events: oldEvents } = this.props;
-  //   let { AMap: newAMap, refer: newRefer, options: newOptions, events: newEvents } = nextProps;
-  //   if (oldAMap === newAMap && oldRefer === newRefer && oldOptions === newOptions && oldEvents === newEvents) {
-  //     debug(__com__, 'shouldComponentUpdate', false);
-  //     return false;
-  //   }
-  //   debug(__com__, 'shouldComponentUpdate', true);
-  //   return true;
-  // }
   render() {
-    debug(__com__, 'render', this.entity, 'layerCount:'+(this.entity && this.entity.getLayers().length));
     let { className, style, children } = this.props;
     let restProps = {};
     if (className) restProps = { ...restProps, className };

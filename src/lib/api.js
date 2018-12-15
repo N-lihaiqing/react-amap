@@ -26,11 +26,11 @@ export const loadMap = key => {
 };
 
 /** 地图所用key */
-export const loadApi = (key = '509bcf5dbaa58251ee36caba032a03fb') => {
+export const loadApi = (key = '0325e3d6d69cd56de4980b4f28906fd8') => {
     return new APILoader({
         key,
         useAMapUI: true,
-        version: '1.4.7',
+        version: '1.4.11',
         protocol: 'https'
     }).load();
 };
@@ -637,14 +637,12 @@ export const updatePolyline = (
 export const createInfoWindow = (options, events) => {
     const __func__ = 'createInfoWindow';
     if (!window.AMap || !options || !options.map) {
-        xdebug(__func__, 'fail! parameters!', 'window.AMap:' + !!window.AMap, 'options:' + !!options, 'options.map:' + !!(options && options.map));
         return null;
     }
     let entity = new window.AMap.InfoWindow(options);
     forOwn(events, (value, key) => {
         entity.on(key, value);
     });
-    xdebug(__func__, 'ok!');
     return entity;
 };
 
