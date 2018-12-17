@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import axios from "axios";
 import css from "./MapStyle.css";
-import {onComplete, onError, createInfoWindow} from "./component";
+import {onComplete, onError, createInfoWindow, customRuler} from "./component";
 
-let map = null, marker = null, geolocation = null;
+let map = null, marker = null, geolocation = null, ruler = null;
 
 class AMapPage extends Component {
 
@@ -29,44 +29,79 @@ class AMapPage extends Component {
                 /*路线规划*/
                 //绘制初始路径
                 let path = [];
-                path.push([116.303843, 39.983412]);
-                path.push([116.321354, 39.896436]);
-                path.push([116.407012, 39.992093]);
+                path.push([113.303843, 22.983412]);
+                path.push([114.321354, 22.896436]);
+                path.push([114.407012, 22.992093]);
                 map.plugin("AMap.DragRoute", function() {
                     let route = new AMap.DragRoute(map, path, AMap.DrivingPolicy.LEAST_FEE); //构造拖拽导航类
                     route.search(); //查询导航路径并开启拖拽导航
                 });
 
-                /*地图控件*/
-                map.plugin([
-                    'AMap.ToolBar',
-                    'AMap.Scale',
-                    'AMap.OverView',
-                    'AMap.MapType',
-                    'AMap.Geolocation',
-                ], function(){
-                    // 在图面添加工具条控件，工具条控件集成了缩放、平移、定位等功能按钮在内的组合控件
-                    map.addControl(new AMap.ToolBar());
-
-                    // 在图面添加比例尺控件，展示地图在当前层级和纬度下的比例尺
-                    map.addControl(new AMap.Scale());
-
-                    // 在图面添加鹰眼控件，在地图右下角显示地图的缩略图
-                    map.addControl(new AMap.OverView({isOpen:true}));
-
-                    // 在图面添加类别切换控件，实现默认图层与卫星图、实施交通图层之间切换的控制
-                    map.addControl(new AMap.MapType());
-
-                    // 在图面添加定位控件，用来获取和展示用户主机所在的经纬度位置
-                    map.addControl(new AMap.Geolocation());
-                });
-
+                that.initMapPlugin();
                 that.initMap();
             });
     }
 
     componentWillMount() {
     }
+
+    initMapPlugin = () => {
+
+        /** 初始化精准定位 */
+        map.plugin('AMap.Geolocation', function() {
+            geolocation = new window.AMap.Geolocation({
+                enableHighAccuracy: true,//是否使用高精度定位，默认:true
+                timeout: 10000,          //超过10秒后停止定位，默认：5s
+                buttonPosition:'RB',    //定位按钮的停靠位置
+                buttonOffset: new window.AMap.Pixel(10, 20),//定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
+                zoomToAccuracy: true,   //定位成功后是否自动调整地图视野到定位点
+
+            });
+            map.addControl(geolocation);
+
+            // geolocation.getCurrentPosition(function(status,result){
+            //     if(status=='complete'){
+            //         onComplete(result)
+            //     }else{
+            //         onError(result)
+            //     }
+            // });
+        });
+
+        /** 初始化测试工具 */
+        map.plugin(["AMap.RangingTool"],function(){
+            ruler = new window.AMap.RangingTool(map, customRuler());
+            window.AMap.event.addListener(ruler,"end",function(e){
+                ruler.turnOn();//关闭
+            });
+            ruler.turnOn();
+        });
+
+        /*地图控件*/
+        map.plugin([
+            'AMap.ToolBar',
+            'AMap.Scale',
+            'AMap.OverView',
+            'AMap.MapType',
+            'AMap.Geolocation',
+        ], function(){
+            // 在图面添加工具条控件，工具条控件集成了缩放、平移、定位等功能按钮在内的组合控件
+            map.addControl(new window.AMap.ToolBar());
+
+            // 在图面添加比例尺控件，展示地图在当前层级和纬度下的比例尺
+            map.addControl(new window.AMap.Scale());
+
+            // 在图面添加鹰眼控件，在地图右下角显示地图的缩略图
+            map.addControl(new window.AMap.OverView({isOpen:true}));
+
+            // 在图面添加类别切换控件，实现默认图层与卫星图、实施交通图层之间切换的控制
+            map.addControl(new window.AMap.MapType());
+
+            // 在图面添加定位控件，用来获取和展示用户主机所在的经纬度位置
+            map.addControl(new window.AMap.Geolocation());
+        });
+
+    };
 
 
     initMap = () => {

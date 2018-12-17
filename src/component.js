@@ -17,6 +17,7 @@ export async function onError(data) {
     document.getElementById('result').innerHTML = '失败原因排查信息:'+data.message;
 }
 
+// 信息窗口弹出样式修改
 export function createInfoWindow(title, content, map){
     let info = document.createElement("div");
     info.className = "custom-info input-card content-window-card";
@@ -54,4 +55,47 @@ export function createInfoWindow(title, content, map){
     bottom.appendChild(sharp);
     info.appendChild(bottom);
     return info;
+}
+
+// 自定义测距样式
+export function customRuler(){
+    //自定义样式
+    let startMarkerOptions= {
+        icon: new window.AMap.Icon({
+            size: new window.AMap.Size(19, 31),//图标大小
+            imageSize:new window.AMap.Size(19, 31),
+            image: "https://webapi.amap.com/theme/v1.3/markers/b/start.png"
+        })
+    };
+    let endMarkerOptions = {
+        icon: new window.AMap.Icon({
+            size: new window.AMap.Size(19, 31),//图标大小
+            imageSize:new window.AMap.Size(19, 31),
+            image: "https://webapi.amap.com/theme/v1.3/markers/b/end.png"
+        }),
+        offset: new window.AMap.Pixel(-9, -31)
+    };
+    let midMarkerOptions = {
+        icon: new window.AMap.Icon({
+            size: new window.AMap.Size(19, 31),//图标大小
+            imageSize:new window.AMap.Size(19, 31),
+            image: "https://webapi.amap.com/theme/v1.3/markers/b/mid.png"
+        }),
+        offset: new window.AMap.Pixel(-9, -31)
+    };
+    let lineOptions = {
+        strokeStyle: "solid",
+        strokeColor: "#FF33FF",
+        strokeOpacity: 1,
+        strokeWeight: 2
+    };
+    let rulerOptions = {
+        startMarkerOptions: startMarkerOptions,
+        midMarkerOptions:midMarkerOptions,
+        endMarkerOptions: endMarkerOptions,
+        lineOptions: lineOptions
+    };
+
+    return rulerOptions;
+
 }
