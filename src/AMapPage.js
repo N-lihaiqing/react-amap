@@ -29,9 +29,9 @@ class AMapPage extends Component {
                 /*路线规划*/
                 //绘制初始路径
                 let path = [];
-                path.push([113.303843, 22.983412]);
-                path.push([114.321354, 22.896436]);
-                path.push([114.407012, 22.992093]);
+                path.push([113.303843, 23.983412]);
+                path.push([114.321354, 23.896436]);
+                path.push([114.407012, 23.992093]);
                 map.plugin("AMap.DragRoute", function() {
                     let route = new AMap.DragRoute(map, path, AMap.DrivingPolicy.LEAST_FEE); //构造拖拽导航类
                     route.search(); //查询导航路径并开启拖拽导航
@@ -46,27 +46,6 @@ class AMapPage extends Component {
     }
 
     initMapPlugin = () => {
-
-        /** 初始化精准定位 */
-        map.plugin('AMap.Geolocation', function() {
-            geolocation = new window.AMap.Geolocation({
-                enableHighAccuracy: true,//是否使用高精度定位，默认:true
-                timeout: 10000,          //超过10秒后停止定位，默认：5s
-                buttonPosition:'RB',    //定位按钮的停靠位置
-                buttonOffset: new window.AMap.Pixel(10, 20),//定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
-                zoomToAccuracy: true,   //定位成功后是否自动调整地图视野到定位点
-
-            });
-            map.addControl(geolocation);
-
-            // geolocation.getCurrentPosition(function(status,result){
-            //     if(status=='complete'){
-            //         onComplete(result)
-            //     }else{
-            //         onError(result)
-            //     }
-            // });
-        });
 
         /** 初始化测试工具 */
         map.plugin(["AMap.RangingTool"],function(){
