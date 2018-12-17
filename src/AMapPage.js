@@ -29,9 +29,9 @@ class AMapPage extends Component {
                 /*路线规划*/
                 //绘制初始路径
                 let path = [];
-                path.push([113.303843, 23.983412]);
-                path.push([114.321354, 23.896436]);
-                path.push([114.407012, 23.992093]);
+                path.push([114.064408, 22.548489]);
+                path.push([114.064516, 22.548423]);
+                path.push([114.064624, 22.548431]);
                 map.plugin("AMap.DragRoute", function() {
                     let route = new AMap.DragRoute(map, path, AMap.DrivingPolicy.LEAST_FEE); //构造拖拽导航类
                     route.search(); //查询导航路径并开启拖拽导航
@@ -85,10 +85,10 @@ class AMapPage extends Component {
 
     initMap = () => {
         let lnglats = [
-            [114.127277, 22.53317],
-            [113.988574, 22.567414],
-            [114.081958, 22.539678],
-            [113.992694, 22.501455]
+            [114.06391, 22.548443],
+            [114.064134, 22.548172],
+            [114.064507, 22.548168],
+            [114.064826, 22.548089]
         ];
 
         this.addMarker(lnglats); // 实例化点标记
@@ -127,11 +127,11 @@ class AMapPage extends Component {
     /** 坐标连线 */
     polyline = () => {
         let lineArr = [];
-        lineArr.push([114.127277, 22.53317]);
-        lineArr.push([113.988574, 22.567414]);
-        lineArr.push([114.081958, 22.539678]);
-        lineArr.push([113.992694, 22.501455]);
-        lineArr.push([114.033933, 22.626589]);
+        lineArr.push([114.063766, 22.548147]);
+        lineArr.push([114.064601, 22.548147]);
+        lineArr.push([114.064907, 22.548168]);
+        lineArr.push([114.065046, 22.548289]);
+        lineArr.push([114.06594, 22.548539]);
         // 绘制轨迹
         var polyline = new window.AMap.Polyline({
             map: map,
@@ -227,7 +227,7 @@ class AMapPage extends Component {
         return (
             <div>
                 <div>
-                    <div id='allmap' style={{width: '100%', height: '900px'}}/>
+                    <div id='allmap' style={{width: '100%', height: '750px'}}/>
                 </div>
             </div>
         );
