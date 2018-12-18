@@ -45,6 +45,8 @@ class AMapPage extends Component {
 
                 that.initMapPlugin();
                 that.initMap();
+                //  定位方法
+                that.location();
             });
     }
 
@@ -66,9 +68,7 @@ class AMapPage extends Component {
         map.plugin([
             'AMap.ToolBar',
             'AMap.Scale',
-            'AMap.OverView',
             'AMap.MapType',
-            'AMap.Geolocation',
         ], function(){
             // 在图面添加工具条控件，工具条控件集成了缩放、平移、定位等功能按钮在内的组合控件
             map.addControl(new window.AMap.ToolBar());
@@ -76,16 +76,49 @@ class AMapPage extends Component {
             // 在图面添加比例尺控件，展示地图在当前层级和纬度下的比例尺
             map.addControl(new window.AMap.Scale());
 
-            // 在图面添加鹰眼控件，在地图右下角显示地图的缩略图
-            map.addControl(new window.AMap.OverView({isOpen:true}));
+            /*// 在图面添加鹰眼控件，在地图右下角显示地图的缩略图
+            map.addControl(new window.AMap.OverView({isOpen:false}));*/
 
             // 在图面添加类别切换控件，实现默认图层与卫星图、实施交通图层之间切换的控制
             map.addControl(new window.AMap.MapType());
 
-            // 在图面添加定位控件，用来获取和展示用户主机所在的经纬度位置
-            map.addControl(new window.AMap.Geolocation());
         });
 
+
+
+    };
+
+
+    location = () =>{
+        /*定位控件*/
+        map.plugin('AMap.Geolocation', function() {
+            const geolocation = new window.AMap.Geolocation({
+                // 是否使用高精度定位，默认：true
+                enableHighAccuracy: true,
+                // 设置定位超时时间，默认：无穷大
+                timeout: 10000,
+                //  定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
+                zoomToAccuracy: true,
+                //  定位按钮的排放位置,  RB表示右下
+                buttonPosition: 'RB'
+            });
+
+            geolocation.getCurrentPosition();
+            window.AMap.event.addListener(geolocation, 'complete', onComplete);
+            window.AMap.event.addListener(geolocation, 'error', onError);
+
+            function onComplete (data) {
+
+                let formattedAddress = data.formattedAddress;
+                let lat = data.position.lat;
+                let lng = data.position.lng;
+                console.log(formattedAddress,lat,lng);
+            }
+
+            function onError (data) {
+                // 定位出错
+            }
+        })
     };
 
 
