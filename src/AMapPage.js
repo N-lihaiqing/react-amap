@@ -9,6 +9,9 @@ class AMapPage extends Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            turnOn: false,
+        }
     }
 
     componentDidMount() {
@@ -18,6 +21,7 @@ class AMapPage extends Component {
                 let AMap = window.AMap;
                 let markerObj, mapObj = new AMap.Map("allmap", {
                     resizeEnable: true,
+                    doubleClickZoom: true,  //双击放大
                     center: [114.127277, 22.53317],
                     zoom: 10
                 });
@@ -59,7 +63,7 @@ class AMapPage extends Component {
             window.AMap.event.addListener(ruler,"end",function(e){
                 ruler.turnOn();//关闭
             });
-            ruler.turnOn();
+            ruler.turnOff();
         });
 
         /*地图控件*/
@@ -268,6 +272,16 @@ class AMapPage extends Component {
         infoWindow.open(map, center); //信息窗体打开
     };
 
+    setTurn = () => {
+        if(this.state.turnOn){
+            this.setState({turnOn: false});
+            ruler.turnOff();
+        } else {
+            this.setState({turnOn: true});
+            ruler.turnOn();
+        }
+
+    };
 
 
     render() {
@@ -285,6 +299,7 @@ class AMapPage extends Component {
                 </div>
                 <div>
                     <button onClick={this.location}>定位</button>
+                    <button onClick={this.setTurn.bind(this)}>{this.state.turnOn ? "关闭测距" : "开启测距"}</button>
                 </div>
             </div>
         );
