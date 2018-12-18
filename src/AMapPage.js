@@ -45,8 +45,6 @@ class AMapPage extends Component {
 
                 that.initMapPlugin();
                 that.initMap();
-                //  定位方法
-                that.location();
             });
     }
 
@@ -103,21 +101,31 @@ class AMapPage extends Component {
                 buttonPosition: 'RB'
             });
 
+            map.addControl(geolocation);
             geolocation.getCurrentPosition();
             window.AMap.event.addListener(geolocation, 'complete', onComplete);
-            window.AMap.event.addListener(geolocation, 'error', onError);
 
             function onComplete (data) {
 
-                let formattedAddress = data.formattedAddress;
-                let lat = data.position.lat;
-                let lng = data.position.lng;
-                console.log(formattedAddress,lat,lng);
+                let content=[];
+                let title = '定位成功<span style="font-size:11px;color:#F00;"></span>';
+                content.push("地址："+data.formattedAddress);
+                content.push("纬度："+data.position.lat);
+                content.push("经度："+data.position.lng);
+                content.join("<br/>");
+
+                //创建信息窗体
+                let infoWindow = new window.AMap.InfoWindow({
+                    isCustom: true,  //使用自定义窗体
+                    content: createInfoWindow(title, content.join("<br/>"), map),
+                    offset: new window.AMap.Pixel(16, -45)
+                });
+
+                let center = [data.position.lng, data.position.lat];
+                infoWindow.open(map, center); //信息窗体打开
             }
 
-            function onError (data) {
-                // 定位出错
-            }
+
         })
     };
 
@@ -267,13 +275,16 @@ class AMapPage extends Component {
 
         const mapBody = {
             width:'100%',
-            height:  document.body.offsetHeight
+            height:  document.body.offsetHeight-30
         };
 
         return (
             <div>
                 <div>
                     <div id='allmap' style={mapBody}/>
+                </div>
+                <div>
+                    <button onClick={this.location}>定位</button>
                 </div>
             </div>
         );
