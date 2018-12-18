@@ -27,14 +27,20 @@ class AMapPage extends Component {
                 map.setFitView();
 
                 /*路线规划*/
-                //绘制初始路径
-                let path = [];
-                path.push([114.064408, 22.548489]);
-                path.push([114.064516, 22.548423]);
-                path.push([114.064624, 22.548431]);
-                map.plugin("AMap.DragRoute", function() {
-                    let route = new AMap.DragRoute(map, path, AMap.DrivingPolicy.LEAST_FEE); //构造拖拽导航类
-                    route.search(); //查询导航路径并开启拖拽导航
+                map.plugin("AMap.Driving", function() {
+                    let driving = new AMap.Driving({
+                        // 驾车路线规划策略，AMap.DrivingPolicy.LEAST_TIME是最快捷模式
+                        policy: AMap.DrivingPolicy.LEAST_TIME,
+                        map:map,
+                    });
+
+                    const startLngLat = [114.064408, 22.548489]
+                    const endLngLat = [114.064516, 22.548423]
+
+                    driving.search(startLngLat, endLngLat, function (status, result) {
+                        // 未出错时，result即是对应的路线规划方案
+                    });
+
                 });
 
                 that.initMapPlugin();
@@ -224,10 +230,17 @@ class AMapPage extends Component {
 
 
     render() {
+
+
+        const mapBody = {
+            width:'100%',
+            height:  document.body.offsetHeight
+        };
+
         return (
             <div>
                 <div>
-                    <div id='allmap' style={{width: '100%', height: '750px'}}/>
+                    <div id='allmap' style={mapBody}/>
                 </div>
             </div>
         );
