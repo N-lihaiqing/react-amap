@@ -3,7 +3,7 @@ import axios from "axios";
 import css from "./MapStyle.css";
 import {onComplete, onError, createInfoWindow, customRuler} from "./component";
 
-let map = null, marker = null, geolocation = null, ruler = null;
+let map = null,marker = null, ruler = null;
 
 class AMapPage extends Component {
 
@@ -29,6 +29,7 @@ class AMapPage extends Component {
                 marker = markerObj;
                 map = mapObj;
                 map.setFitView();
+                window.map = map;
 
                 /*路线规划*/
                 map.plugin("AMap.Driving", function() {

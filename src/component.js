@@ -31,7 +31,7 @@ export function createInfoWindow(title, content, map){
     top.className = "info-top";
     titleD.innerHTML = title;
     closeX.src = "https://webapi.amap.com/images/close2.gif";
-    closeX.onclick = map.closeInfoWindow;
+    closeX.onclick = closeInfoWindow;
 
     top.appendChild(titleD);
     top.appendChild(closeX);
@@ -97,5 +97,9 @@ export function customRuler(){
     };
 
     return rulerOptions;
+}
 
+//关闭信息窗体
+function closeInfoWindow(){
+    window.map.clearInfoWindow();
 }
