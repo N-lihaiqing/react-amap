@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { Input ,Icon} from 'antd';
+import 'antd/dist/antd.css'
 
 
 
