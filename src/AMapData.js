@@ -209,7 +209,7 @@ class AMapData extends Component {
         for(let i = 0; i < lnglats.length; i++){
             circle = new window.AMap.Circle({
                 center: new window.AMap.LngLat(lnglats[i][0],lnglats[i][1]),// 圆心位置
-                radius: 1000, //半径
+                radius: 500, //半径
                 strokeColor: "#FFF", //线颜色
                 strokeOpacity: 1, //线透明度
                 strokeWeight: 0, //线粗细度
