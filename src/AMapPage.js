@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import axios from "axios";
 import css from "./MapStyle.css";
 import {onComplete, onError, createInfoWindow, customRuler} from "./component";
+import SearchPlate from "./MapPlate/SearchPlate";
 
 let map = null,marker = null, ruler = null;
 
@@ -368,6 +369,7 @@ class AMapPage extends Component {
             <div>
                 <div>
                     <div id='allmap' style={mapBody}/>
+                    <SearchPlate/>
                 </div>
                 <div>
                     <button onClick={this.location}>定位</button>
