@@ -31,24 +31,7 @@ class AMapPage extends Component {
                 map.setFitView();
                 window.map = map;
 
-                /*路线规划*/
-                map.plugin("AMap.Driving", function() {
-                    let driving = new AMap.Driving({
-                        // 驾车路线规划策略，AMap.DrivingPolicy.LEAST_TIME是最快捷模式
-                        policy: AMap.DrivingPolicy.LEAST_TIME,
-                        map:map,
-                    });
-
-                    const startLngLat = [114.064408, 22.548489]
-                    const endLngLat = [114.064516, 22.548423]
-
-                    driving.search(startLngLat, endLngLat, function (status, result) {
-                        // 未出错时，result即是对应的路线规划方案
-                    });
-
-                });
-
-                that.initMapPlugin();
+                // that.initMapPlugin();
                 that.initMap();
             });
     }
@@ -65,6 +48,23 @@ class AMapPage extends Component {
                 ruler.turnOn();//关闭
             });
             ruler.turnOff();
+        });
+
+        /*路线规划*/
+        map.plugin("AMap.Driving", function() {
+            let driving = new window.AMap.Driving({
+                // 驾车路线规划策略，AMap.DrivingPolicy.LEAST_TIME是最快捷模式
+                policy: window.AMap.DrivingPolicy.LEAST_TIME,
+                map:map,
+            });
+
+            const startLngLat = [114.064408, 22.548489]
+            const endLngLat = [114.064516, 22.548423]
+
+            driving.search(startLngLat, endLngLat, function (status, result) {
+                // 未出错时，result即是对应的路线规划方案
+            });
+
         });
 
         /*地图控件*/
@@ -86,9 +86,6 @@ class AMapPage extends Component {
             map.addControl(new window.AMap.MapType());
 
         });
-
-
-
     };
 
 
@@ -129,8 +126,6 @@ class AMapPage extends Component {
                 let center = [data.position.lng, data.position.lat];
                 infoWindow.open(map, center); //信息窗体打开
             }
-
-
         })
     };
 
@@ -143,8 +138,9 @@ class AMapPage extends Component {
             [114.064826, 22.548089]
         ];
 
-        this.addMarker(lnglats); // 实例化点标记
-        this.polyline();
+        // this.addMarker(lnglats); // 实例化点标记
+        // this.polyline();
+        this.circle(); //初始化矢量图层
     };
 
     /** 添加点标记 */
@@ -196,6 +192,73 @@ class AMapPage extends Component {
         map.setFitView();
     };
 
+    /** 圆形矢量图形 */
+    circle = () => {
+        let lnglats = [
+            [113.891574, 22.581393], //宝安区
+            [113.936543, 22.555591], //南山区
+            [114.049679, 22.78319], //龙华
+            [114.067292, 22.54342],  //福田区
+            [114.237683, 22.581593],  //盐田区
+            [114.251004, 22.743083]  //龙岗区
+        ];
+
+        let circle = null;
+        for(let i = 0; i < lnglats.length; i++){
+            circle = new window.AMap.Circle({
+                center: new window.AMap.LngLat(lnglats[i][0],lnglats[i][1]),// 圆心位置
+                radius: 1000, //半径
+                strokeColor: "#FFF", //线颜色
+                strokeOpacity: 1, //线透明度
+                strokeWeight: 0, //线粗细度
+                fillColor: "#58AA55", //填充颜色
+                fillOpacity: 0.75,//填充透明度
+                gpsType: 'area',
+            });
+            circle.setMap(map);
+            let overlayGroup = new window.AMap.OverlayGroup([circle]);
+
+
+            let html = "";
+            if(i == 1){
+                html = "宝安区"
+            } else if(i == 2){
+                html = "南山区"
+            } else if(i == 3){
+                html = "龙华区"
+            } else if(i == 4){
+                html = "福田区"
+            } else {
+                html = "盐田区"
+            }
+            // 创建纯文本标记
+            let text = new window.AMap.Text({
+                text:html,
+                textAlign:'center', // 'left' 'right', 'center',
+                verticalAlign:'middle', //middle 、bottom
+                draggable:true,
+                cursor:'pointer',
+                angle:10,
+                style:{
+                    'background-color': 'transparent',
+                    'width': 'auto',
+                    'border-width': 0,
+                    'text-align': 'center',
+                    'font-size': '16px',
+                    'color': 'white'
+                },
+                position: lnglats[i]
+            });
+
+            text.setMap(map);
+            circle.on('mouseover', this.showInfoOver);
+            circle.on('mouseout', this.showInfoOut);
+            circle.on('click', this.mapClickOver);
+        }
+        // 缩放地图到合适的视野级别
+        map.setFitView([circle]);
+    };
+
     /** 鼠标双击事件 */
     mapDblclick = (e) => {
         // let center = [e.lnglat.getLng(), e.lnglat.getLat()];
@@ -231,11 +294,13 @@ class AMapPage extends Component {
 
 
     infoWindow = (e) => {
+        debugger;
+        let center = [e.lnglat.getLng(), e.lnglat.getLat()];
         let data = e.target.C.data;
         let type = e.target.C.gpsType;
         let infoHtml = null;
-        var title = '';
-        var content = [];
+        let title = '';
+        let content = [];
         if (type === "bringInfo") {
             title = '桥梁信息<span style="font-size:11px;color:#F00;"></span>';
             content.push("地址：北京市朝阳区阜通东大街6号院3号楼东北8.3公里");
@@ -260,17 +325,24 @@ class AMapPage extends Component {
             content.push("电话：北京市朝阳区");
             content.push("<a href='https://ditu.amap.com/detail/B000A8URXB?citycode=110105'>详细信息</a>");
             content.join("<br/>");
+        } else if(type === "area"){
+            title = '区域信息<span style="font-size:11px;color:#F00;"></span>';
+            content.push(center);
+            content.join("<br/>");
         }
-        let center = [e.lnglat.getLng(), e.lnglat.getLat()];
 
-        //创建信息窗体
-        var infoWindow = new window.AMap.InfoWindow({
-            isCustom: true,  //使用自定义窗体
-            content: createInfoWindow(title, content.join("<br/>"), map),
-            offset: new window.AMap.Pixel(16, -45)
-        });
+        if(content){
+            let center = [e.lnglat.getLng(), e.lnglat.getLat()];
 
-        infoWindow.open(map, center); //信息窗体打开
+            //创建信息窗体
+            let infoWindow = new window.AMap.InfoWindow({
+                isCustom: true,  //使用自定义窗体
+                content: createInfoWindow(title, content.join("<br/>"), map),
+                offset: new window.AMap.Pixel(16, -45)
+            });
+
+            infoWindow.open(map, center); //信息窗体打开
+        }
     };
 
     setTurn = () => {
