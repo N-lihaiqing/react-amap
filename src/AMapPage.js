@@ -294,7 +294,6 @@ class AMapPage extends Component {
 
 
     infoWindow = (e) => {
-        debugger;
         let center = [e.lnglat.getLng(), e.lnglat.getLat()];
         let data = e.target.C.data;
         let type = e.target.C.gpsType;
