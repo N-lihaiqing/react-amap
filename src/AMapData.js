@@ -258,7 +258,8 @@ class AMapData extends Component {
             circle.on('click', this.mapClickOver);
         }
         // 缩放地图到合适的视野级别
-        map.setFitView([circle]);
+        // map.setFitView([circle]);
+        map.setZoom(14);
     };
 
     /** 鼠标双击事件 */

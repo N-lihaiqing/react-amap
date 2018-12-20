@@ -10396,6 +10396,17 @@ body.mac {
     position: relative;
 }
 
+.right-container .ui3-control-wrap .ui3-city-change-inner em {
+    width: 7px;
+    height: 7px;
+    margin-left: 5px;
+    float: right;
+    margin-top: 13px;
+    background-image: url(//webmap1.bdimg.com/wolfman/static/common/images/ui3/tools/newtools_9ddbaad.png);
+    background-repeat: no-repeat;
+    background-position: -13px -17px;
+}
+
 .right-container .ui3-control-wrap .left, .ui3-control-wrap .right {
     height: 34px;
     background: #fff;
@@ -10424,11 +10435,19 @@ body.mac {
     cursor: pointer;
 }
 
+.right-container .ui3-control-wrap .traffic {
+    background-position: 1px -114px;
+}
+
+.right-container .ui3-control-wrap .boxinfo li .measure {
+    background-position: -80px -117px;
+}
+
 .right-container .ui3-control-wrap .left span, .ui3-control-wrap .right span {
     float: left;
     height: 34px;
     width: 29px;
-    background-image: url('https://webmap1.bdimg.com/wolfman/static/common/images/ui3/tools/newtools_9ddbaad.png');
+    background-image: url(//webmap1.bdimg.com/wolfman/static/common/images/ui3/tools/newtools_9ddbaad.png);
     background-repeat: no-repeat;
 }
 
@@ -10457,17 +10476,40 @@ body.mac {
     display: inline-block;
 }
 
+.right-container .ui3-control-wrap .boxopt em {
+    width: 7px;
+    height: 7px;
+    float: left;
+    margin-top: 13px;
+    margin-left: 5px;
+    background-image: url(//webmap1.bdimg.com/wolfman/static/common/images/ui3/tools/newtools_9ddbaad.png);
+    background-repeat: no-repeat;
+    background-position: -13px -17px;
+}
+
+.right-container .ui3-control-wrap .boxopt em.active {
+    background-position: -12px -177px;
+}
+
+.right-container .ui3-control-wrap .boxinfo li .mark {
+    background-position: -80px -168px;
+}
+
 .right-container .ui3-control-wrap .left span, .ui3-control-wrap .right span {
     float: left;
     height: 34px;
     width: 29px;
-    background-image: url('https://webmap1.bdimg.com/wolfman/static/common/images/ui3/tools/newtools_9ddbaad.png');
+    background-image: url(//webmap1.bdimg.com/wolfman/static/common/images/ui3/tools/newtools_9ddbaad.png);
     background-repeat: no-repeat;
 }
 
 .right-container .ui3-control-wrap .boxutils {
   padding-right: 7px;
-  background-position: -34px -116px;
+  background-position: -38px -116px;
+}
+
+.right-container .ui3-control-wrap .boxutils.active {
+    background-position: -34px -48px;
 }
 
 .right-container .ui3-control-wrap .detail-box {
