@@ -10428,7 +10428,7 @@ body.mac {
     float: left;
     height: 34px;
     width: 29px;
-    background-image: url(//webmap1.bdimg.com/wolfman/static/common/images/ui3/tools/newtools_9ddbaad.png);
+    background-image: url('https://webmap1.bdimg.com/wolfman/static/common/images/ui3/tools/newtools_9ddbaad.png');
     background-repeat: no-repeat;
 }
 
@@ -10461,7 +10461,7 @@ body.mac {
     float: left;
     height: 34px;
     width: 29px;
-    background-image: url(//webmap1.bdimg.com/wolfman/static/common/images/ui3/tools/newtools_9ddbaad.png);
+    background-image: url('https://webmap1.bdimg.com/wolfman/static/common/images/ui3/tools/newtools_9ddbaad.png');
     background-repeat: no-repeat;
 }
 
