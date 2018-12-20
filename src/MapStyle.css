@@ -10509,7 +10509,7 @@ body.mac {
 }
 
 .right-container .ui3-control-wrap .boxutils.active {
-    background-position: -34px -48px;
+    background-position: -38px -48px;
 }
 
 .right-container .ui3-control-wrap .detail-box {
@@ -10544,4 +10544,37 @@ body.mac {
     height: 34px;
     line-height: 34px;
     padding-left: 7px;
+}
+
+.right-container .ui3-control-wrap i.active {
+    color: #579AFC;
+}
+
+.right-container span:hover{
+    color: #579AFC;
+}
+
+.right-container i:hover{
+    color: #579AFC;
+}
+
+.right-container .map_popup .title {
+    border-bottom: 1px solid #dadada;
+    height: 25px;
+    line-height: 25px;
+    font-size: 12px;
+    color: #4c4c4c;
+    padding-left: 7px;
+}
+
+.right-container .sel_city_default {
+    display: none;
+    border-bottom: 1px solid #CCC;
+    padding: 7px 0 13px 5px;
+    margin-bottom: 13px;
+    line-height: 22px;
+}
+
+.right-container .sel-city-hotcity {
+    padding: 0 5px;
 }
