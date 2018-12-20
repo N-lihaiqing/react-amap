@@ -10324,31 +10324,37 @@ body.mac {
     background-position: -154px -167px
 }
 
-#app-right-top {
+.right-container #app-right-top {
     z-index: 4;
     position: absolute;
     top: 20px;
     right: 10px;
+    background-color: #fff;
 }
 
-#tool-container {
+.right-container #tool-container {
     float: right;
     margin-right: 6px;
 }
 
-.ui3-control-wrap {
+.right-container .ui3-control-wrap {
     box-sizing: border-box;
     position: relative;
 }
 
-.ui3-control-wrap #ui3_city_change {
+.right-container .ui3-control-wrap #ui3_city_change {
     display: inline-block;
     float: left;
     border-radius: 2px;
     box-shadow: 1px 2px 1px rgba(0,0,0,.15);
 }
 
-.ui3-control-wrap #ui3_city_change .adjustpadding {
+.right-container .weather-item span {
+    margin-left: 5px;
+    font-size: 11px;
+}
+
+.right-container .ui3-control-wrap #ui3_city_change .adjustpadding {
     float: left;
     width: 5px;
     height: 34px;
@@ -10357,9 +10363,9 @@ body.mac {
     background: #fff;
 }
 
-.ui3-control-wrap #weather {
+.right-container .ui3-control-wrap #weather {
     display: inline-block;
-    line-height: 17px;
+    line-height: 33px;
     height: 34px;
     background-color: #fff;
     text-decoration: none;
@@ -10367,14 +10373,16 @@ body.mac {
     float: left;
 }
 
-.ui3-control-wrap #weather img {
+.right-container .ui3-control-wrap #weather img {
     width: 16px;
     height: 16px;
-    padding-top: 8px;
+    padding-top: 0px;
     margin-right: 6px;
+    vertical-align: middle;
+    border: 0;
 }
 
-.ui3-control-wrap .ui3-city-change-inner {
+.right-container .ui3-control-wrap .ui3-city-change-inner {
     float: left;
     display: inline-block;
     padding-right: 12px;
@@ -10388,18 +10396,18 @@ body.mac {
     position: relative;
 }
 
-.ui3-control-wrap .left, .ui3-control-wrap .right {
+.right-container .ui3-control-wrap .left, .ui3-control-wrap .right {
     height: 34px;
     background: #fff;
     border-radius: 0 2px 2px 0;
     box-shadow: 1px 2px 1px rgba(0,0,0,.15);
 }
 
-.float-l {
+.right-container .float-l {
     float: left;
 }
 
-.ui3-control-wrap .left b, .ui3-control-wrap .right b {
+.right-container .ui3-control-wrap .left b, .ui3-control-wrap .right b {
     float: left;
     height: 21px;
     display: inline-block;
@@ -10408,7 +10416,7 @@ body.mac {
     position: relative;
 }
 
-.ui3-control-wrap .trafficopt {
+.right-container .ui3-control-wrap .trafficopt {
     padding-right: 12px;
     line-height: 34px;
     float: left;
@@ -10416,7 +10424,7 @@ body.mac {
     cursor: pointer;
 }
 
-.ui3-control-wrap .left span, .ui3-control-wrap .right span {
+.right-container .ui3-control-wrap .left span, .ui3-control-wrap .right span {
     float: left;
     height: 34px;
     width: 29px;
@@ -10424,15 +10432,15 @@ body.mac {
     background-repeat: no-repeat;
 }
 
-.ui3-control-wrap .last {
+.right-container .ui3-control-wrap .last {
     border: 0!important;
 }
 
-.ui3-control-wrap .traffic {
+.right-container .ui3-control-wrap .traffic {
     background-position: 1px -114px;
 }
 
-.ui3-control-wrap i {
+.right-container .ui3-control-wrap i {
     float: left;
     font-size: 12px;
     font-style: normal;
@@ -10441,7 +10449,7 @@ body.mac {
     display: inline-block;
 }
 
-.ui3-control-wrap .boxopt {
+.right-container .ui3-control-wrap .boxopt {
     padding-right: 12px;
     line-height: 34px;
     float: left;
@@ -10449,7 +10457,7 @@ body.mac {
     display: inline-block;
 }
 
-.ui3-control-wrap .left span, .ui3-control-wrap .right span {
+.right-container .ui3-control-wrap .left span, .ui3-control-wrap .right span {
     float: left;
     height: 34px;
     width: 29px;
@@ -10457,12 +10465,12 @@ body.mac {
     background-repeat: no-repeat;
 }
 
-.ui3-control-wrap .boxutils {
+.right-container .ui3-control-wrap .boxutils {
   padding-right: 7px;
   background-position: -34px -116px;
 }
 
-.ui3-control-wrap .detail-box {
+.right-container .ui3-control-wrap .detail-box {
     position: absolute;
     width: 86px;
     background: #fff;
@@ -10474,20 +10482,20 @@ body.mac {
     z-index: 80000;
 }
 
-.ui3-control-wrap .boxinfo {
+.right-container .ui3-control-wrap .boxinfo {
     list-style-type: none;
 }
 
-ul, ol {
+.right-container ul ol {
     list-style: none;
 }
 
-ul, li {
+.right-container ul li {
     margin: 0;
     padding: 0;
 }
 
-.ui3-control-wrap .boxinfo li {
+.right-container .ui3-control-wrap .boxinfo li {
     box-sizing: border-box;
     width: 100%;
     cursor: pointer;
