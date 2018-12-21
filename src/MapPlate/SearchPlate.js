@@ -36,11 +36,6 @@ class SearchPlate extends React.Component {
 
     /*打开导航*/
     openNavigate = () => {
-        /*this.props.handle((result) => {
-            startLocation.push(result.position.lng);
-            startLocation.push(result.position.lat);
-            console.log(startLocation);
-        });*/
 
         location((result)=>{
             startLocation.push(result.position.lng);
