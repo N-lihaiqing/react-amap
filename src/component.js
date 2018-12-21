@@ -99,6 +99,35 @@ export function customRuler(){
     return rulerOptions;
 }
 
+/* 地图定位控件 */
+export function location(callback) {
+        /*定位控件*/
+        window.map.plugin('AMap.Geolocation', function() {
+            const geolocation = new window.AMap.Geolocation({
+                // 是否使用高精度定位，默认：true
+                enableHighAccuracy: true,
+                // 设置定位超时时间，默认：无穷大
+                timeout: 10000,
+                //  定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
+                zoomToAccuracy: false,
+                //  定位按钮的排放位置,  RB表示右下
+                buttonPosition: 'RB'
+            });
+
+            window.map.addControl(geolocation);
+            geolocation.getCurrentPosition();
+            window.AMap.event.addListener(geolocation, 'complete', onComplete);
+
+            function onComplete (data) {
+
+                if(callback){
+                    callback(data);
+                }
+
+            }
+        })
+}
+
 //关闭信息窗体
 function closeInfoWindow(){
     window.map.clearInfoWindow();

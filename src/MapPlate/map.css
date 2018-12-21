@@ -56,6 +56,10 @@
     background-repeat: no-repeat;
 }
 
+.search-navigate .ant-tabs-tab-active .ant-tabs-tab .car-tab i{
+    background-position:0 -82px !important;
+}
+
 .search-navigate .ant-tabs-nav .ant-tabs-tab .bus-tab:hover i{
     background-position:0 -16px;
 }
@@ -63,9 +67,7 @@
     background-position:0 -68px;
 }
 
-.search-navigate .ant-tabs-nav .ant-tabs-tab .car-tab:hover i{
-    background-position:0 -83px;
-}
+
 
 
 .search-navigate .ant-tabs-nav .ant-tabs-tab .walk-tab i{
@@ -147,6 +149,7 @@
     left: 24px;
     border: 0;
     width: 260px;
+    outline: 0;
 }
 
 .search-route-start .route-clear{
@@ -185,6 +188,7 @@
     left: 24px;
     border: 0;
     width: 260px;
+    outline: 0;
 }
 
 .search-navigate .search-add-white{

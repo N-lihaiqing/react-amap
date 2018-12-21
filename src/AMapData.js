@@ -85,34 +85,6 @@ class AMapData extends Component {
     };
 
 
-    location = (callback) =>{
-        /*定位控件*/
-        map.plugin('AMap.Geolocation', function() {
-            const geolocation = new window.AMap.Geolocation({
-                // 是否使用高精度定位，默认：true
-                enableHighAccuracy: true,
-                // 设置定位超时时间，默认：无穷大
-                timeout: 10000,
-                //  定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
-                zoomToAccuracy: false,
-                //  定位按钮的排放位置,  RB表示右下
-                buttonPosition: 'RB'
-            });
-
-            map.addControl(geolocation);
-            geolocation.getCurrentPosition();
-            window.AMap.event.addListener(geolocation, 'complete', onComplete);
-
-            function onComplete (data) {
-                if(callback){
-                    callback(data);
-                }
-
-            }
-        })
-    };
-
-
     initMap = () => {
         let AMap = window.AMap;
         let markerObj, mapObj = new AMap.Map("allmap", {

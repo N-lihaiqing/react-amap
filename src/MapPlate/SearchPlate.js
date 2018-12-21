@@ -2,10 +2,11 @@ import React from 'react';
 import {Input, Icon, Tabs, Button} from 'antd';
 import 'antd/dist/antd.css';
 import './map.css';
+import {location} from "../component"
 
 let navigateWay = 'Driving';
 let startLocation = [];
-let endLocation = [];
+let driving;
 
 class SearchPlate extends React.Component {
 
@@ -13,22 +14,37 @@ class SearchPlate extends React.Component {
         super(props);
         this.state = {
             searchFrame: 'block',
-            navigate: 'none'
+            navigate: 'none',
+            flag:false,
+            endLocation:[]
         };
 
     }
 
     callback = (key) => {
+        const {flag} = this.state;
         navigateWay = key;
-        console.log(navigateWay);
+
+        if(flag){
+            this.setState({
+                flag:false
+            });
+
+        }
     };
 
 
     /*打开导航*/
     openNavigate = () => {
-        this.props.handle((result) => {
-            startLocation.push(result.position.lat);
+        /*this.props.handle((result) => {
             startLocation.push(result.position.lng);
+            startLocation.push(result.position.lat);
+            console.log(startLocation);
+        });*/
+
+        location((result)=>{
+            startLocation.push(result.position.lng);
+            startLocation.push(result.position.lat);
             console.log(startLocation);
         });
         this.setState({
@@ -37,16 +53,96 @@ class SearchPlate extends React.Component {
         })
     };
 
-    /*开启导航*/
-    startPOI = () => {
-        this.onLoadPOI((result) => {
-            endLocation = result;
-        })
+
+    /*开始导航*/
+    startNavigate = (endLocation) =>{
+
+        if(driving){
+            driving.clear();
+        }
+
+        let map = window.map;
+        /*驾车路线规划*/
+        if(navigateWay=='Driving'){
+
+            this.state.flag=true;
+            map.plugin("AMap.Driving", function() {
+                driving = new window.AMap.Driving({
+                    policy: window.AMap.DrivingPolicy.LEAST_TIME,
+                    map:map,
+                });
+
+                driving.search(startLocation, endLocation, function (status, result) {
+                    /*if(status=='complete'){
+                        endLocation=[];
+                    }*/
+                });
+
+
+            });
+        }
+
+        /*公交路线规划*/
+        if(navigateWay=='Transfer'){
+
+            this.state.flag=true;
+            map.plugin("AMap.Transfer", function() {
+                driving = new window.AMap.Transfer({
+                    map:map,
+                });
+
+                driving.search(startLocation, endLocation, function (status, result) {
+                    /*if(status=='complete'){
+                        endLocation=[];
+                    }*/
+                });
+
+            });
+        }
+
+        /*步行路线规划*/
+        if(navigateWay=='Walking'){
+            this.state.flag=true;
+            map.plugin("AMap.Walking", function() {
+                driving = new window.AMap.Walking({
+                    map:map,
+                });
+
+                driving.search(startLocation, endLocation, function (status, result) {
+                    /*if(status=='complete'){
+                        endLocation=[];
+                    }*/
+                });
+
+            });
+        }
+
+        /*骑行路线规划*/
+        if(navigateWay=='Riding'){
+            this.state.flag=true;
+            map.plugin("AMap.Riding", function() {
+                driving = new window.AMap.Riding({
+                    // 驾车路线规划策略，AMap.DrivingPolicy.LEAST_TIME是最快捷模式
+                    policy: window.AMap.RidingPolicy.LEAST_TIME,
+                    map:map,
+                });
+
+                driving.search(startLocation, endLocation, function (status, result) {
+                    /*if(status=='complete'){
+                        endLocation=[];
+                    }*/
+                });
+
+            });
+        }
     };
 
     /*加载POI搜索*/
-    onLoadPOI = (callback) => {
-        window.map.plugin('AMap.Autocomplete', function () {
+    onLoadPOI = () => {
+
+        let map = window.map;
+        let that = this;
+        map.plugin('AMap.Autocomplete', function () {
             // 实例化Autocomplete
             let autoOptions = {
                 // input 为绑定输入提示功能的input的DOM ID
@@ -58,13 +154,23 @@ class SearchPlate extends React.Component {
             window.AMap.event.addListener(autoComplete, 'select', onComplete);
 
             function onComplete(data) {
+
+                let location = [];
+                location.push(data.poi.location.lng);
+                location.push(data.poi.location.lat);
+
+                that.setState({
+                   endLocation:location
+                });
+                /*replaceState(object nextState[, function callback])*/
                 debugger;
-                let endLocation = [];
-                endLocation.push(data.poi.location.lat);
-                endLocation.push(data.poi.location.lng);
-                callback(endLocation);
+                console.log(location);
+
+                that.startNavigate(location);
+
             }
-        })
+        });
+
     };
 
 
@@ -103,8 +209,8 @@ class SearchPlate extends React.Component {
                     </div>
                     <div className="search-route-end">
                         <div className="route-input-icon"/>
-                        <input id="routeWay-end" onMouseOver={this.startPOI} className="route-input"
-                               placeholder="输入终点或在图区上选点"/>
+                        <input id="routeWay-end" onMouseOver={this.onLoadPOI} className="route-input"
+                               placeholder="输入终点"/>
                     </div>
                     <div className="search-change">
                         <div className="change-start-end"/>
