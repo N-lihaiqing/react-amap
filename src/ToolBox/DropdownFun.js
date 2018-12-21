@@ -1,7 +1,6 @@
 import {Component} from "react";
 import React from "react";
 import 'antd/dist/antd.css'
-import $ from "jquery";
 
 class DropdownFun extends Component{
 
@@ -11,10 +10,18 @@ class DropdownFun extends Component{
             mapPopup: 'none',
             businessPopup: 'none',
             hover: false,
+            city: '',
         }
     }
 
+    componentDidMount(){
+        this.props.city((result) => {
+            this.setState({city:result.addressComponent.district});
+        });
+    }
+
     mapOnClickBox = () => {
+        this.removeClass('box');
         var $ = require("jquery");
         let val = $('#boxoptem').prop("className");
         if(val == "active"){
@@ -33,6 +40,7 @@ class DropdownFun extends Component{
     };
 
     businessClick = () => {
+        this.removeClass('busin');
         var $ = require("jquery");
         let val = $("#businessPopup").prop("className");
         if(val == "active"){
@@ -46,6 +54,7 @@ class DropdownFun extends Component{
     };
 
     mapOnClickCity = () => {
+        this.removeClass('city');
         var $ = require("jquery");
         let val = $("#ui3_city_change").prop("className");
         let length = val.split(" ").length;
@@ -55,6 +64,36 @@ class DropdownFun extends Component{
         } else {
             $(".citychangeopt").removeClass("ui3-city-change-click");
             this.setState({mapPopup: 'none'});
+        }
+    };
+
+    removeClass = (obj) => {
+        var $ = require("jquery");
+
+        if(obj != 'box'){
+            if($('#boxoptem').prop("className") == "active"){
+                $(".detail-box").css("display", "none");
+                $(".boxopt").removeClass("mark-active");
+                $(".boxopt em").removeClass("active");
+                $(".boxtext").removeClass("active");
+                $(".boxicon").removeClass("active");
+            }
+        }
+
+        if(obj != 'busin'){
+            if($("#businessPopup").prop("className") == "active"){
+                $(".trafficopt em").removeClass("active");
+                this.setState({businessPopup: 'none'});
+            }
+        }
+
+        if(obj != 'city'){
+            let val = $("#ui3_city_change").prop("className");
+            let length = val.split(" ").length;
+            if(length === 3){
+                $(".citychangeopt").removeClass("ui3-city-change-click");
+                this.setState({mapPopup: 'none'});
+            }
         }
     };
 
@@ -84,6 +123,7 @@ class DropdownFun extends Component{
             marginRight:'10px',
         }
 
+
         return (
             <div className={"right-container"}>
                 <div id="app-right-top">
@@ -94,7 +134,7 @@ class DropdownFun extends Component{
                                 <span className="weather-item" id="weather" title="阴转晴">
                                     <img alt="天气图标" src="https://ss1.bdstatic.com/5eN1bjq8AAUYm2zgoY3K/r/www/aladdin/img/new_weath/simpleico/3.png"/>        </span>
                                 <a href="#" map-on-click="selectCity" className="ui3-city-change-inner ui3-control-shadow">
-                                    <span>西安市</span><em></em> </a>
+                                    <span>{this.state.city}</span><em></em> </a>
                             </div>
                             <div className="left float-l"><b className="tool-gap"></b>
                                 <div className="trafficopt" map-on-click="traffic" onClick={this.businessClick}>

@@ -3,7 +3,7 @@ import axios from "axios";
 import {createInfoWindow, customRuler} from "./component";
 import SearchPlate from "./MapPlate/SearchPlate";
 import React from "react";
-import "./MapStyle.css";
+import "./ToolBox/MapStyle.css";
 
 let map = null,marker = null, ruler = null;
 
@@ -18,24 +18,18 @@ class AMapData extends Component {
 
     componentDidMount() {
         let that = this;
-        axios.get(`https://webapi.amap.com/maps?v=1.4.11&key=0325e3d6d69cd56de4980b4f28906fd8`)
-            .then(function () {
-                let AMap = window.AMap;
-                let markerObj, mapObj = new AMap.Map("allmap", {
-                    resizeEnable: true,
-                    doubleClickZoom: true,  //双击放大
-                    center: [114.127277, 22.53317],
-                    zoom: 10
-                });
-
-                marker = markerObj;
-                map = mapObj;
-                map.setFitView();
-                window.map = map;
-
-                // that.initMapPlugin();
+        let $ = require("jquery");
+        $.ajax({
+            url: 'https://webapi.amap.com/maps?v=1.4.11&key=0325e3d6d69cd56de4980b4f28906fd8',
+            type: 'get',
+            async: false,
+            success: function (res) {
                 that.initMap();
-            });
+            },
+            failure: function (res) {
+                that.initMap();
+            }
+        });
     }
 
     componentWillMount() {
@@ -110,18 +104,6 @@ class AMapData extends Component {
             window.AMap.event.addListener(geolocation, 'complete', onComplete);
 
             function onComplete (data) {
-
-
-                /*//创建信息窗体
-                let infoWindow = new window.AMap.InfoWindow({
-                    isCustom: true,  //使用自定义窗体
-                    content: createInfoWindow(title, content.join("<br/>"), map),
-                    offset: new window.AMap.Pixel(16, -45)
-                });
-
-                let center = [data.position.lng, data.position.lat];
-                infoWindow.open(map, center); //信息窗体打开*/
-
                 if(callback){
                     callback(data);
                 }
@@ -132,6 +114,21 @@ class AMapData extends Component {
 
 
     initMap = () => {
+        let AMap = window.AMap;
+        let markerObj, mapObj = new AMap.Map("allmap", {
+            resizeEnable: true,
+            doubleClickZoom: true,  //双击放大
+            center: [114.127277, 22.53317],
+            zoom: 10
+        });
+
+        marker = markerObj;
+        map = mapObj;
+        map.setFitView();
+        window.map = map;
+        // that.initMapPlugin();
+
+
         let lnglats = [
             [114.06391, 22.548443],
             [114.064134, 22.548172],
@@ -141,7 +138,7 @@ class AMapData extends Component {
 
         // this.addMarker(lnglats); // 实例化点标记
         // this.polyline();
-        this.circle(); //初始化矢量图层
+        // this.circle(); //初始化矢量图层
     };
 
     /** 添加点标记 */
@@ -277,7 +274,6 @@ class AMapData extends Component {
     mapClickOut = (e) => {
         let center = [e.lnglat.getLng(), e.lnglat.getLat()];
         console.log("解绑覆盖物事件 "+center);
-        debugger;
     };
 
     /** 鼠标移入事件 绑定事件 */

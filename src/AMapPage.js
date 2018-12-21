@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import SearchPlate from "./MapPlate/SearchPlate";
 import AMapData from "./AMapData";
-import DropdownFun from "./DropdownFun";
+import DropdownFun from "./ToolBox/DropdownFun";
 import {Button} from "antd";
 
 
@@ -10,9 +10,6 @@ class AMapPage extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            turnOn: false,
-        }
     }
 
     componentWillMount(){
@@ -26,6 +23,11 @@ class AMapPage extends Component {
 
     };
 
+    cityAddress = (callback) => {
+        this.aMapDataRef.location((result) => {
+            callback(result);
+        });
+    };
 
 
     render() {
@@ -33,7 +35,7 @@ class AMapPage extends Component {
             <div>
                 <SearchPlate handle={this.handle}/>
                 <AMapData ref={(r) =>this.aMapDataRef = r}/>
-                <DropdownFun />
+                <DropdownFun ref={"dropdownFun"} city = {this.cityAddress}/>
             </div>
         );
     }
