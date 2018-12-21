@@ -366,7 +366,7 @@ class AMapData extends Component {
 
         return (
             <div>
-                <div>
+                <div >
                     <div id='allmap' style={mapBody}/>
                     <SearchPlate/>
                 </div>
