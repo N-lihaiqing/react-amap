@@ -1,6 +1,7 @@
 import {Component} from "react";
 import React from "react";
 import 'antd/dist/antd.css'
+import {location} from "../component"
 
 class DropdownFun extends Component{
 
@@ -15,8 +16,14 @@ class DropdownFun extends Component{
     }
 
     componentDidMount(){
-        this.props.city((result) => {
-            this.setState({city:result.addressComponent.district});
+        location((result)=>{
+            let val = null;
+            if("深圳市" == result.addressComponent.city){
+                val = result.addressComponent.district;
+            } else {
+                val = result.addressComponent.city;
+            }
+            this.setState({city:val});
         });
     }
 
@@ -132,7 +139,7 @@ class DropdownFun extends Component{
                             <div className="citychangeopt ui3-city-change-wrap" id="ui3_city_change"  onClick={this.mapOnClickCity}>
                                 <span className="adjustpadding"></span>
                                 <span className="weather-item" id="weather" title="阴转晴">
-                                    <img alt="天气图标" src="https://ss1.bdstatic.com/5eN1bjq8AAUYm2zgoY3K/r/www/aladdin/img/new_weath/simpleico/3.png"/>        </span>
+                                    <img alt="天气图标" src="https://ss1.bdstatic.com/5eN1bjq8AAUYm2zgoY3K/r/www/aladdin/img/new_weath/simpleico/3.png"/></span>
                                 <a href="#" map-on-click="selectCity" className="ui3-city-change-inner ui3-control-shadow">
                                     <span>{this.state.city}</span><em></em> </a>
                             </div>

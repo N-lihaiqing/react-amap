@@ -16,26 +16,12 @@ class AMapPage extends Component {
 
     }
 
-    handle = (callback) => {
-        this.aMapDataRef.location((result) => {
-            callback(result);
-        });
-
-    };
-
-    cityAddress = (callback) => {
-        this.aMapDataRef.location((result) => {
-            callback(result);
-        });
-    };
-
-
     render() {
         return (
             <div>
-                <SearchPlate handle={this.handle}/>
-                <AMapData ref={(r) =>this.aMapDataRef = r}/>
-                <DropdownFun ref={"dropdownFun"} city = {this.cityAddress}/>
+                <SearchPlate />
+                <AMapData ref={"aMapDataRef"}/>
+                <DropdownFun ref={"dropdownFun"}/>
             </div>
         );
     }
