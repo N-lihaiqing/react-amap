@@ -91,7 +91,7 @@ class AMapData extends Component {
     };
 
 
-    location = () =>{
+    location = (callback) =>{
         /*定位控件*/
         map.plugin('AMap.Geolocation', function() {
             const geolocation = new window.AMap.Geolocation({
@@ -100,7 +100,7 @@ class AMapData extends Component {
                 // 设置定位超时时间，默认：无穷大
                 timeout: 10000,
                 //  定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
-                zoomToAccuracy: true,
+                zoomToAccuracy: false,
                 //  定位按钮的排放位置,  RB表示右下
                 buttonPosition: 'RB'
             });
@@ -111,14 +111,8 @@ class AMapData extends Component {
 
             function onComplete (data) {
 
-                let content=[];
-                let title = '定位成功<span style="font-size:11px;color:#F00;"></span>';
-                content.push("地址："+data.formattedAddress);
-                content.push("纬度："+data.position.lat);
-                content.push("经度："+data.position.lng);
-                content.join("<br/>");
 
-                //创建信息窗体
+                /*//创建信息窗体
                 let infoWindow = new window.AMap.InfoWindow({
                     isCustom: true,  //使用自定义窗体
                     content: createInfoWindow(title, content.join("<br/>"), map),
@@ -126,7 +120,12 @@ class AMapData extends Component {
                 });
 
                 let center = [data.position.lng, data.position.lat];
-                infoWindow.open(map, center); //信息窗体打开
+                infoWindow.open(map, center); //信息窗体打开*/
+
+                if(callback){
+                    callback(data);
+                }
+
             }
         })
     };
@@ -368,7 +367,6 @@ class AMapData extends Component {
             <div>
                 <div >
                     <div id='allmap' style={mapBody}/>
-                    <SearchPlate/>
                 </div>
                 <div>
                     <button onClick={this.location}>定位</button>

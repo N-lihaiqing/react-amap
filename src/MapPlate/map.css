@@ -3,7 +3,7 @@
     position: absolute;
     left: 80px;
     top:50px;
-    width: 700px;
+    width: 600px;
 }
 
 .search-parent .search-input-way{
@@ -51,9 +51,37 @@
     position: relative;
     top: 2px;
     width: 18px;
-    height: 12px;
+    height: 16px;
     background-image: url(//webmap1.bdimg.com/wolfman/static/common/images/new/route-icon_2c25ce2.png);
     background-repeat: no-repeat;
+}
+
+.search-navigate .ant-tabs-nav .ant-tabs-tab .bus-tab:hover i{
+    background-position:0 -16px;
+}
+.search-navigate .ant-tabs-nav .ant-tabs-tab .car-tab i{
+    background-position:0 -68px;
+}
+
+.search-navigate .ant-tabs-nav .ant-tabs-tab .car-tab:hover i{
+    background-position:0 -83px;
+}
+
+
+.search-navigate .ant-tabs-nav .ant-tabs-tab .walk-tab i{
+    background-position:0 -100px;
+}
+
+.search-navigate .ant-tabs-nav .ant-tabs-tab .walk-tab:hover i{
+    background-position:0 -116px;
+}
+
+.search-navigate .ant-tabs-nav .ant-tabs-tab .bike-tab i{
+    background-position:0 -137px;
+}
+
+.search-navigate .ant-tabs-nav .ant-tabs-tab .bike-tab:hover i{
+    background-position:0 -153px;
 }
 
 .search-navigate{
