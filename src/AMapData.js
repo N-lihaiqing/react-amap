@@ -1,6 +1,6 @@
 import {Component} from "react";
 import axios from "axios";
-import {createInfoWindow, customRuler} from "./component";
+import {createInfoWindow, customRuler, initGovernmentArea} from "./component";
 import SearchPlate from "./MapPlate/SearchPlate";
 import React from "react";
 import "./ToolBox/MapStyle.css";
@@ -101,13 +101,14 @@ class AMapData extends Component {
         // that.initMapPlugin();
 
 
-        let lnglats = [
-            [114.06391, 22.548443],
-            [114.064134, 22.548172],
-            [114.064507, 22.548168],
-            [114.064826, 22.548089]
-        ];
+        initGovernmentArea(); //初始化行政区域
 
+        // let lnglats = [
+        //     [114.06391, 22.548443],
+        //     [114.064134, 22.548172],
+        //     [114.064507, 22.548168],
+        //     [114.064826, 22.548089]
+        // ];
         // this.addMarker(lnglats); // 实例化点标记
         // this.polyline();
         // this.circle(); //初始化矢量图层

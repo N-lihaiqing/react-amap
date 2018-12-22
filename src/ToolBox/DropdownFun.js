@@ -1,7 +1,7 @@
 import {Component} from "react";
 import React from "react";
 import 'antd/dist/antd.css'
-import {location} from "../component"
+import {location,drawBounds} from "../component"
 
 class DropdownFun extends Component{
 
@@ -24,6 +24,7 @@ class DropdownFun extends Component{
                 val = result.addressComponent.city;
             }
             this.setState({city:val});
+            drawBounds(val);
         });
     }
 
@@ -104,6 +105,16 @@ class DropdownFun extends Component{
         }
     };
 
+    clickCityName = (e) => {
+        var $ = require("jquery");
+        $("#selCityHotCityId span").removeClass("active");
+        $(e.target).addClass("active");
+        let html = e.target.innerHTML;
+        this.setState({city: html});
+        $(".right-container .map_popup #CurCityInfo").html("当前城市："+html);
+        drawBounds(html);
+    };
+
 
     render() {
 
@@ -174,17 +185,17 @@ class DropdownFun extends Component{
                                         <p id="CurCityInfo">当前城市：西安市</p>
                                     </div>
                                     <div id="selCityHotCityId" className="sel-city-hotcity">
-                                        <span style={citySpan}>罗湖区</span>
-                                        <span style={citySpan}>福田区</span>
-                                        <span style={citySpan}>南山区</span>
-                                        <span style={citySpan}>盐田区</span>
-                                        <span style={citySpan}>关外区</span>
-                                        <span style={citySpan}>龙岗区</span>
-                                        <span style={citySpan}>宝安区</span>
-                                        <span style={citySpan}>光明新区</span>
-                                        <span style={citySpan}>坪山新区</span>
-                                        <span style={citySpan}>大鹏新区</span>
-                                        <span style={citySpan}>龙华新区</span>
+                                        <span onClick={this.clickCityName} style={citySpan}>罗湖区</span>
+                                        <span onClick={this.clickCityName} style={citySpan}>福田区</span>
+                                        <span onClick={this.clickCityName} style={citySpan}>南山区</span>
+                                        <span onClick={this.clickCityName} style={citySpan}>盐田区</span>
+                                        <span onClick={this.clickCityName} style={citySpan}>关外区</span>
+                                        <span onClick={this.clickCityName} style={citySpan}>龙岗区</span>
+                                        <span onClick={this.clickCityName} style={citySpan}>宝安区</span>
+                                        <span onClick={this.clickCityName} style={citySpan}>光明新区</span>
+                                        <span onClick={this.clickCityName} style={citySpan}>坪山新区</span>
+                                        <span onClick={this.clickCityName} style={citySpan}>大鹏新区</span>
+                                        <span onClick={this.clickCityName} style={citySpan}>龙华新区</span>
                                     </div>
                                 </div>
                             </div>

@@ -378,3 +378,7 @@
 .right-container i:hover{
     color: #579AFC;
 }
+
+.right-container .map_popup #selCityHotCityId .active{
+    color: #579AFC;
+}

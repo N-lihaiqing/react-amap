@@ -136,37 +136,49 @@ function closeInfoWindow(){
     window.map.clearInfoWindow();
 }
 
+
+export function initGovernmentArea() {
+    //叠加云数据图层
+    window.AMap.service('AMap.DistrictSearch', function () {
+        //加载行政区划插件
+        if(!district){
+            //实例化DistrictSearch
+            var opts = {
+                subdistrict: 0,   //获取边界不需要返回下级行政区
+                extensions: 'all',  //返回行政区边界坐标组等具体信息
+                level: 'district'  //查询行政级别为 市
+            };
+            district = new window.AMap.DistrictSearch(opts);
+        }
+    });
+}
+
 export function drawBounds(val) {
-    //加载行政区划插件
-    if(!district){
-        //实例化DistrictSearch
-        var opts = {
-            subdistrict: 0,   //获取边界不需要返回下级行政区
-            extensions: 'all',  //返回行政区边界坐标组等具体信息
-            level: 'district'  //查询行政级别为 市
-        };
-        district = new window.AMap.DistrictSearch(opts);
-    }
     //行政区查询
     district.setLevel('district'); //city  province   country
     district.search(val, function(status, result) {
-        window.map.remove(polygons)//清除上次结果
-        polygons = [];
-        var bounds = result.districtList[0].boundaries;
-        if (bounds) {
-            for (var i = 0, l = bounds.length; i < l; i++) {
-                //生成行政区划polygon
-                var polygon = new window.AMap.Polygon({
-                    strokeWeight: 1,
-                    path: bounds[i],
-                    fillOpacity: 0,
-                    fillColor: 'red',
-                    strokeColor: '#000'
-                });
-                polygons.push(polygon);
+        if(status == "complete"){
+            window.map.remove(polygons);   //清除上次结果
+            polygons = [];
+            var bounds = result.districtList[0].boundaries;
+            if (bounds) {
+                for (var i = 0, l = bounds.length; i < l; i++) {
+                    //生成行政区划polygon
+                    var polygon = new window.AMap.Polygon({
+                        strokeWeight: 3,
+                        path: bounds[i],
+                        fillOpacity: 0.4,
+                        fillColor: '',
+                        strokeColor: '#0091ea'
+                    });
+                    polygons.push(polygon);
+                }
             }
+            window.map.add(polygons);
+            window.map.setFitView(polygons);//视口自适应
+        } else {
+            console.log(" 无数据 ");
         }
-        window.map.add(polygons)
-        window.map.setFitView(polygons);//视口自适应
+
     });
 }
