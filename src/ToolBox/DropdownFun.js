@@ -1,7 +1,7 @@
 import {Component} from "react";
 import React from "react";
 import 'antd/dist/antd.css'
-import {location,drawBounds} from "../component"
+import {location,drawBounds, rulerOffOrOn} from "../component"
 
 class DropdownFun extends Component{
 
@@ -78,6 +78,9 @@ class DropdownFun extends Component{
     removeClass = (obj) => {
         var $ = require("jquery");
 
+        rulerOffOrOn("off"); //关闭测距
+        $("#userTagPanl").css("display", "none"); //关闭标记
+
         if(obj != 'box'){
             if($('#boxoptem').prop("className") == "active"){
                 $(".detail-box").css("display", "none");
@@ -115,6 +118,46 @@ class DropdownFun extends Component{
         drawBounds(html);
     };
 
+    menuClick = (val) => {
+        var $ = require("jquery");
+        $(".detail-box").css("display", "none");
+        $(".boxopt").removeClass("mark-active");
+        $(".boxopt em").removeClass("active");
+        $(".boxtext").removeClass("active");
+        $(".boxicon").removeClass("active");
+        if("measure" == val){
+            rulerOffOrOn("on");  //开启测距
+            $("#userTagPanl").css("display", "none");
+        } else {
+            rulerOffOrOn("off");
+            $("#userTagPanl").css("display", "block");
+        }
+    };
+
+    closeBtn = () => {
+        var $ = require("jquery");
+        $("#userTagPanl").css("display", "none"); //关闭标记
+    };
+
+    clickSignPanel = (e, val) => {
+        debugger;
+        var $ = require("jquery");
+        $("#userSignPanel b").removeClass("hover").removeClass("mark-sign");
+        $(e.target).addClass("hover").addClass("mark-sign");
+    };
+
+    signPanel = (e, val) => {
+        var $ = require("jquery");
+        let className = $(e.target).prop("className").split(" ");
+        if(className.length != 3){
+            if(val === "over"){
+                $(e.target).addClass("hover");
+            } else {
+                $(e.target).removeClass("hover");
+            }
+        }
+    };
+
 
     render() {
 
@@ -139,7 +182,7 @@ class DropdownFun extends Component{
 
         let citySpan = {
             marginRight:'10px',
-        }
+        };
 
 
         return (
@@ -165,9 +208,9 @@ class DropdownFun extends Component{
                                     <i className="boxtext">工具箱</i><em id={"boxoptem"}></em></div>
                                 <div className="detail-box">
                                     <ul id="boxul" className="boxinfo">
-                                        <li className="map-measure" map-on-click="measure">
+                                        <li className="map-measure" onClick={() => {this.menuClick("measure")}}>
                                             <span className="last measure"/><i>测距</i></li>
-                                        <li className="map-mark" map-on-click="mark">
+                                        <li className="map-mark" onClick={() => {this.menuClick("mark")}}>
                                             <span className="last mark"/><i>标记</i></li>
                                     </ul>
                                 </div>
@@ -214,6 +257,28 @@ class DropdownFun extends Component{
                                         <span style={citySpan}>施工占道</span>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className="userTagPanl BMap_noprint anchorTR" id="userTagPanl"
+                     style={{position: "absolute", zIndex: "20000", bottom: "auto", right: "106px", top: "59px", left: "auto"}}>
+                    <div className="cont" id="userSignPanel">
+                        <div className="bg">
+                            <div><b title="标记地点" usertagpanl="1" className="userTagPanlP hover"
+                                    onClick={() => {this.clickSignPanel("place")}}
+                                    onMouseOver={(e) => {this.signPanel(e, "over")}}
+                                    onMouseOut={(e) => {this.signPanel(e, "out")}}></b>
+                                <b title="手绘路线"  usertagpanl="2"
+                                   className="userTagPanlL"
+                                   onClick={() => {this.clickSignPanel("route")}}
+                                   onMouseOver={(e) => {this.signPanel(e, "over")}}
+                                   onMouseOut={(e) => {this.signPanel(e, "out")}}></b>
+                                <b  title="文字备注" usertagpanl="3" className="userTagPanlF"
+                                onClick={() => {this.clickSignPanel("word")}}
+                                onMouseOver={(e) => {this.signPanel(e, "over")}}
+                                onMouseOut={(e) => {this.signPanel(e, "out")}}></b>
+                                <b title="关闭" onClick={this.closeBtn}  className="closeBtn"></b>
                             </div>
                         </div>
                     </div>

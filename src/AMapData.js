@@ -1,18 +1,15 @@
 import {Component} from "react";
-import axios from "axios";
-import {createInfoWindow, customRuler, initGovernmentArea} from "./component";
-import SearchPlate from "./MapPlate/SearchPlate";
+import {createInfoWindow, initGovernmentArea, rulerOffOrOn, rangingTool} from "./component";
 import React from "react";
 import "./ToolBox/MapStyle.css";
 
-let map = null,marker = null, ruler = null;
+let map = null,marker = null ;
 
 class AMapData extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            turnOn: false,
         }
     }
 
@@ -36,15 +33,6 @@ class AMapData extends Component {
     }
 
     initMapPlugin = () => {
-
-        /** 初始化测试工具 */
-        map.plugin(["AMap.RangingTool"],function(){
-            ruler = new window.AMap.RangingTool(map, customRuler());
-            window.AMap.event.addListener(ruler,"end",function(e){
-                ruler.turnOn();//关闭
-            });
-            ruler.turnOff();
-        });
 
         /*路线规划*/
         map.plugin("AMap.Driving", function() {
@@ -102,6 +90,8 @@ class AMapData extends Component {
 
 
         initGovernmentArea(); //初始化行政区域
+
+        rangingTool();  //初始化测距控件
 
         // let lnglats = [
         //     [114.06391, 22.548443],
@@ -315,17 +305,6 @@ class AMapData extends Component {
         }
     };
 
-    setTurn = () => {
-        if(this.state.turnOn){
-            this.setState({turnOn: false});
-            ruler.turnOff();
-        } else {
-            this.setState({turnOn: true});
-            ruler.turnOn();
-        }
-
-    };
-
     render() {
         const mapBody = {
             width:'100%',
@@ -339,7 +318,6 @@ class AMapData extends Component {
                 </div>
                 <div>
                     <button onClick={this.location}>定位</button>
-                    <button onClick={this.setTurn.bind(this)}>{this.state.turnOn ? "关闭测距" : "开启测距"}</button>
                 </div>
             </div>
         );

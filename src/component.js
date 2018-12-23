@@ -1,5 +1,5 @@
 
-var district = null, polygons=[];
+var district = null, polygons=[], ruler = null;
 
 //解析定位结果
 export async function onComplete(data) {
@@ -181,4 +181,22 @@ export function drawBounds(val) {
         }
 
     });
+}
+export function rangingTool () {
+    /** 初始化测试工具 */
+    window.map.plugin(["AMap.RangingTool"],function(){
+        ruler = new window.AMap.RangingTool(window.map, customRuler());
+        window.AMap.event.addListener(ruler,"end",function(e){
+            ruler.turnOn();//关闭
+        });
+        ruler.turnOff();
+    });
+}
+
+export function rulerOffOrOn(obj) {
+    if("on" == obj){
+        ruler.turnOn();
+    } else {
+        ruler.turnOff();
+    }
 }

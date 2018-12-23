@@ -382,3 +382,66 @@
 .right-container .map_popup #selCityHotCityId .active{
     color: #579AFC;
 }
+
+.right-container .userTagPanl{
+    width: 119px;
+    height: 65px;
+    display: none;
+}
+
+.right-container .userTagPanl .cont {
+    position: relative;
+    width: 119px;
+    height: 65px;
+    overflow: hidden;
+}
+
+.right-container .userTagPanl .bg {
+    width: 119px;
+    height: 96px;
+    background: url(//webmap0.bdimg.com/wolfman/static/common/images/us_sign_16b1fce.png) no-repeat 0 0;
+    _filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale', src='//webmap0.bdimg.com/wolfman/static/common/images/us_sign_16b1fce.png');
+    _background: 0 0;
+}
+
+.right-container .userTagPanl .bg div {
+    width: 118px;
+    position: absolute;
+    top: 27px;
+    left: 1px;
+}
+
+.right-container .userTagPanl .bg div b {
+    display: block;
+    width: 33px;
+    height: 27px;
+    float: left;
+    margin: 4px 0 0 4px;
+    display: inline;
+    cursor: pointer;
+}
+
+.right-container .userTagPanl .hover {
+    background-image: url(//webmap0.bdimg.com/wolfman/static/common/images/us_sign_16b1fce.png);
+}
+
+.right-container .userTagPanl .userTagPanlP {
+    background-position: -5px -69px;
+}
+
+.right-container .userTagPanl .userTagPanlL {
+    background-position: -42px -69px;
+}
+
+.right-container .userTagPanl .userTagPanlF {
+    background-position: -79px -69px;
+}
+
+.right-container .userTagPanl .bg .closeBtn{
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    overflow: hidden;
+    top: -23px;
+    right: 9px;
+}
