@@ -59,7 +59,6 @@ class DropdownFun extends Component{
             $(".trafficopt em").addClass("active");
             this.setState({businessPopup: 'block'});
         }
-
     };
 
     mapOnClickCity = () => {
