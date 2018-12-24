@@ -1,7 +1,8 @@
 import {Component} from "react";
 import React from "react";
 import 'antd/dist/antd.css'
-import {location,drawBounds, rulerOffOrOn} from "../component"
+import {location,drawBounds, rulerOffOrOn} from "../component";
+require("./MapStyle.css");
 
 class DropdownFun extends Component{
 
