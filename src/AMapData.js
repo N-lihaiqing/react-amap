@@ -14,27 +14,16 @@ class AMapData extends Component {
     }
 
     componentDidMount() {
-        let that = this;
-        let $ = require("jquery");
-        $.ajax({
-            url: 'https://webapi.amap.com/maps?v=1.4.11&key=0325e3d6d69cd56de4980b4f28906fd8',
-            type: 'get',
-            async: false,
-            success: function (res) {
-                that.initMap();
-            },
-            failure: function (res) {
-                that.initMap();
-            }
-        });
+        this.initMap();
+
     }
 
     componentWillMount() {
     }
 
-    initMapPlugin = () => {
+    /*initMapPlugin = () => {
 
-        /*路线规划*/
+        /!*路线规划*!/
         map.plugin("AMap.Driving", function() {
             let driving = new window.AMap.Driving({
                 // 驾车路线规划策略，AMap.DrivingPolicy.LEAST_TIME是最快捷模式
@@ -51,7 +40,7 @@ class AMapData extends Component {
 
         });
 
-        /*地图控件*/
+        /!*地图控件*!/
         map.plugin([
             'AMap.ToolBar',
             'AMap.Scale',
@@ -63,14 +52,14 @@ class AMapData extends Component {
             // 在图面添加比例尺控件，展示地图在当前层级和纬度下的比例尺
             map.addControl(new window.AMap.Scale());
 
-            /*// 在图面添加鹰眼控件，在地图右下角显示地图的缩略图
-            map.addControl(new window.AMap.OverView({isOpen:false}));*/
+            /!*!// 在图面添加鹰眼控件，在地图右下角显示地图的缩略图
+            map.addControl(new window.AMap.OverView({isOpen:false}));*!/
 
             // 在图面添加类别切换控件，实现默认图层与卫星图、实施交通图层之间切换的控制
             map.addControl(new window.AMap.MapType());
 
         });
-    };
+    };*/
 
 
     initMap = () => {
@@ -79,7 +68,7 @@ class AMapData extends Component {
             resizeEnable: true,
             doubleClickZoom: true,  //双击放大
             center: [114.127277, 22.53317],
-            zoom: 10
+            zoom: 10,
         });
 
         marker = markerObj;
@@ -308,7 +297,7 @@ class AMapData extends Component {
     render() {
         const mapBody = {
             width:'100%',
-            height:  document.body.offsetHeight-30
+            height:  document.body.clientHeight
         };
 
         return (
@@ -316,9 +305,7 @@ class AMapData extends Component {
                 <div >
                     <div id='allmap' style={mapBody}/>
                 </div>
-                <div>
-                    <button onClick={this.location}>定位</button>
-                </div>
+
             </div>
         );
     }

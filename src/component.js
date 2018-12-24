@@ -1,5 +1,6 @@
 
-var district = null, polygons=[], ruler = null;
+let district = null, polygons=[], ruler = null;
+let geolocation=null;
 
 //解析定位结果
 export async function onComplete(data) {
@@ -114,7 +115,8 @@ export function location(callback) {
                 //  定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
                 zoomToAccuracy: false,
                 //  定位按钮的排放位置,  RB表示右下
-                buttonPosition: 'RB'
+                buttonPosition: 'RB',
+                buttonDom:'<div title="定位" class="amap-location-div"><div class="amap-location-icon"/></div>'
             });
 
             window.map.addControl(geolocation);

@@ -17,6 +17,7 @@ class DropdownFun extends Component{
     }
 
     componentDidMount(){
+        debugger;
         location((result)=>{
             let val = null;
             if("深圳市" == result.addressComponent.city){
