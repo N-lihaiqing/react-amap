@@ -17,7 +17,6 @@ class DropdownFun extends Component{
     }
 
     componentDidMount(){
-        debugger;
         location((result)=>{
             let val = null;
             if("深圳市" == result.addressComponent.city){
@@ -136,19 +135,18 @@ class DropdownFun extends Component{
     };
 
     closeBtn = () => {
-        var $ = require("jquery");
+        let $ = require("jquery");
         $("#userTagPanl").css("display", "none"); //关闭标记
     };
 
-    clickSignPanel = (e, val) => {
-        debugger;
-        var $ = require("jquery");
+    clickSignPanel = (e) => {
+        let $ = require("jquery");
         $("#userSignPanel b").removeClass("hover").removeClass("mark-sign");
         $(e.target).addClass("hover").addClass("mark-sign");
     };
 
     signPanel = (e, val) => {
-        var $ = require("jquery");
+        let $ = require("jquery");
         let className = $(e.target).prop("className").split(" ");
         if(className.length != 3){
             if(val === "over"){
@@ -266,17 +264,16 @@ class DropdownFun extends Component{
                      style={{position: "absolute", zIndex: "20000", bottom: "auto", right: "106px", top: "59px", left: "auto"}}>
                     <div className="cont" id="userSignPanel">
                         <div className="bg">
-                            <div><b title="标记地点" usertagpanl="1" className="userTagPanlP hover"
-                                    onClick={() => {this.clickSignPanel("place")}}
+                            <div><b title="标记地点" className="userTagPanlP hover"
+                                    onClick={this.clickSignPanel}
                                     onMouseOver={(e) => {this.signPanel(e, "over")}}
                                     onMouseOut={(e) => {this.signPanel(e, "out")}}></b>
-                                <b title="手绘路线"  usertagpanl="2"
-                                   className="userTagPanlL"
-                                   onClick={() => {this.clickSignPanel("route")}}
+                                <b title="手绘路线"  className="userTagPanlL"
+                                   onClick={this.clickSignPanel}
                                    onMouseOver={(e) => {this.signPanel(e, "over")}}
                                    onMouseOut={(e) => {this.signPanel(e, "out")}}></b>
-                                <b  title="文字备注" usertagpanl="3" className="userTagPanlF"
-                                onClick={() => {this.clickSignPanel("word")}}
+                                <b  title="文字备注" className="userTagPanlF"
+                                onClick={this.clickSignPanel}
                                 onMouseOver={(e) => {this.signPanel(e, "over")}}
                                 onMouseOut={(e) => {this.signPanel(e, "out")}}></b>
                                 <b title="关闭" onClick={this.closeBtn}  className="closeBtn"></b>

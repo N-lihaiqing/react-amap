@@ -63,8 +63,7 @@ class AMapData extends Component {
 
 
     initMap = () => {
-        let AMap = window.AMap;
-        let markerObj, mapObj = new AMap.Map("allmap", {
+        let markerObj, mapObj = new window.AMap.Map("allmap", {
             resizeEnable: true,
             doubleClickZoom: true,  //双击放大
             center: [114.127277, 22.53317],
