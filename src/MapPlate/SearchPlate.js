@@ -158,7 +158,6 @@ class SearchPlate extends React.Component {
                    endLocation:location
                 });
                 /*replaceState(object nextState[, function callback])*/
-                debugger;
                 console.log(location);
 
                 that.startNavigate(location);

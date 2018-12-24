@@ -18,12 +18,12 @@
     color: #333;
     position: relative;
     border-radius: 2px 0 0 2px;
-    width: 400px;
+    width: 360px;
 }
 
 .search-parent .search-button{
     position:absolute;
-    left:441px;
+    left:401px;
     top:0;
     width:55px;
     height:38px;
@@ -34,14 +34,14 @@
     position:absolute;
     width:40px;
     height:38px;
-    left: 400px;
+    left: 360px;
     top:0;
     background: url(https://webmap1.bdimg.com/wolfman/static/common/images/new/searchbox_f175577.png) no-repeat 0 0 white;
 }
 
 
 .search-navigate .ant-tabs-nav .ant-tabs-tab{
-    margin: 0 8px !important;
+    margin: 0 5px !important;
     height: 38px !important;
 }
 
@@ -61,7 +61,7 @@
 }
 
 .search-navigate .ant-tabs-nav .ant-tabs-tab .bus-tab:hover i{
-    background-position:0 -16px;
+    background-position:0 -17px;
 }
 .search-navigate .ant-tabs-nav .ant-tabs-tab .car-tab i{
     background-position:0 -68px;
@@ -75,7 +75,7 @@
 }
 
 .search-navigate .ant-tabs-nav .ant-tabs-tab .walk-tab:hover i{
-    background-position:0 -116px;
+    background-position:0 -119px;
 }
 
 .search-navigate .ant-tabs-nav .ant-tabs-tab .bike-tab i{
@@ -83,7 +83,7 @@
 }
 
 .search-navigate .ant-tabs-nav .ant-tabs-tab .bike-tab:hover i{
-    background-position:0 -153px;
+    background-position:0 -156px;
 }
 
 .search-navigate{
@@ -93,7 +93,7 @@
 }
 
 .search-navigate .searchbox-content-common {
-    width: 400px;
+    width: 360px;
     height: 38px;
     position: relative;
 }
@@ -103,7 +103,7 @@
     height:38px;
     background: url(//webmap1.bdimg.com/wolfman/static/common/images/new/searchbox_f175577.png) no-repeat 0 -38px;
     position: absolute;
-    left: 401px;
+    left: 361px;
     top: 0;
 }
 
@@ -111,7 +111,7 @@
     position: absolute;
     top: 38px;
     height: 40px;
-    width: 360px;
+    width: 321px;
     background-color: white;
     border-bottom: 1px solid #f2f2f2;
     left: 40px;
@@ -121,7 +121,7 @@
     position: absolute;
     top: 78px;
     height: 40px;
-    width: 360px;
+    width: 321px;
     background-color: white;
     left: 40px;
 }
@@ -158,7 +158,7 @@
     width: 27px;
     height: 38px;
     top: 0;
-    right: 40px;
+    right: 8px;
     background: url(//webmap1.bdimg.com/wolfman/static/common/images/new/searchbox_f175577.png) no-repeat 0 -114px #fff;
 }
 
@@ -194,7 +194,7 @@
 .search-navigate .search-add-white{
     height: 80px;
     position: absolute;
-    left: 400px;
+    left: 361px;
     background-color: white;
     width: 40px;
 }
@@ -211,4 +211,26 @@
 }
 .search-parent .search-circle{
 
+}
+
+
+.amap-geolocation-con .amap-location-div{
+
+    height: 30px;
+    width: 30px;
+    background-color: white;
+    position: relative;
+    z-index: 5;
+    bottom: 100px;
+
+}
+.amap-geolocation-con .amap-location-icon{
+    width: 14px;
+    height: 14px;
+    vertical-align: middle;
+    display: inline-block;
+    background: url(//webmap0.bdimg.com/wolfman/static/common/images/ipLocation/ipLocation_ac75181.png);
+    background-size: 76px,auto;
+    background-position: -14px 0;
+    margin: 5px 6px 1px 8px;
 }
