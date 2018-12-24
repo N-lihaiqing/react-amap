@@ -14,19 +14,8 @@ class AMapData extends Component {
     }
 
     componentDidMount() {
-        let that = this;
-        let $ = require("jquery");
-        $.ajax({
-            url: 'https://webapi.amap.com/maps?v=1.4.11&key=0325e3d6d69cd56de4980b4f28906fd8',
-            type: 'get',
-            async: false,
-            success: function (res) {
-                that.initMap();
-            },
-            failure: function (res) {
-                that.initMap();
-            }
-        });
+        this.initMap();
+
     }
 
     componentWillMount() {
@@ -79,7 +68,7 @@ class AMapData extends Component {
             resizeEnable: true,
             doubleClickZoom: true,  //双击放大
             center: [114.127277, 22.53317],
-            zoom: 10
+            zoom: 10,
         });
 
         marker = markerObj;
