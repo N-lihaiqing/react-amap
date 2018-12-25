@@ -223,6 +223,7 @@ export function initToolBar() {
     })
 }
 
+/** 地图缩放 */
 export function setZoom(val) {
     if(val == "in"){
         window.map.zoomIn();
