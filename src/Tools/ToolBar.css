@@ -1,14 +1,16 @@
 .toolBar{
     float: right;
+    z-index: 4;
+    position: absolute;
+    bottom: 45px;
+    right: 11px;
+    background-color: #fff;
 }
 .toolBar #scalebox {
     width: 29px;
-    height: 73px;
+    height: 56px;
     margin-top: 16px;
     padding: 0 2px;
-}
-
-.toolBar #scalebox {
     background: #fff;
     border-radius: 3px;
 }
@@ -24,7 +26,7 @@
 
 .toolBar #scalebox .zoom_map.zoom_in_map {
     border-bottom: 1px #dfdfdf solid;
-    background-position: -3px 3px;
+    background-position: -3px -8px;
 }
 
 .toolBar #scalebox .zoom_map {
@@ -37,5 +39,5 @@
 }
 
 .toolBar #scalebox .zoom_map.zoom_out_map {
-    background-position: -3px -156px;
+    background-position: -3px -158px;
 }

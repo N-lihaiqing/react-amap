@@ -222,3 +222,11 @@ export function initToolBar() {
         window.map.addControl(toolbar)
     })
 }
+
+export function setZoom(val) {
+    if(val == "in"){
+        window.map.zoomIn();
+    } else if(val == "out"){
+        window.map.zoomOut();
+    }
+}
