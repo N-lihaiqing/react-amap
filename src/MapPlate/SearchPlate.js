@@ -201,8 +201,11 @@ class SearchPlate extends React.Component {
             routeClearEnd:'none'
         });
 
+        this.startLocation = [];
+
         $('#routeWay-start').val('');
         $('#routeWay-end').val('');
+        $('#routeWay-end').attr('placeholder','终点位置')
     };
 
     //  清除所选的终点位置
@@ -213,6 +216,27 @@ class SearchPlate extends React.Component {
         }
         this.endLocation=[];
         $('#routeWay-end').val('');
+    };
+
+    //  更换查询路线
+    changeRoute =()=>{
+        let startHtml = $('#routeWay-start').val();
+        let endHtml = $('#routeWay-end').val();
+        $('#routeWay-start').val(endHtml);
+
+        if(startHtml==''){
+            $('#routeWay-end').val('');
+            $('#routeWay-end').attr('placeholder','我的位置')
+        }else{
+            $('#routeWay-end').val(startHtml);
+        }
+
+
+        let location = this.endLocation;
+        this.endLocation = this.startLocation;
+        this.startLocation = location;
+
+        this.startNavigate(this.endLocation);
     };
 
     render() {
@@ -247,7 +271,7 @@ class SearchPlate extends React.Component {
                                placeholder="输入终点"/>
                         <div onClick={this.clearEndLocation} style={{display:routeClearEnd}} className="route-clear-end"/>
                     </div>
-                    <div className="search-change">
+                    <div onClick={this.changeRoute} className="search-change">
                         <div className="change-start-end"/>
                     </div>
                     <div className="search-add-white"/>
