@@ -234,3 +234,14 @@
     background-position: -14px 0;
     margin: 5px 6px 1px 8px;
 }
+
+.search-route-end .route-clear-end{
+
+    cursor: pointer;
+    position: absolute;
+    width: 27px;
+    height: 38px;
+    top: 0;
+    right: 8px;
+    background: url(//webmap1.bdimg.com/wolfman/static/common/images/new/searchbox_f175577.png) no-repeat 0 -114px #fff;
+}
