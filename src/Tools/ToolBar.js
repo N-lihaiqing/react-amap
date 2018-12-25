@@ -12,10 +12,6 @@ class ToolBar extends Component{
         let $ = require("jquery");
         let type = $(e.target).prop("className").split(" ")[2];
         setZoom(type);
-
-
-      debugger;
-
     };
 
     render() {
