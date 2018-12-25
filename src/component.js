@@ -202,3 +202,23 @@ export function rulerOffOrOn(obj) {
         ruler.turnOff();
     }
 }
+
+export function initToolBar() {
+    window.AMap.plugin('AMap.ToolBar',function(){
+        let toolopt = {
+            offset :new window.AMap.Pixel(10,10),//相对于地图容器左
+            position : 'RB',
+            ruler : true,//标尺键盘是否可见，默认为true
+            noIpLocate : false,//定位失败后，是否开启IP定位，
+            locate : false,//是否显示定位按钮，默认为false
+            liteStyle : false,//是否使用精简模式，默认为false
+            direction : false,//方向键盘是否可见，默认为true
+            autoPosition : true,//是否自动定位，即地图初始化加
+            locationMarker : window.AMap.Marker({map: window.map}),
+            useNative : false
+        };
+        var toolbar  = new window.AMap.ToolBar(toolopt);
+        toolbar.hideRuler();
+        window.map.addControl(toolbar)
+    })
+}

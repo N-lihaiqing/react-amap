@@ -1,5 +1,5 @@
 import {Component} from "react";
-import {createInfoWindow, initGovernmentArea, rulerOffOrOn, rangingTool} from "./component";
+import {createInfoWindow, initGovernmentArea, initToolBar, rangingTool} from "./component";
 import React from "react";
 import "./ToolBox/MapStyle.css";
 
@@ -80,6 +80,8 @@ class AMapData extends Component {
         initGovernmentArea(); //初始化行政区域
 
         rangingTool();  //初始化测距控件
+
+        // initToolBar(); //初始化工具条控件
 
         // let lnglats = [
         //     [114.06391, 22.548443],

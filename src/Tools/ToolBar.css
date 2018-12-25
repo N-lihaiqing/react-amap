@@ -1,0 +1,41 @@
+.toolBar{
+    float: right;
+}
+.toolBar #scalebox {
+    width: 29px;
+    height: 73px;
+    margin-top: 16px;
+    padding: 0 2px;
+}
+
+.toolBar #scalebox {
+    background: #fff;
+    border-radius: 3px;
+}
+
+.toolBar .usel {
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.toolBar .zdeps-1 {
+    box-shadow: 0 2px 2px rgba(0,0,0,.15);
+}
+
+.toolBar #scalebox .zoom_map.zoom_in_map {
+    border-bottom: 1px #dfdfdf solid;
+    background-position: -3px 3px;
+}
+
+.toolBar #scalebox .zoom_map {
+    width: 24px;
+    height: 16px;
+    margin: 0 auto;
+    padding: 10px 0;
+    background: url(//www.amap.com/assets/img/scale.png) no-repeat;
+    cursor: pointer;
+}
+
+.toolBar #scalebox .zoom_map.zoom_out_map {
+    background-position: -3px -156px;
+}

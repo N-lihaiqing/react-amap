@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import SearchPlate from "./MapPlate/SearchPlate";
 import AMapData from "./AMapData";
 import DropdownFun from "./ToolBox/DropdownFun";
+import ToolBar from "./Tools/ToolBar";
 
 
 
@@ -19,8 +20,9 @@ class AMapPage extends Component {
         return (
             <div>
                 <SearchPlate />
-                <AMapData ref={"aMapDataRef"}/>
-                <DropdownFun ref={"dropdownFun"}/>
+                <AMapData />
+                <DropdownFun />
+                <ToolBar/>
             </div>
         );
     }
