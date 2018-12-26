@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import SearchPlate from "./MapPlate/SearchPlate";
 import AMapData from "./AMapData";
 import DropdownFun from "./ToolBox/DropdownFun";
-import ToolBar from "./Tools/ToolBar";
+import ToolBar from "./ToolZoom/ToolBar";
 
 
 
