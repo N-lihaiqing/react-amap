@@ -3,6 +3,7 @@ import SearchPlate from "./MapPlate/SearchPlate";
 import AMapData from "./AMapData";
 import DropdownFun from "./ToolBox/DropdownFun";
 import ToolBar from "./ToolZoom/ToolBar";
+import MapTypeWrapper from "./MapTypeWrapper/MapTypeWrapper";
 
 
 
@@ -23,6 +24,7 @@ class AMapPage extends Component {
                 <AMapData />
                 <DropdownFun />
                 <ToolBar/>
+                <MapTypeWrapper/>
             </div>
         );
     }
