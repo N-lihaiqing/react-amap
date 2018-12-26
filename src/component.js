@@ -116,6 +116,7 @@ export function location(callback) {
                 zoomToAccuracy: false,
                 //  定位按钮的排放位置,  RB表示右下
                 buttonPosition: 'RB',
+                showMarker:false,
                 buttonDom:'<div title="定位" class="amap-location-div"><div class="amap-location-icon"/></div>'
             });
 
@@ -126,6 +127,12 @@ export function location(callback) {
             function onComplete (data) {
 
                 if(callback){
+
+                    let startLocation = [];
+                    startLocation.push(data.position.lng);
+                    startLocation.push(data.position.lat);
+                    sessionStorage.setItem('startLocation',startLocation);
+                    sessionStorage.setItem('cityCode',data.addressComponent.citycode);
                     callback(data);
                 }
 

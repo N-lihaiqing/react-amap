@@ -2,7 +2,6 @@ import React from 'react';
 import {Tabs} from 'antd';
 import 'antd/dist/antd.css';
 import './map.css';
-import {location} from "../component"
 import $ from 'jquery';
 
 
@@ -36,11 +35,11 @@ class SearchPlate extends React.Component {
     /*打开导航*/
     openNavigate = () => {
 
-        location((result)=>{
-            this.startLocation.push(result.position.lng);
-            this.startLocation.push(result.position.lat);
-            this.cityCode = result.addressComponent.citycode;
-        });
+        if(sessionStorage.getItem('startLocation') && sessionStorage.getItem('cityCode')){
+
+            this.startLocation = sessionStorage.getItem('startLocation').split(',');
+            this.cityCode = sessionStorage.getItem('cityCode');
+        }
         this.setState({
             searchFrame: 'none',
             navigate: 'block'
@@ -268,7 +267,7 @@ class SearchPlate extends React.Component {
                     <div className="search-route-end">
                         <div className="route-input-icon"/>
                         <input id="routeWay-end" onMouseOver={this.onLoadPOI} className="route-input"
-                               placeholder="输入终点"/>
+                               placeholder="请输入终点位置"/>
                         <div onClick={this.clearEndLocation} style={{display:routeClearEnd}} className="route-clear-end"/>
                     </div>
                     <div onClick={this.changeRoute} className="search-change">

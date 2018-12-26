@@ -219,7 +219,7 @@
     height: 30px;
     width: 30px;
     background-color: white;
-    position: relative;
+    position: absolute;
     z-index: 5;
     bottom: 100px;
 
@@ -233,6 +233,7 @@
     background-size: 76px,auto;
     background-position: -14px 0;
     margin: 5px 6px 1px 8px;
+    right: 30px;
 }
 
 .search-route-end .route-clear-end{
