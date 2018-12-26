@@ -1,5 +1,6 @@
 import React from 'react';
 import "./MapTypeWrapper.css";
+import {mapType} from "../component";
 
 class MapTypeWrapper extends React.Component{
 
@@ -23,9 +24,9 @@ class MapTypeWrapper extends React.Component{
         $(e.target).addClass("active");
         let className = $(e.target).prop("className").split(" ")[1];
         if(className == "normal"){
-
+            mapType("2D");
         } else if (className == "earth"){
-
+            mapType("3D");
         }
     };
 
