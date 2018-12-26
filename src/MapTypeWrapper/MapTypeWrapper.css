@@ -1,0 +1,151 @@
+.type-wrapper #mapType-wrapper {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+.type-wrapper #mapType {
+    height: 80px;
+    cursor: pointer;
+    -webkit-transition-property: width, background-color;
+    transition-property: width, background-color;
+    -webkit-transition-duration: .4s;
+    transition-duration: .4s;
+    width: 110px;
+    background-color: rgba(255, 255, 255, 0)
+}
+
+.type-wrapper .expand #mapType {
+    width: 192px;
+    background-color: #fff;
+    background-color: rgba(255, 255, 255, .8)
+}
+
+.type-wrapper .expand #mapType .mapTypeCard {
+    border: 1px solid rgba(255, 255, 255, 0);
+    background-image: url(//webmap1.bdimg.com/wolfman/static/common/images/new/maptype_8a68f95.png)
+}
+
+.type-wrapper .expand #mapType .mapTypeCard .active {
+    border: 1px solid #3385FF
+}
+
+/*.type-wrapper .expand #mapType .normal {
+    right: 106px
+}*/
+
+.type-wrapper .expand #mapType .earth {
+    right: 106px
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2),(-webkit-min-device-pixel-ratio: 2),(min-resolution: 2dppx),(min-resolution: 192dpi) {
+    .type-wrapper .expand #mapType .mapTypeCard {
+        background-image: url(//webmap1.bdimg.com/wolfman/static/common/images/new/maptype2x_54247ab.png)
+    }
+}
+
+.type-wrapper #mapType .mapTypeCard {
+    height: 60px;
+    width: 86px;
+    position: absolute;
+    border-radius: 2px;
+    top: 10px;
+    box-sizing: border-box;
+    border: 1px solid transparent;
+    border: 1px solid rgba(153, 153, 153, .42);
+    background: url(//webmap1.bdimg.com/wolfman/static/common/images/new/shadow_6bf0ecd.png) no-repeat 0 0;
+    background-size: 86px 240px;
+    -webkit-transition-property: right, background-image;
+    transition-property: right, background-image;
+    -webkit-transition-duration: .4s;
+    transition-duration: .4s
+}
+
+.type-wrapper #mapType .mapTypeCard span {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    display: inline-block;
+    padding: 3px 3px 14px 4px;
+    font-size: 12px;
+    height: 12px;
+    line-height: 12px;
+    color: #FFF;
+    border-top-left-radius: 2px
+}
+
+.type-wrapper #mapType .mapTypeCard.active span, #mapType .mapTypeCard:hover span {
+    background-color: #3385FF
+}
+
+.type-wrapper #mapType .mapTypeCard:hover {
+    border: 1px solid #3385FF
+}
+
+.type-wrapper #mapType .normal {
+    z-index: 3;
+    right: 10px;
+    /*background-image: url(//webmap1.bdimg.com/wolfman/static/common/images/new/maptype_8a68f95.png);
+    background-position: 0 -121px;*/
+}
+
+.type-wrapper #mapType .normal .switch-box p {
+    margin-left: 20px
+}
+
+.type-wrapper #mapType .normal .switch-box input.switch {
+    left: 5px
+}
+
+.type-wrapper #mapType .normal:hover .switch-box {
+    visibility: visible
+}
+
+.type-wrapper #mapType .earth {
+    right: 20px;
+    z-index: 2;
+    background-position: 0 -121px
+}
+
+.type-wrapper #mapType .earth:hover .switch-box {
+    visibility: visible
+}
+
+.type-wrapper #mapType .earth {
+    background-position: 0 -121px
+}
+
+.type-wrapper #mapType .normal {
+    z-index: 3;
+    right: 10px;
+    background-image: url(//webmap1.bdimg.com/wolfman/static/common/images/new/maptype_8a68f95.png);
+    background-position: 0 -121px;
+    border-left: 1px solid rgba(153, 153, 153, .6)
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2),(-webkit-min-device-pixel-ratio: 2),(min-resolution: 2dppx),(min-resolution: 192dpi) {
+    .type-wrapper #mapType .panorama {
+        background-image: url(//webmap1.bdimg.com/wolfman/static/common/images/new/maptype2x_54247ab.png)
+    }
+}
+
+.type-wrapper #mapType .switch-box {
+    visibility: hidden;
+    position: absolute;
+    width: 100%;
+    height: 20px;
+    line-height: 22px;
+    color: #fff;
+    background: rgba(0, 0, 0, .5)
+}
+
+.type-wrapper #mapType .switch-box p {
+    display: inline-block;
+    margin-left: 25px
+}
+
+.type-wrapper #mapType .switch-box input.switch {
+    position: absolute;
+    left: 8px;
+    top: 4px;
+    cursor: pointer
+}
