@@ -9,17 +9,17 @@ class MapTypeWrapper extends React.Component{
     }
 
     hiddenDiv = () => {
-        var $ = require("jquery");
+        let $ = require("jquery");
         $("#mapType-wrapper").removeClass("expand");
     };
 
     showDiv = () => {
-        var $ = require("jquery");
+        let $ = require("jquery");
         $("#mapType-wrapper").addClass("expand");
     };
 
     mapType = (e) => {
-        var $ = require("jquery");
+        let $ = require("jquery");
         $(".mapTypeCard").removeClass("active");
         $(e.target).addClass("active");
         let className = $(e.target).prop("className").split(" ")[1];
