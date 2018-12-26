@@ -229,7 +229,7 @@ class SearchPlate extends React.Component {
         if(start.val()==='' && end.val()!==''){
             start.val(end.val());
             end.val('');
-            end.attr('placeholder',start.attr('placeholder'))
+            end.attr('placeholder',start.attr('placeholder'));
             flag = false;
         }
 
