@@ -5,7 +5,9 @@ import './map.css';
 import $ from 'jquery';
 
 
-
+/**
+ * 高德地图导航模块
+ */
 class SearchPlate extends React.Component {
 
     constructor(props) {
@@ -204,7 +206,8 @@ class SearchPlate extends React.Component {
 
         $('#routeWay-start').val('');
         $('#routeWay-end').val('');
-        $('#routeWay-end').attr('placeholder','终点位置')
+        $('#routeWay-end').attr('placeholder','请输入终点位置');
+        $('#routeWay-start').attr('placeholder','我的位置');
     };
 
     //  清除所选的终点位置
@@ -219,17 +222,28 @@ class SearchPlate extends React.Component {
 
     //  更换查询路线
     changeRoute =()=>{
-        let startHtml = $('#routeWay-start').val();
-        let endHtml = $('#routeWay-end').val();
-        $('#routeWay-start').val(endHtml);
 
-        if(startHtml==''){
-            $('#routeWay-end').val('');
-            $('#routeWay-end').attr('placeholder','我的位置')
-        }else{
-            $('#routeWay-end').val(startHtml);
+        let start = $('#routeWay-start');
+        let end = $('#routeWay-end');
+        let flag = true;
+        if(start.val()==='' && end.val()!==''){
+            start.val(end.val());
+            end.val('');
+            end.attr('placeholder',start.attr('placeholder'))
+            flag = false;
         }
 
+        if(end.val()==='' && start.val()===''){
+            let endPlaceholder = end.attr('placeholder');
+            end.attr('placeholder',start.attr('placeholder'));
+            start.attr('placeholder',endPlaceholder);
+        }
+
+        if(start.val()!=='' && end.val()==='' && flag){
+            end.val(start.val());
+            start.val('');
+            start.attr('placeholder',end.attr('placeholder'));
+        }
 
         let location = this.endLocation;
         this.endLocation = this.startLocation;
