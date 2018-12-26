@@ -41,3 +41,26 @@
 .toolBar #scalebox .zoom_map.zoom_out_map {
     background-position: -3px -158px;
 }
+
+.amap-geolocation-con .amap-location-div{
+
+    height: 30px;
+    width: 30px;
+    background-color: white;
+    position: absolute;
+    z-index: 4;
+    bottom: 100px;
+    right: 1px;
+
+}
+.amap-geolocation-con .amap-location-icon{
+    width: 14px;
+    height: 14px;
+    vertical-align: middle;
+    display: inline-block;
+    background: url(//webmap0.bdimg.com/wolfman/static/common/images/ipLocation/ipLocation_ac75181.png);
+    background-size: 76px,auto;
+    background-position: -28px 0;
+    margin: 5px 6px 1px 8px;
+    right: 30px;
+}

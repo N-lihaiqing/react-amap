@@ -117,7 +117,7 @@ export function location(callback) {
                 //  定位按钮的排放位置,  RB表示右下
                 buttonPosition: 'RB',
                 showMarker:false,
-                buttonDom:'<div title="定位" class="amap-location-div"><div class="amap-location-icon"/></div>'
+                showButton:false
             });
 
             window.map.addControl(geolocation);
