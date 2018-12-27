@@ -128,11 +128,7 @@ export function location(callback) {
 
                 if(callback){
 
-                    let startLocation = [];
-                    startLocation.push(data.position.lng);
-                    startLocation.push(data.position.lat);
-                    sessionStorage.setItem('startLocation',startLocation);
-                    sessionStorage.setItem('cityCode',data.addressComponent.citycode);
+                    sessionStorage.setItem('location',data);
                     callback(data);
                 }
 

@@ -18,10 +18,10 @@ class SearchPlate extends React.Component {
             routeClearEnd:'none'
         };
         this.navigateWay = 'Driving'; //    导航方式
-        this.startLocation = [];      //    起点坐标
+        this.startLocation = {};      //    起点坐标
         this.driving='';              //    导航路径
         this.cityCode='';             //    城市编码
-        this.endLocation=[];          //    终点坐标
+        this.endLocation={};          //    终点坐标
     }
 
     changeTabs = (key) => {
@@ -37,10 +37,11 @@ class SearchPlate extends React.Component {
     /*打开导航*/
     openNavigate = () => {
 
-        if(sessionStorage.getItem('startLocation') && sessionStorage.getItem('cityCode')){
+        if(window.address && window.city){
 
-            this.startLocation = sessionStorage.getItem('startLocation').split(',');
-            this.cityCode = sessionStorage.getItem('cityCode');
+            this.startLocation.keyword = window.address;
+            this.startLocation.city = window.city
+
         }
         this.setState({
             searchFrame: 'none',
@@ -68,10 +69,8 @@ class SearchPlate extends React.Component {
                     map:map,
                 });
 
-                that.driving.search(that.startLocation, endLocation, function (status, result) {
-                    /*if(status=='complete'){
-                        endLocation=[];
-                    }*/
+                that.driving.search([that.startLocation, endLocation], function (status, result) {
+                    debugger;
                 });
 
 
@@ -176,9 +175,8 @@ class SearchPlate extends React.Component {
 
             function onComplete(data) {
 
-                that.endLocation = [];
-                that.endLocation.push(data.poi.location.lng);
-                that.endLocation.push(data.poi.location.lat);
+                that.endLocation.keyword = data.poi.name;
+                that.endLocation.city = window.city;
                 that.setState({
                     routeClearEnd:'block'
                 });

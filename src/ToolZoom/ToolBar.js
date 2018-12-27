@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import "./ToolBar.css"
 import {setZoom} from "../component"
 
-class ToolBar extends Component{
+class ToolBar extends Component {
 
     constructor(props) {
         super(props);
@@ -14,9 +14,9 @@ class ToolBar extends Component{
         setZoom(type);
     };
 
-    componentDidMount(){
+    componentDidMount() {
         /*定位控件*/
-        window.map.plugin('AMap.Geolocation', function() {
+        window.map.plugin('AMap.Geolocation', function () {
             const geolocation = new window.AMap.Geolocation({
                 // 是否使用高精度定位，默认：true
                 enableHighAccuracy: true,
@@ -31,11 +31,19 @@ class ToolBar extends Component{
 
             window.map.addControl(geolocation);
             geolocation.getCurrentPosition();
+            window.AMap.event.addListener(geolocation, 'complete', onComplete);
+
+            function onComplete(data) {
+                sessionStorage.setItem('cityCode',data.addressComponent.city);
+                sessionStorage.setItem('address',data.formattedAddress);
+                window.city = data.addressComponent.city;
+                window.address = data.formattedAddress;
+            }
         })
     };
 
     render() {
-        return(
+        return (
             <div className={"toolBar"}>
                 <div id="scalebox" className="zdeps-1 usel">
                     <div className="zoom_map zoom_in_map in" onClick={this.toolBarClick}></div>

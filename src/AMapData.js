@@ -10,28 +10,38 @@ class AMapData extends Component {
     constructor(props) {
         super(props);
         this.state = {
-        }
+            secType:'block',
+            thrType:'none'
+        };
+        this.aMap='';
     }
 
     componentDidMount() {
         this.initMap();
-
+        this.init3DMap();
     }
+
+    changeMapType =() =>{
+
+        let {secType,thrType} = this.state;
+        secType=secType === 'block'?'none':'block';
+        thrType=thrType === 'block'?'none':'block';
+        window.map = this.aMap;
+
+        this.setState({
+
+            secType:secType,
+            thrType:thrType
+        });
+    };
 
     initMap = () => {
         let markerObj, mapObj = new window.AMap.Map("allmap", {
-            // resizeEnable: true,
-            // rotateEnable:true,
-            // pitchEnable:true,
             doubleClickZoom: true,  //双击放大
             center: [114.127277, 22.53317],
             zoom: 10,
-            pitch:80,
             zooms:[3,20],
-            rotation:-15,
             viewMode:'2D',//开启3D视图,默认为关闭
-            // expandZoomRange:true,
-            // buildingAnimation:true,//楼块出现是否带动画
             layers:[new window.AMap.TileLayer.RoadNet],
             features:['bg','road'],
         });
@@ -40,11 +50,6 @@ class AMapData extends Component {
         map = mapObj;
         map.setFitView();
         window.map = map;
-
-        // initPlugin(); //初始化地图插件
-
-
-        // that.initMapPlugin();
 
         initGovernmentArea(); //初始化行政区域
 
@@ -61,6 +66,38 @@ class AMapData extends Component {
         // this.addMarker(lnglats); // 实例化点标记
         // this.polyline();
         // this.circle(); //初始化矢量图层
+    };
+
+
+    init3DMap = () =>{
+        let aMap = new window.AMap.Map("3D-AMap", {
+            resizeEnable: true,
+            rotateEnable:true,
+            pitchEnable:true,
+            doubleClickZoom: true,  //双击放大
+            center: [114.127277, 22.53317],
+            zoom: 15,
+            zooms:[3,20],
+            viewMode:'3D',//开启3D视图,默认为关闭
+            expandZoomRange:true,
+            buildingAnimation:true,//楼块出现是否带动画
+        });
+
+        aMap.plugin([
+            'AMap.ControlBar',
+        ], function(){
+            aMap.addControl(new window.AMap.ControlBar({
+                showZoomBar:false,
+                showControlButton:true,
+                position:{
+                    right:'10px',
+                    bottom:'150px'
+                }
+            }));
+        });
+
+        this.aMap = aMap;
+
     };
 
     /** 添加点标记 */
@@ -267,15 +304,31 @@ class AMapData extends Component {
     render() {
         const mapBody = {
             width:'100%',
-            height:  document.body.clientHeight
+            height:  document.body.clientHeight,
+            display:'block'
+        };
+
+        const {secType,thrType} = this.state;
+
+        const changeTypeCss = {
+
+            position: 'absolute',
+            bottom: '204px',
+            zIndex: 4,
+            right: '37px',
+            width: '30px',
+            height: '30px',
+            backgroundColor: 'white',
+            textAlign: 'center'
         };
 
         return (
             <div>
                 <div >
-                    <div id='allmap' style={mapBody}/>
+                    <div id='allmap' style={{...mapBody,display:secType}}/>
+                    <div id="3D-AMap" style={{...mapBody,display:thrType}}/>
                 </div>
-
+                <div style={changeTypeCss} onClick={this.changeMapType} className="changeMapType">2D</div>
             </div>
         );
     }

@@ -22,8 +22,8 @@ class AMapPage extends Component {
             <div>
                 <SearchPlate />
                 <AMapData />
-                <DropdownFun />
                 <ToolBar/>
+                <DropdownFun />
                 <MapTypeWrapper/>
             </div>
         );
