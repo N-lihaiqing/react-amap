@@ -24,6 +24,8 @@ class AMapData extends Component {
             doubleClickZoom: true,  //双击放大
             center: [114.127277, 22.53317],
             zoom: 10,
+            layers:[new window.AMap.TileLayer.RoadNet],
+            features:['bg','road']
         });
 
         marker = markerObj;
