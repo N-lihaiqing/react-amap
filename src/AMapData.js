@@ -20,18 +20,18 @@ class AMapData extends Component {
 
     initMap = () => {
         let markerObj, mapObj = new window.AMap.Map("allmap", {
-            resizeEnable: true,
-            rotateEnable:true,
-            pitchEnable:true,
+            // resizeEnable: true,
+            // rotateEnable:true,
+            // pitchEnable:true,
             doubleClickZoom: true,  //双击放大
             center: [114.127277, 22.53317],
             zoom: 10,
             pitch:80,
             zooms:[3,20],
             rotation:-15,
-            viewMode:'3D',//开启3D视图,默认为关闭
-            expandZoomRange:true,
-            buildingAnimation:true,//楼块出现是否带动画
+            viewMode:'2D',//开启3D视图,默认为关闭
+            // expandZoomRange:true,
+            // buildingAnimation:true,//楼块出现是否带动画
             layers:[new window.AMap.TileLayer.RoadNet],
             features:['bg','road'],
         });
@@ -41,7 +41,7 @@ class AMapData extends Component {
         map.setFitView();
         window.map = map;
 
-        initPlugin(); //初始化地图插件
+        // initPlugin(); //初始化地图插件
 
 
         // that.initMapPlugin();
