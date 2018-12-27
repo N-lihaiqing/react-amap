@@ -238,3 +238,19 @@ export function setZoom(val) {
         window.map.zoomOut();
     }
 }
+
+
+/** 地图类型切换 */
+export function mapType(val) {
+    /*if(val == "2D"){
+        window.AMap.Map({
+            viewMode:'2D',//开启3D视图,默认为关闭
+            buildingAnimation:false,//楼块出现是否带动画
+        });
+    } else if (val == "3D"){
+        window.AMap.Map({
+            viewMode:'3D',//开启3D视图,默认为关闭
+            buildingAnimation:true,//楼块出现是否带动画
+        });
+    }*/
+}
