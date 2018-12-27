@@ -29,7 +29,7 @@ class AMapData extends Component {
             pitch:80,
             zooms:[3,20],
             rotation:-15,
-            viewMode:'2D',//开启3D视图,默认为关闭
+            viewMode:'3D',//开启3D视图,默认为关闭
             expandZoomRange:true,
             buildingAnimation:true,//楼块出现是否带动画
             layers:[new window.AMap.TileLayer.RoadNet],
