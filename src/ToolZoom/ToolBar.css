@@ -3,7 +3,7 @@
     z-index: 4;
     position: absolute;
     bottom: 90px;
-    right: 11px;
+    right: 38px;
     background-color: #fff;
 }
 .toolBar #scalebox {
@@ -50,7 +50,7 @@
     position: absolute;
     z-index: 4;
     bottom: 150px;
-    right: 1px;
+    right: 27px;
 
 }
 .amap-geolocation-con .amap-location-icon{
