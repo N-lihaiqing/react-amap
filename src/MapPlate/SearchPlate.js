@@ -3,6 +3,7 @@ import {Tabs} from 'antd';
 import 'antd/dist/antd.css';
 import './map.css';
 import $ from 'jquery';
+import {startNavigate} from '../component';
 
 
 /**
@@ -17,32 +18,28 @@ class SearchPlate extends React.Component {
             navigate: 'none',
             routeClearEnd:'none'
         };
-        this.navigateWay = 'Driving'; //    导航方式
-        this.startLocation = {};      //    起点坐标
-        this.driving='';              //    导航路径
-        this.cityCode='';             //    城市编码
-        this.endLocation={};          //    终点坐标
     }
 
     changeTabs = (key) => {
 
-        this.navigateWay = key;
+        window.navigateWay = key;
 
-        if(this.endLocation.length>0){
-            this.startNavigate(this.endLocation);
+        if(window.endLocation){
+            startNavigate(window.navigateWay,window.startLocation,window.endLocation);
         }
     };
+
+    componentWillMount(){
+
+        window.navigateWay = 'Driving'; //    导航方式
+        window.driving='';              //    导航路径
+        window.endLocation={};          //    终点坐标
+    }
 
 
     /*打开导航*/
     openNavigate = () => {
 
-        if(window.address && window.city){
-
-            this.startLocation.keyword = window.address;
-            this.startLocation.city = window.city
-
-        }
         this.setState({
             searchFrame: 'none',
             navigate: 'block'
@@ -50,91 +47,10 @@ class SearchPlate extends React.Component {
     };
 
 
-    /*开始导航*/
-    startNavigate = (endLocation) =>{
-
-        if(this.driving){
-            this.driving.clear();
-        }
-
-        let map = window.map;
-        let that = this;
-        /*驾车路线规划*/
-        if(this.navigateWay=='Driving'){
-
-            this.state.flag=true;
-            map.plugin("AMap.Driving", function() {
-                that.driving = new window.AMap.Driving({
-                    policy: window.AMap.DrivingPolicy.LEAST_TIME,
-                    map:map,
-                });
-
-                that.driving.search([that.startLocation, endLocation], function (status, result) {
-                    debugger;
-                });
-
-
-            });
-        }
-
-        /*公交路线规划*/
-        if(this.navigateWay=='Transfer'){
-
-            this.state.flag=true;
-            map.plugin("AMap.Transfer", function() {
-                that.driving = new window.AMap.Transfer({
-                    map:map,
-                    city:that.cityCode
-                });
-
-                that.driving.search(that.startLocation, endLocation, function (status, result) {
-                });
-
-            });
-        }
-
-        /*步行路线规划*/
-        if(this.navigateWay=='Walking'){
-            this.state.flag=true;
-            map.plugin("AMap.Walking", function() {
-                that.driving = new window.AMap.Walking({
-                    map:map,
-                });
-
-                that.driving.search(that.startLocation, endLocation, function (status, result) {
-                    /*if(status=='complete'){
-                        endLocation=[];
-                    }*/
-                });
-
-            });
-        }
-
-        /*骑行路线规划*/
-        if(this.navigateWay=='Riding'){
-            this.state.flag=true;
-            map.plugin("AMap.Riding", function() {
-                that.driving = new window.AMap.Riding({
-                    // 驾车路线规划策略，AMap.DrivingPolicy.LEAST_TIME是最快捷模式
-                    policy: window.AMap.RidingPolicy.LEAST_TIME,
-                    map:map,
-                });
-
-                that.driving.search(that.startLocation, endLocation, function (status, result) {
-                    /*if(status=='complete'){
-                        endLocation=[];
-                    }*/
-                });
-
-            });
-        }
-    };
-
     /* 起始点坐标的POI搜索 */
     startOPI = () =>{
 
         let map = window.map;
-        let that = this;
         map.plugin('AMap.Autocomplete', function () {
             // 实例化Autocomplete
             let autoOptions = {
@@ -143,15 +59,11 @@ class SearchPlate extends React.Component {
             };
             let autoComplete = new window.AMap.Autocomplete(autoOptions);
 
-
             window.AMap.event.addListener(autoComplete, 'select', onComplete);
 
             function onComplete(data) {
-
-                that.startLocation = [];
-                that.startLocation.push(data.poi.location.lng);
-                that.startLocation.push(data.poi.location.lat);
-
+                window.startLocation.keyword = data.poi.name;
+                window.startLocation.city = data.poi.district.substring(3,6);
             }
         });
 
@@ -175,12 +87,13 @@ class SearchPlate extends React.Component {
 
             function onComplete(data) {
 
-                that.endLocation.keyword = data.poi.name;
-                that.endLocation.city = window.city;
+                window.endLocation.keyword = data.poi.name;
+                window.endLocation.city = window.city;
                 that.setState({
                     routeClearEnd:'block'
                 });
-                that.startNavigate(that.endLocation);
+
+                startNavigate(window.navigateWay,window.startLocation,window.endLocation);
 
             }
         });
@@ -190,8 +103,8 @@ class SearchPlate extends React.Component {
     //  关闭路线导航
     closeNavigate = () => {
 
-        if(this.driving){
-            this.driving.clear();
+        if(window.driving){
+            window.driving.clear();
         }
 
         this.setState({
@@ -200,7 +113,7 @@ class SearchPlate extends React.Component {
             routeClearEnd:'none'
         });
 
-        this.startLocation = [];
+        window.startLocation = [];
 
         $('#routeWay-start').val('');
         $('#routeWay-end').val('');
@@ -211,10 +124,10 @@ class SearchPlate extends React.Component {
     //  清除所选的终点位置
     clearEndLocation=()=>{
 
-        if(this.driving){
-            this.driving.clear();
+        if(window.driving){
+            window.driving.clear();
         }
-        this.endLocation=[];
+        window.endLocation=[];
         $('#routeWay-end').val('');
     };
 
@@ -243,11 +156,17 @@ class SearchPlate extends React.Component {
             start.attr('placeholder',end.attr('placeholder'));
         }
 
-        let location = this.endLocation;
-        this.endLocation = this.startLocation;
-        this.startLocation = location;
+        if(start.val()!=='' && end.val()!==''){
+            let value = start.val();
+            start.val(end.val());
+            end.val(value);
+        }
 
-        this.startNavigate(this.endLocation);
+        let location = window.endLocation;
+        window.endLocation = window.startLocation;
+        window.startLocation = location;
+
+        startNavigate(window.navigateWay,window.startLocation,window.endLocation);
     };
 
     render() {
