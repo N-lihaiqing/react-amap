@@ -1,6 +1,6 @@
 
 let district = null, polygons=[], ruler = null;
-let geolocation=null;
+
 
 //解析定位结果
 export async function onComplete(data) {
@@ -126,9 +126,16 @@ export function location(callback) {
 
             function onComplete (data) {
 
+
+                window.startLocation = {
+                    keyword:data.formattedAddress,
+                    city:data.addressComponent.city
+                };
+
+                window.center = [data.position.lng,data.position.lat];
+
                 if(callback){
 
-                    sessionStorage.setItem('location',data);
                     callback(data);
                 }
 
@@ -281,4 +288,107 @@ export function initPlugin() {
             }
         }));
     });
+}
+
+/**
+ * 开启路线导航
+ * @param condition 路线模式
+ * @param startLocation 起始点位置
+ * @param endLocation   终点位置
+ */
+export function startNavigate(condition,startLocation,endLocation) {
+
+    if(window.driving){
+        window.driving.clear();
+    }
+
+    let map = window.map;
+    /*驾车路线规划*/
+    if(condition==='Driving'){
+
+        map.plugin("AMap.Driving", function() {
+            window.driving = new window.AMap.Driving({
+                policy: window.AMap.DrivingPolicy.LEAST_TIME,
+                map:map,
+            });
+
+            window.driving.search([startLocation, endLocation], function (status, result) {
+
+            });
+
+
+        });
+    }
+
+    /*公交路线规划*/
+    if(condition==='Transfer'){
+
+        map.plugin("AMap.Transfer", function() {
+            window.driving = new window.AMap.Transfer({
+                map:map,
+                city:window.startLocation.city
+            });
+
+            window.driving.search([startLocation, endLocation], function (status, result) {
+            });
+
+        });
+    }
+
+    /*步行路线规划*/
+    if(condition==='Walking'){
+        map.plugin("AMap.Walking", function() {
+            window.driving = new window.AMap.Walking({
+                map:map,
+            });
+
+            window.driving.search([startLocation, endLocation], function (status, result) {
+
+            });
+
+        });
+    }
+
+    /*骑行路线规划*/
+    if(condition==='Riding'){
+        map.plugin("AMap.Riding", function() {
+            window.driving = new window.AMap.Riding({
+                // 驾车路线规划策略，AMap.DrivingPolicy.LEAST_TIME是最快捷模式
+                policy: window.AMap.RidingPolicy.LEAST_TIME,
+                map:map,
+            });
+
+            window.driving.search([startLocation, endLocation], function (status, result) {
+
+            });
+
+        });
+    }
+
+}
+
+/**
+ * 开启定位，初始化起点位置（视野移动）
+ */
+export function findPosition() {
+
+    /*定位控件*/
+    window.map.plugin('AMap.Geolocation', function () {
+        const geolocation = new window.AMap.Geolocation({
+            // 是否使用高精度定位，默认：true
+            enableHighAccuracy: true,
+            // 设置定位超时时间，默认：无穷大
+            timeout: 10000,
+            //  定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
+            zoomToAccuracy: true,
+            //  定位按钮的排放位置,  RB表示右下
+            buttonPosition: 'RB',
+            buttonDom: '<div title="定位" class="amap-location-div"><div class="amap-location-icon"/></div>'
+        });
+
+        window.map.addControl(geolocation);
+        geolocation.getCurrentPosition();
+
+    })
+
 }
