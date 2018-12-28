@@ -42,18 +42,18 @@
     background-position: -3px -158px;
 }
 
-.amap-geolocation-con .amap-location-div{
+.toolBar .amap-location-div{
 
     height: 30px;
     width: 30px;
-    background-color: white;
     position: absolute;
-    z-index: 4;
-    bottom: 150px;
-    right: 27px;
+    bottom: 78px;
+    z-index: 5;
+    background-color: white;
+    right: 0;
 
 }
-.amap-geolocation-con .amap-location-icon{
+.toolBar .amap-location-icon{
     width: 14px;
     height: 14px;
     vertical-align: middle;
