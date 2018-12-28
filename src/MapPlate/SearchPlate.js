@@ -88,7 +88,7 @@ class SearchPlate extends React.Component {
             function onComplete(data) {
 
                 window.endLocation.keyword = data.poi.name;
-                window.endLocation.city = window.city;
+                window.endLocation.city = data.poi.district.substring(3,6);
                 that.setState({
                     routeClearEnd:'block'
                 });
