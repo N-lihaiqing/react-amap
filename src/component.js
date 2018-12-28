@@ -242,6 +242,18 @@ export function setZoom(val) {
     }
 }
 
+/** 地图缩放，当前位置放到地图最中间 */
+export function mapZoom(e, val) {
+    if(val == "in"){
+        window.map.zoomIn();
+    } else if(val == "out"){
+        window.map.zoomOut();
+    }
+    let pixel = new window.AMap.Pixel(e.clientX, e.clientY);
+    let lnglat = window.map.containerToLngLat(pixel);
+    window.map.setCenter(lnglat);
+}
+
 
 /** 地图类型切换 */
 export function mapType(val) {
@@ -415,6 +427,7 @@ export function addMarkSign(e) {
     marker.on('click', mapClickOver);
     marker.on('mouseover', showInfoOver);
     marker.on('mouseout', showInfoOut);
+    mapZoom(e, "in");
 }
 
 /** 鼠标双击事件 */
