@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import "./ToolBar.css"
-import {setZoom} from "../component"
+import {findPosition, setZoom} from "../component"
 
 class ToolBar extends Component {
 
@@ -14,40 +14,17 @@ class ToolBar extends Component {
         setZoom(type);
     };
 
-    componentDidMount() {
-        /*定位控件*/
-        window.map.plugin('AMap.Geolocation', function () {
-            const geolocation = new window.AMap.Geolocation({
-                // 是否使用高精度定位，默认：true
-                enableHighAccuracy: true,
-                // 设置定位超时时间，默认：无穷大
-                timeout: 10000,
-                //  定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
-                zoomToAccuracy: true,
-                //  定位按钮的排放位置,  RB表示右下
-                buttonPosition: 'RB',
-                buttonDom: '<div title="定位" class="amap-location-div"><div class="amap-location-icon"/></div>'
-            });
-
-            window.map.addControl(geolocation);
-            geolocation.getCurrentPosition();
-            window.AMap.event.addListener(geolocation, 'complete', onComplete);
-
-            function onComplete(data) {
-                sessionStorage.setItem('cityCode',data.addressComponent.city);
-                sessionStorage.setItem('address',data.formattedAddress);
-                window.city = data.addressComponent.city;
-                window.address = data.formattedAddress;
-            }
-        })
+    openLocation = () =>{
+        findPosition();
     };
 
     render() {
         return (
             <div className={"toolBar"}>
                 <div id="scalebox" className="zdeps-1 usel">
-                    <div className="zoom_map zoom_in_map in" onClick={this.toolBarClick}></div>
-                    <div className="zoom_map zoom_out_map out" onClick={this.toolBarClick}></div>
+                    <div className="zoom_map zoom_in_map in" onClick={this.toolBarClick}/>
+                    <div className="zoom_map zoom_out_map out" onClick={this.toolBarClick}/>
+                    <div title="定位" onClick={this.openLocation} className="amap-location-div"><div className="amap-location-icon"/></div>
                 </div>
             </div>
         );
