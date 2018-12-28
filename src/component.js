@@ -390,5 +390,117 @@ export function findPosition() {
         geolocation.getCurrentPosition();
 
     })
-
 }
+
+export function addMarkSign(e) {
+    let imgPath = require('./image/d7.png'); //图片太大了
+    let px = e.clientX;
+    let py = e.clientY;
+    let pixel = new window.AMap.Pixel(px, py);
+    let lnglat = window.map.containerToLngLat(pixel);
+    let gpsType = 'test';
+    let marker = new window.AMap.Marker({
+        position: lnglat,
+        draggable: true,
+        map: window.map,
+        gpsType: gpsType,
+        data: lnglat,
+        label: {
+            offset: new window.AMap.Pixel(20, 20),
+            content: '自定义标记哦'
+        }
+        // icon: imgPath,
+    });
+    marker.setMap(window.map);
+    marker.on('click', mapClickOver);
+    marker.on('mouseover', showInfoOver);
+    marker.on('mouseout', showInfoOut);
+}
+
+/** 鼠标双击事件 */
+export function mapDblclick (e){
+    // let center = [e.lnglat.getLng(), e.lnglat.getLat()];
+    // console.log("鼠标双击事件 " + center);
+};
+
+/** 鼠标单击覆盖物事件 */
+export function mapClickOver (e) {
+    let center = [e.lnglat.getLng(), e.lnglat.getLat()];
+    console.log("鼠标单击事件 "+center);
+};
+
+/** 解绑覆盖物事件 */
+export function mapClickOut (e){
+    let center = [e.lnglat.getLng(), e.lnglat.getLat()];
+    console.log("解绑覆盖物事件 "+center);
+};
+
+/** 鼠标移入事件 绑定事件 */
+export function showInfoOver (e) {
+    let center = [e.lnglat.getLng(), e.lnglat.getLat()];
+    console.log("鼠标移入事件 "+center);
+    infoWindow(e);
+};
+
+/** 鼠标移出  解绑事件 */
+export function showInfoOut (e){
+    let center = [e.lnglat.getLng(), e.lnglat.getLat()];
+    console.log("鼠标移出 "+center);
+    window.map.clearInfoWindow();
+};
+
+export function infoWindow (e) {
+    let center = [e.lnglat.getLng(), e.lnglat.getLat()];
+    let data = e.target.C.data;
+    let type = e.target.C.gpsType;
+    let infoHtml = null;
+    let title = '';
+    let content = [];
+    if (type === "bringInfo") {
+        title = '桥梁信息<span style="font-size:11px;color:#F00;"></span>';
+        content.push("地址：北京市朝阳区阜通东大街6号院3号楼东北8.3公里");
+        content.push("电话：010-64733333");
+        content.push("<a href='https://ditu.amap.com/detail/B000A8URXB?citycode=110105'>详细信息</a>");
+        content.join("<br/>");
+    } else if (type === "dires") {
+        title = '<span style="font-size:11px;color:#F00;">病害信息</span>';
+        content.push("地址：北京市朝阳区北京市朝阳区");
+        content.push("电话：010-64733333");
+        content.push("<a href='https://ditu.amap.com/detail/B000A8URXB?citycode=110105'>详细信息</a>");
+        content.join("<br/>");
+    } else if (type === "track") {
+        title = '巡查信息<span style="font-size:11px;color:#F00;"></span>';
+        content.push("地址：北京市朝阳区阜北京市朝阳区");
+        content.push("电话：010-");
+        content.push("<a href='https://ditu.amap.com/detail/B000A8URXB?citycode=110105'>详细信息</a>");
+        content.join("<br/>");
+    } else if (type === "danger") {
+        title = '<span style="font-size:11px;color:#F00;">三危信息</span>';
+        content.push("地址：北京市朝阳区");
+        content.push("电话：北京市朝阳区");
+        content.push("<a href='https://ditu.amap.com/detail/B000A8URXB?citycode=110105'>详细信息</a>");
+        content.join("<br/>");
+    } else if(type === "area"){
+        title = '区域信息<span style="font-size:11px;color:#F00;"></span>';
+        content.push(center);
+        content.join("<br/>");
+    } else {
+        title = '测试信息<span style="font-size:11px;color:#F00;"></span>';
+        content.push("地址：北京市朝阳区");
+        content.push(center);
+        content.join("<br/>");
+    }
+
+    if(content){
+        let center = [e.lnglat.getLng(), e.lnglat.getLat()];
+
+        //创建信息窗体
+        let infoWindow = new window.AMap.InfoWindow({
+            isCustom: true,  //使用自定义窗体
+            content: createInfoWindow(title, content.join("<br/>"), window.map),
+            offset: new window.AMap.Pixel(16, -45)
+        });
+
+        infoWindow.open(window.map, center); //信息窗体打开
+    }
+};

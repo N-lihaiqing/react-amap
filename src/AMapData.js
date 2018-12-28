@@ -1,7 +1,7 @@
 import {Component} from "react";
-import {createInfoWindow, initGovernmentArea, startNavigate, rangingTool,findPosition} from "./component";
+import {createInfoWindow, initGovernmentArea, initPlugin, rangingTool,showInfoOver,mapClickOver,showInfoOut} from "./component";
 import React from "react";
-import "./ToolBox/MapStyle.css";
+import "./ToolBox/DropdownFun.css";
 
 let map = null,marker = null ;
 
@@ -21,16 +21,13 @@ class AMapData extends Component {
         this.init3DMap();
     }
 
-    /* 2D和3D地图切换 */
     changeMapType =() =>{
 
         let {secType,thrType} = this.state;
         secType=secType === 'block'?'none':'block';
         thrType=thrType === 'block'?'none':'block';
-        window.map=window.map === this.aMap?map:this.aMap;
-        if(Object.keys(window.endLocation).length>0){
-            startNavigate(window.navigateWay,window.startLocation,window.endLocation);
-        }
+        window.map = this.aMap;
+
         this.setState({
 
             secType:secType,
@@ -38,12 +35,13 @@ class AMapData extends Component {
         });
     };
 
-    /* 初始化2D地图 */
     initMap = () => {
         let markerObj, mapObj = new window.AMap.Map("allmap", {
             doubleClickZoom: true,  //双击放大
             center: [114.127277, 22.53317],
-            zoom: 12,
+            zoom: 10,
+            zooms:[3,20],
+            viewMode:'2D',//开启3D视图,默认为关闭
             layers:[new window.AMap.TileLayer.RoadNet],
             features:['bg','road'],
         });
@@ -71,7 +69,6 @@ class AMapData extends Component {
     };
 
 
-    /* 初始化3D地图 */
     init3DMap = () =>{
         let aMap = new window.AMap.Map("3D-AMap", {
             resizeEnable: true,
@@ -81,8 +78,6 @@ class AMapData extends Component {
             center: [114.127277, 22.53317],
             zoom: 15,
             zooms:[3,20],
-            pitch:50,
-            rotation:10,
             viewMode:'3D',//开启3D视图,默认为关闭
             expandZoomRange:true,
             buildingAnimation:true,//楼块出现是否带动画
@@ -128,9 +123,9 @@ class AMapData extends Component {
             });
 
             marker.setMap(map);
-            marker.on('click', this.mapClickOver);
-            marker.on('mouseover', this.showInfoOver);
-            marker.on('mouseout', this.showInfoOut);
+            marker.on('click', mapClickOver);
+            marker.on('mouseover', showInfoOver);
+            marker.on('mouseout', showInfoOut);
         }
     };
 
@@ -213,97 +208,13 @@ class AMapData extends Component {
             });
 
             text.setMap(map);
-            circle.on('mouseover', this.showInfoOver);
-            circle.on('mouseout', this.showInfoOut);
-            circle.on('click', this.mapClickOver);
+            circle.on('mouseover', showInfoOver());
+            circle.on('mouseout', showInfoOut());
+            circle.on('click', mapClickOver());
         }
         // 缩放地图到合适的视野级别
         // map.setFitView([circle]);
         map.setZoom(14);
-    };
-
-    /** 鼠标双击事件 */
-    mapDblclick = (e) => {
-        // let center = [e.lnglat.getLng(), e.lnglat.getLat()];
-        // console.log("鼠标双击事件 " + center);
-    };
-
-    /** 鼠标单击覆盖物事件 */
-    mapClickOver = (e) => {
-        let center = [e.lnglat.getLng(), e.lnglat.getLat()];
-        console.log("鼠标单击事件 "+center);
-    };
-
-    /** 解绑覆盖物事件 */
-    mapClickOut = (e) => {
-        let center = [e.lnglat.getLng(), e.lnglat.getLat()];
-        console.log("解绑覆盖物事件 "+center);
-    };
-
-    /** 鼠标移入事件 绑定事件 */
-    showInfoOver = (e) => {
-        let center = [e.lnglat.getLng(), e.lnglat.getLat()];
-        console.log("鼠标移入事件 "+center);
-        this.infoWindow(e);
-    };
-
-    /** 鼠标移出  解绑事件 */
-    showInfoOut = (e) => {
-        let center = [e.lnglat.getLng(), e.lnglat.getLat()];
-        console.log("鼠标移出 "+center);
-        map.clearInfoWindow();
-    };
-
-
-    infoWindow = (e) => {
-        let center = [e.lnglat.getLng(), e.lnglat.getLat()];
-        let data = e.target.C.data;
-        let type = e.target.C.gpsType;
-        let infoHtml = null;
-        let title = '';
-        let content = [];
-        if (type === "bringInfo") {
-            title = '桥梁信息<span style="font-size:11px;color:#F00;"></span>';
-            content.push("地址：北京市朝阳区阜通东大街6号院3号楼东北8.3公里");
-            content.push("电话：010-64733333");
-            content.push("<a href='https://ditu.amap.com/detail/B000A8URXB?citycode=110105'>详细信息</a>");
-            content.join("<br/>");
-        } else if (type === "dires") {
-            title = '<span style="font-size:11px;color:#F00;">病害信息</span>';
-            content.push("地址：北京市朝阳区北京市朝阳区");
-            content.push("电话：010-64733333");
-            content.push("<a href='https://ditu.amap.com/detail/B000A8URXB?citycode=110105'>详细信息</a>");
-            content.join("<br/>");
-        } else if (type === "track") {
-            title = '巡查信息<span style="font-size:11px;color:#F00;"></span>';
-            content.push("地址：北京市朝阳区阜北京市朝阳区");
-            content.push("电话：010-");
-            content.push("<a href='https://ditu.amap.com/detail/B000A8URXB?citycode=110105'>详细信息</a>");
-            content.join("<br/>");
-        } else if (type === "danger") {
-            title = '<span style="font-size:11px;color:#F00;">三危信息</span>';
-            content.push("地址：北京市朝阳区");
-            content.push("电话：北京市朝阳区");
-            content.push("<a href='https://ditu.amap.com/detail/B000A8URXB?citycode=110105'>详细信息</a>");
-            content.join("<br/>");
-        } else if(type === "area"){
-            title = '区域信息<span style="font-size:11px;color:#F00;"></span>';
-            content.push(center);
-            content.join("<br/>");
-        }
-
-        if(content){
-            let center = [e.lnglat.getLng(), e.lnglat.getLat()];
-
-            //创建信息窗体
-            let infoWindow = new window.AMap.InfoWindow({
-                isCustom: true,  //使用自定义窗体
-                content: createInfoWindow(title, content.join("<br/>"), map),
-                offset: new window.AMap.Pixel(16, -45)
-            });
-
-            infoWindow.open(map, center); //信息窗体打开
-        }
     };
 
     render() {
@@ -315,16 +226,25 @@ class AMapData extends Component {
 
         const {secType,thrType} = this.state;
 
+        const changeTypeCss = {
+
+            position: 'absolute',
+            bottom: '204px',
+            zIndex: 4,
+            right: '37px',
+            width: '30px',
+            height: '30px',
+            backgroundColor: 'white',
+            textAlign: 'center'
+        };
+
         return (
-            <div className="AMap-data">
+            <div>
                 <div >
                     <div id='allmap' style={{...mapBody,display:secType}}/>
                     <div id="3D-AMap" style={{...mapBody,display:thrType}}/>
                 </div>
-                <div  onClick={this.changeMapType} className="change-map-type">
-                    <div style={{display:secType}} className="change-map-2D-icon"/>
-                    <div style={{display:thrType}} className="change-map-3D-icon"/>
-                </div>
+                <div style={changeTypeCss} onClick={this.changeMapType} className="changeMapType">2D</div>
             </div>
         );
     }

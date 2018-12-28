@@ -1,8 +1,9 @@
 import {Component} from "react";
 import React from "react";
 import 'antd/dist/antd.css'
-import {location,drawBounds, rulerOffOrOn} from "../component";
-require("./MapStyle.css");
+import {location,drawBounds, rulerOffOrOn, setZoom, addMarkSign} from "../component";
+import * as utils from "lodash";
+require("./DropdownFun.css");
 
 class DropdownFun extends Component{
 
@@ -139,12 +140,6 @@ class DropdownFun extends Component{
         $("#userTagPanl").css("display", "none"); //关闭标记
     };
 
-    clickSignPanel = (e) => {
-        let $ = require("jquery");
-        $("#userSignPanel b").removeClass("hover").removeClass("mark-sign");
-        $(e.target).addClass("hover").addClass("mark-sign");
-    };
-
     signPanel = (e, val) => {
         let $ = require("jquery");
         let className = $(e.target).prop("className").split(" ");
@@ -157,6 +152,70 @@ class DropdownFun extends Component{
         }
     };
 
+    clickSignPanel = (e) => {
+        let $ = require("jquery");
+        window.document.oncontextmenu = function(){
+            return false;
+        };
+        $("#userSignPanel b").removeClass("hover").removeClass("mark-sign");
+        $(e.target).addClass("hover").addClass("mark-sign");
+        let className = $(e.target).prop("className").split(" ")[0];
+        let isName = $(".right-container img").prop("className");
+        if(!isName && className == "userTagPanlP" ){
+            let imgPath = require('../image/d7.png');
+            $(".right-container").append("<img src='"+ imgPath +"' class='markerImg' id='markerImg' width='30px' height='30px' ismap />");
+            const imgObj = document.getElementById('markerImg');
+            if(!utils.isNull(imgObj)){
+                imgObj.onmousemove = (e) => {
+                    imgObj.style.left = (e.clientX-15) + "px";
+                    imgObj.style.top = (e.clientY-15) + "px";
+                };
+
+                imgObj.onmousedown = (e) => {
+                    if(e.button === 2){
+                        imgObj.onmousemove = null;
+                        $("img").remove(".markerImg");
+                    }
+                };
+
+                imgObj.onclick = (e) => {
+                    addMarkSign(e);
+                    imgObj.onmousemove = null;
+                    $("img").remove(".markerImg");
+                };
+
+                imgObj.ondblclick = () => {
+                    setZoom("in");
+                };
+
+                imgObj.addEventListener('DOMMouseScroll',this.wheel,false);
+                window.onmousewheel=document.onmousewheel=this.wheel;//IE/Opera/Chrome
+            }
+        }
+    };
+
+    /** 判断鼠标滚轮事件 */
+    wheel = (event) => {
+        let delta = 0;
+        if (!event) event = window.event;
+        if (event.wheelDelta) {//IE、chrome浏览器使用的是wheelDelta，并且值为“正负120”
+            delta = event.wheelDelta/120;
+            if (window.opera) delta = -delta;//因为IE、chrome等向下滚动是负值，FF是正值，为了处理一致性，在此取反处理
+        } else if (event.detail) {//FF浏览器使用的是detail,其值为“正负3”
+            delta = -event.detail/3;
+        }
+        if (delta)
+            this.handle(delta);
+    };
+
+
+    handle = (delta) => {
+        if (delta <0){
+            setZoom("out");
+        }else{
+            setZoom("in");
+        }
+    };
 
     render() {
 

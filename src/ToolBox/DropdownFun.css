@@ -445,3 +445,15 @@
     top: -23px;
     right: 9px;
 }
+
+.right-container .userTagPanl img{
+    cursor: pointer;
+}
+
+.right-container .markerImg{
+    float: right;
+    top: 106px;
+    right: 190px;
+    z-index: 4;
+    position: absolute;
+}
