@@ -208,9 +208,9 @@ class AMapData extends Component {
             });
 
             text.setMap(map);
-            circle.on('mouseover', showInfoOver());
-            circle.on('mouseout', showInfoOut());
-            circle.on('click', mapClickOver());
+            circle.on('mouseover', showInfoOver);
+            circle.on('mouseout', showInfoOut);
+            circle.on('click', mapClickOver);
         }
         // 缩放地图到合适的视野级别
         // map.setFitView([circle]);
