@@ -182,6 +182,7 @@ class DropdownFun extends Component{
                     addMarkSign(e);
                     imgObj.onmousemove = null;
                     $("img").remove(".markerImg");
+                    imgObj.onmousewheel = null;
                 };
 
                 imgObj.ondblclick = () => {
