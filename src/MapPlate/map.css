@@ -223,3 +223,49 @@
     right: 8px;
     background: url(//webmap1.bdimg.com/wolfman/static/common/images/new/searchbox_f175577.png) no-repeat 0 -114px #fff;
 }
+
+.AMap-data .change-map-type{
+    position: absolute;
+    bottom: 204px;
+    z-index: 4;
+    right: 37px;
+    width: 30px;
+    height: 30px;
+    background-color: white;
+    text-align: center;
+}
+
+.AMap-data .change-map-type .change-map-2D-icon{
+    position: absolute;
+    z-index: 5;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    width: 26px;
+    height: 26px;
+    right: 2px;
+    top: 2px;
+    background: url(//webmap0.bdimg.com/image/api/gl-navi-control-pc4.png) -110px 1px / 266px no-repeat rgb(255, 255, 255);
+}
+
+.AMap-data .change-map-type .change-map-2D-icon:hover{
+    background-position: -162px 1px;
+}
+
+
+.AMap-data .change-map-type .change-map-3D-icon{
+    position: absolute;
+    z-index: 5;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    width: 26px;
+    height: 26px;
+    right: 2px;
+    top: 2px;
+    background: url(//webmap0.bdimg.com/image/api/gl-navi-control-pc4.png) -188px 1px / 266px no-repeat rgb(255, 255, 255);
+}
+
+.AMap-data .change-map-type .change-map-3D-icon:hover{
+    background-position: -240px 1px;
+}
