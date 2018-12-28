@@ -165,7 +165,7 @@ class DropdownFun extends Component{
             let imgPath = require('../image/d7.png');
             $(".right-container").append("<img src='"+ imgPath +"' class='markerImg' id='markerImg' width='30px' height='30px' ismap />");
             const imgObj = document.getElementById('markerImg');
-            if(!utils.isNull(imgObj)){
+            if(imgObj != null){
                 imgObj.onmousemove = (e) => {
                     imgObj.style.left = (e.clientX-15) + "px";
                     imgObj.style.top = (e.clientY-15) + "px";
