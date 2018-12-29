@@ -13,7 +13,6 @@ class AMapData extends Component {
             secType:'block',
             thrType:'none'
         };
-        this.aMap='';
     }
 
     componentDidMount() {
@@ -22,18 +21,42 @@ class AMapData extends Component {
         }
         this.initMap();
         initPlugin();
-        this.init3DMap();
     }
 
     changeMapType =() =>{
 
+
         let {secType,thrType} = this.state;
+        let map = window.map;
         secType=secType === 'block'?'none':'block';
         thrType=thrType === 'block'?'none':'block';
-        window.map=window.map === this.aMap?map:this.aMap;
         if(Object.keys(window.endLocation).length>0){
             startNavigate(window.navigateWay,window.startLocation,window.endLocation);
         }
+
+        if(map.getPitch()===0){
+            map.setPitch(50);
+            let that = this;
+            map.plugin([
+                'AMap.ControlBar',
+            ], function(){
+                that.controlBar = new window.AMap.ControlBar({
+                    showZoomBar:false,
+                    showControlButton:true,
+                    position:{
+                        right:'10px',
+                        bottom:'150px',
+                    }
+                });
+
+                map.addControl(that.controlBar);
+            });
+
+        }else{
+            map.setPitch(0);
+            map.removeControl(this.controlBar);
+        }
+
         this.setState({
 
             secType:secType,
@@ -43,11 +66,17 @@ class AMapData extends Component {
 
     initMap = () => {
         let markerObj, mapObj = new window.AMap.Map("allmap", {
+            resizeEnable: true,
+            rotateEnable:true,
+            pitchEnable:true,
             doubleClickZoom: true,  //双击放大
-            center: [114.127277, 22.53317],
-            zoom: 10,
-            layers:[new window.AMap.TileLayer.RoadNet],
-            features:['bg','road'],
+            zoom: 15,
+            zooms:[3,20],
+            viewMode:'3D',//开启3D视图,默认为关闭
+            expandZoomRange:true,
+            buildingAnimation:true,//楼块出现是否带动画
+            features:['bg','road','building'],
+            showBuildingBlock:true
         });
 
         marker = markerObj;
@@ -72,40 +101,6 @@ class AMapData extends Component {
         // this.circle(); //初始化矢量图层
     };
 
-
-    init3DMap = () =>{
-        let aMap = new window.AMap.Map("3D-AMap", {
-            resizeEnable: true,
-            rotateEnable:true,
-            pitchEnable:true,
-            doubleClickZoom: true,  //双击放大
-            center: [114.127277, 22.53317],
-            zoom: 15,
-            zooms:[3,20],
-            pitch:50,
-            rotation:10,
-            viewMode:'3D',//开启3D视图,默认为关闭
-            expandZoomRange:true,
-            buildingAnimation:true,//楼块出现是否带动画
-            features:['bg','road'],  //区域面（bg）道路（road）建筑物（building）标注（point）
-        });
-
-        aMap.plugin([
-            'AMap.ControlBar',
-        ], function(){
-            aMap.addControl(new window.AMap.ControlBar({
-                showZoomBar:false,
-                showControlButton:true,
-                position:{
-                    right:'10px',
-                    bottom:'150px'
-                }
-            }));
-        });
-
-        this.aMap = aMap;
-
-    };
 
     /** 添加点标记 */
     addMarker = (lnglats) => {
@@ -236,8 +231,7 @@ class AMapData extends Component {
         return (
             <div className="AMap-data">
                 <div >
-                    <div id='allmap' style={{...mapBody,display:secType}}/>
-                    <div id="3D-AMap" style={{...mapBody,display:thrType}}/>
+                    <div id='allmap' style={{...mapBody}}/>
                 </div>
                 <div  onClick={this.changeMapType} className="change-map-type">
                     <div style={{display:secType}} className="change-map-2D-icon"/>
