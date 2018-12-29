@@ -455,5 +455,5 @@
     top: 106px;
     right: 190px;
     z-index: 4;
-    position: absolute;
+    position: fixed;
 }
