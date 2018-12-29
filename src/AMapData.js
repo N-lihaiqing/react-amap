@@ -87,6 +87,7 @@ class AMapData extends Component {
             viewMode:'3D',//开启3D视图,默认为关闭
             expandZoomRange:true,
             buildingAnimation:true,//楼块出现是否带动画
+            features:['bg','road'],  //区域面（bg）道路（road）建筑物（building）标注（point）
         });
 
         aMap.plugin([
