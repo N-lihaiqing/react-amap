@@ -3,7 +3,7 @@ import {Tabs} from 'antd';
 import 'antd/dist/antd.css';
 import './map.css';
 import $ from 'jquery';
-import {startNavigate} from '../component';
+import {startNavigate,location} from '../component';
 
 
 /**
@@ -43,7 +43,9 @@ class SearchPlate extends React.Component {
         this.setState({
             searchFrame: 'none',
             navigate: 'block'
-        })
+        });
+
+        location();
     };
 
 
@@ -64,6 +66,10 @@ class SearchPlate extends React.Component {
             function onComplete(data) {
                 window.startLocation.keyword = data.poi.name;
                 window.startLocation.city = data.poi.district.substring(3,6);
+
+                if(Object.keys(window.endLocation).length>0){
+                    startNavigate(window.navigateWay,window.startLocation,window.endLocation);
+                }
             }
         });
 
@@ -113,7 +119,8 @@ class SearchPlate extends React.Component {
             routeClearEnd:'none'
         });
 
-        window.startLocation = [];
+        window.startLocation = {};
+        window.endLocation = {}
 
         $('#routeWay-start').val('');
         $('#routeWay-end').val('');
