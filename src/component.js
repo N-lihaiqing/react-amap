@@ -1,7 +1,6 @@
 
 let district = null, polygons=[], ruler = null;
 
-
 //解析定位结果
 export async function onComplete(data) {
     document.getElementById('status').innerHTML='定位成功'
@@ -278,6 +277,7 @@ export function initPlugin() {
         // 'AMap.Scale',
         // 'AMap.MapType',
         'AMap.ControlBar',
+        'AMap.AdvancedInfoWindow',
     ], function(){
         // 在图面添加工具条控件，工具条控件集成了缩放、平移、定位等功能按钮在内的组合控件
         // map.addControl(new window.AMap.ToolBar());
@@ -299,6 +299,9 @@ export function initPlugin() {
                 bottom:'120px'
             }
         }));
+
+
+        window.map.addControl(new window.AMap.AdvancedInfoWindow());
     });
 }
 
@@ -411,11 +414,13 @@ export function addMarkSign(e) {
     let pixel = new window.AMap.Pixel(px, py);
     let lnglat = window.map.containerToLngLat(pixel);
     let gpsType = 'test';
+    let markerType = 'makerSign';
     let marker = new window.AMap.Marker({
         position: lnglat,
         draggable: true,
         map: window.map,
         gpsType: gpsType,
+        markerType: markerType,
         data: lnglat,
         label: {
             offset: new window.AMap.Pixel(20, 20),
@@ -440,6 +445,7 @@ export function mapDblclick (e){
 export function mapClickOver (e) {
     let center = [e.lnglat.getLng(), e.lnglat.getLat()];
     console.log("鼠标单击事件 "+center);
+    advancedInfoWindow(e);
 };
 
 /** 解绑覆盖物事件 */
@@ -459,7 +465,9 @@ export function showInfoOver (e) {
 export function showInfoOut (e){
     let center = [e.lnglat.getLng(), e.lnglat.getLat()];
     console.log("鼠标移出 "+center);
-    window.map.clearInfoWindow();
+    if(!e.target.C.markerType === 'makerSign'){
+        window.map.clearInfoWindow();
+    }
 };
 
 export function infoWindow (e) {
@@ -517,3 +525,28 @@ export function infoWindow (e) {
         infoWindow.open(window.map, center); //信息窗体打开
     }
 };
+
+/** 带检索功能的信息窗体 */
+export function advancedInfoWindow(e) {
+    let data = e.target.C.data;
+    let type = e.target.C.gpsType;
+
+    const content = '<div class="info-title">高德地图</div>' +
+        '<div class="info-content">' +
+        '<img src="https://webapi.amap.com/images/amap.jpg">' +
+        '高德是中国领先的数字地图内容、导航和位置服务解决方案提供商。<br/>' +
+        '<a target="_blank" href = "https://mobile.amap.com/">点击下载高德地图</a>' +
+        '</div>';
+
+    const infowindow = new window.AMap.AdvancedInfoWindow({
+        content: content,
+        placeSearch: true,
+        asDestination: true,
+        offset: new window.AMap.Pixel(0, -30)
+    });
+
+    const center = [e.lnglat.getLng(), e.lnglat.getLat()];
+    if(!infowindow.getIsOpen()){
+        infowindow.open(window.map, center);
+    }
+}

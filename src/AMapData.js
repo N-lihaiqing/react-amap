@@ -21,6 +21,7 @@ class AMapData extends Component {
             return
         }
         this.initMap();
+        initPlugin();
         this.init3DMap();
     }
 
