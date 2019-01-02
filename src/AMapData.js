@@ -69,14 +69,14 @@ class AMapData extends Component {
             resizeEnable: true,
             rotateEnable:true,
             pitchEnable:true,
-            doubleClickZoom: true,  //双击放大
-            zoom: 15,
+            zoom: 17,
             zooms:[3,20],
             viewMode:'3D',//开启3D视图,默认为关闭
             expandZoomRange:true,
             buildingAnimation:true,//楼块出现是否带动画
             features:['bg','road','building'],
-            showBuildingBlock:true
+            showBuildingBlock:true,
+            center: [114.127277, 22.53317],
         });
 
         marker = markerObj;
@@ -223,7 +223,8 @@ class AMapData extends Component {
         const mapBody = {
             width:'100%',
             height:  document.body.clientHeight,
-            display:'block'
+            display:'block',
+            position: 'absolute'
         };
 
         const {secType,thrType} = this.state;

@@ -4,7 +4,7 @@ let district = null, polygons=[], ruler = null;
 //解析定位结果
 export async function onComplete(data) {
     document.getElementById('status').innerHTML='定位成功'
-    var str = [];
+    let str = [];
     str.push('定位结果：' + data.position);
     str.push('定位类别：' + data.location_type);
     if(data.accuracy){
@@ -154,7 +154,7 @@ export function initGovernmentArea() {
         //加载行政区划插件
         if(!district){
             //实例化DistrictSearch
-            var opts = {
+            let opts = {
                 subdistrict: 0,   //获取边界不需要返回下级行政区
                 extensions: 'all',  //返回行政区边界坐标组等具体信息
                 level: 'district'  //查询行政级别为 市
@@ -171,15 +171,15 @@ export function drawBounds(val) {
         if(status == "complete"){
             window.map.remove(polygons);   //清除上次结果
             polygons = [];
-            var bounds = result.districtList[0].boundaries;
+            let bounds = result.districtList[0].boundaries;
             if (bounds) {
-                for (var i = 0, l = bounds.length; i < l; i++) {
+                for (let i = 0, l = bounds.length; i < l; i++) {
                     //生成行政区划polygon
-                    var polygon = new window.AMap.Polygon({
+                    let polygon = new window.AMap.Polygon({
                         strokeWeight: 3,
                         path: bounds[i],
-                        fillOpacity: 0.4,
-                        fillColor: '',
+                        fillOpacity: 0,
+                        fillColor: '#0091ea',
                         strokeColor: '#0091ea'
                     });
                     polygons.push(polygon);
@@ -193,6 +193,7 @@ export function drawBounds(val) {
 
     });
 }
+
 export function rangingTool () {
     /** 初始化测试工具 */
     window.map.plugin(["AMap.RangingTool"],function(){
@@ -226,7 +227,7 @@ export function initToolBar() {
             locationMarker : window.AMap.Marker({map: window.map}),
             useNative : false
         };
-        var toolbar  = new window.AMap.ToolBar(toolopt);
+        let toolbar  = new window.AMap.ToolBar(toolopt);
         toolbar.hideRuler();
         window.map.addControl(toolbar)
     })

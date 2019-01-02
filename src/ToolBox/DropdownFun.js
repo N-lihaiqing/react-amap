@@ -2,7 +2,6 @@ import {Component} from "react";
 import React from "react";
 import 'antd/dist/antd.css'
 import {location,drawBounds, rulerOffOrOn, setZoom, addMarkSign} from "../component";
-import * as utils from "lodash";
 require("./DropdownFun.css");
 
 class DropdownFun extends Component{
