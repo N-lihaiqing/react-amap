@@ -175,10 +175,8 @@ export function drawBounds(val) {
             polygons = [];
             let bounds = result.districtList[0].boundaries;
             let code = result.districtList[0].adcode;
-            let city = result.districtList[0].name;
-
-            let depth = city == '西安市' ? 2 : 3;
-
+            let level = result.districtList[0].level
+            let depth = level == 'city' ? 2 : 3;
             disProvince && disProvince.setMap(null);
 
             disProvince = new window.AMap.DistrictLayer.Province({
@@ -186,17 +184,18 @@ export function drawBounds(val) {
                 adcode: [code],
                 depth: depth,
                 styles: {
-                    // 'fill': function (properties) {
-                    //     var adcode = properties.adcode;
-                    //     return getColorByAdcode(adcode);
-                    // },
-                    'province-stroke': 'cornflowerblue',
+                    'fill': function (properties) {
+                        var adcode = properties.adcode;
+                        return getColorByAdcode(adcode);
+                    },
+                    'province-stroke': '#0091ea',
                     'city-stroke': '#0091ea', // 中国地级市边界
-                    'county-stroke': 'rgba(255,255,255,0.5)' // 中国区县边界
+                    'county-stroke': depth === 3 ? '#0091ea' : 'rgba(255,255,255,0.5)' // 中国区县边界
                 }
             });
             disProvince.setMap(window.map);
-            window.map.setFitView();
+            window.map.setFitView(result.districtList[0].center);
+            window.map.setCenter(result.districtList[0].center);
 
             // if (bounds) {
             //     for (let i = 0, l = bounds.length; i < l; i++) {
@@ -225,7 +224,7 @@ export function getColorByAdcode(adcode) {
     if (!colors[adcode]) {
         // let gb = Math.random() * 155 + 50;
         let gb = 255;
-        colors[adcode] = 'rgb(' + gb + ',' + gb + ',255)';
+        colors[adcode] = 'rgba(' + gb + ',' + gb + ',255, 0)';
     }
 
     return colors[adcode];
@@ -311,37 +310,11 @@ export function mapType(val) {
 export function initPlugin() {
     /*地图控件*/
     window.map.plugin([
-        // 'AMap.ToolBar',
-        // 'AMap.Scale',
-        // 'AMap.MapType',
-        // 'AMap.ControlBar',
         'AMap.AdvancedInfoWindow',
         'AMap.DistrictLayer'
     ], function(){
-        // 在图面添加工具条控件，工具条控件集成了缩放、平移、定位等功能按钮在内的组合控件
-        // map.addControl(new window.AMap.ToolBar());
-
-        // 在图面添加比例尺控件，展示地图在当前层级和纬度下的比例尺
-        // map.addControl(new window.AMap.Scale());
-
-        /*// 在图面添加鹰眼控件，在地图右下角显示地图的缩略图
-        map.addControl(new window.AMap.OverView({isOpen:false}));*/
-
-        // 在图面添加类别切换控件，实现默认图层与卫星图、实施交通图层之间切换的控制
-        // map.addControl(new window.AMap.MapType());
-
-        // window.map.addControl(new window.AMap.ControlBar({
-        //     showZoomBar:false,
-        //     showControlButton:true,
-        //     position:{
-        //         right:'10px',
-        //         bottom:'120px'
-        //     }
-        // }));
-
-
         window.map.addControl(new window.AMap.AdvancedInfoWindow());
-        window.map.addControl(new window.AMap.DistrictLayer())
+        window.map.addControl(new window.AMap.DistrictLayer());
     });
 }
 

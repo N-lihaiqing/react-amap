@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "ant": "^0.2.0",
-    "antd": "^3.11.2",
+    "antd": "^3.11.6",
     "axios": "^0.18.0",
     "classnames": "^2.2.6",
     "jquery": "^3.3.1",
