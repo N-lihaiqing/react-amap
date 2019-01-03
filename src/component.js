@@ -1,5 +1,6 @@
 
 let district = null, polygons=[], ruler = null;
+let disProvince = null;
 
 //解析定位结果
 export async function onComplete(data) {
@@ -165,6 +166,7 @@ export function initGovernmentArea() {
 }
 
 export function drawBounds(val) {
+
     //行政区查询
     district.setLevel('district'); //city  province   country
     district.search(val, function(status, result) {
@@ -172,26 +174,61 @@ export function drawBounds(val) {
             window.map.remove(polygons);   //清除上次结果
             polygons = [];
             let bounds = result.districtList[0].boundaries;
-            if (bounds) {
-                for (let i = 0, l = bounds.length; i < l; i++) {
-                    //生成行政区划polygon
-                    let polygon = new window.AMap.Polygon({
-                        strokeWeight: 3,
-                        path: bounds[i],
-                        fillOpacity: 0,
-                        fillColor: '#0091ea',
-                        strokeColor: '#0091ea'
-                    });
-                    polygons.push(polygon);
+            let code = result.districtList[0].adcode;
+            let city = result.districtList[0].name;
+
+            let depth = city == '西安市' ? 2 : 3;
+
+            disProvince && disProvince.setMap(null);
+
+            disProvince = new window.AMap.DistrictLayer.Province({
+                zIndex: 12,
+                adcode: [code],
+                depth: depth,
+                styles: {
+                    // 'fill': function (properties) {
+                    //     var adcode = properties.adcode;
+                    //     return getColorByAdcode(adcode);
+                    // },
+                    'province-stroke': 'cornflowerblue',
+                    'city-stroke': '#0091ea', // 中国地级市边界
+                    'county-stroke': 'rgba(255,255,255,0.5)' // 中国区县边界
                 }
-            }
-            window.map.add(polygons);
-            window.map.setFitView(polygons);//视口自适应
+            });
+            disProvince.setMap(window.map);
+            window.map.setFitView();
+
+            // if (bounds) {
+            //     for (let i = 0, l = bounds.length; i < l; i++) {
+            //         //生成行政区划polygon
+            //         let polygon = new window.AMap.Polygon({
+            //             strokeWeight: 3,
+            //             path: bounds[i],
+            //             fillOpacity: 0,
+            //             fillColor: '#0091ea',
+            //             strokeColor: '#0091ea'
+            //         });
+            //         polygons.push(polygon);
+            //     }
+            // }
+            // window.map.add(polygons);
+            // window.map.setFitView(polygons);//视口自适应
         } else {
             console.log(" 无数据 ");
         }
-
     });
+}
+
+export function getColorByAdcode(adcode) {
+    // 颜色辅助方法
+    let colors = {};
+    if (!colors[adcode]) {
+        // let gb = Math.random() * 155 + 50;
+        let gb = 255;
+        colors[adcode] = 'rgb(' + gb + ',' + gb + ',255)';
+    }
+
+    return colors[adcode];
 }
 
 export function rangingTool () {
@@ -277,8 +314,9 @@ export function initPlugin() {
         // 'AMap.ToolBar',
         // 'AMap.Scale',
         // 'AMap.MapType',
-        'AMap.ControlBar',
+        // 'AMap.ControlBar',
         'AMap.AdvancedInfoWindow',
+        'AMap.DistrictLayer'
     ], function(){
         // 在图面添加工具条控件，工具条控件集成了缩放、平移、定位等功能按钮在内的组合控件
         // map.addControl(new window.AMap.ToolBar());
@@ -292,17 +330,18 @@ export function initPlugin() {
         // 在图面添加类别切换控件，实现默认图层与卫星图、实施交通图层之间切换的控制
         // map.addControl(new window.AMap.MapType());
 
-        window.map.addControl(new window.AMap.ControlBar({
-            showZoomBar:false,
-            showControlButton:true,
-            position:{
-                right:'10px',
-                bottom:'120px'
-            }
-        }));
+        // window.map.addControl(new window.AMap.ControlBar({
+        //     showZoomBar:false,
+        //     showControlButton:true,
+        //     position:{
+        //         right:'10px',
+        //         bottom:'120px'
+        //     }
+        // }));
 
 
         window.map.addControl(new window.AMap.AdvancedInfoWindow());
+        window.map.addControl(new window.AMap.DistrictLayer())
     });
 }
 
