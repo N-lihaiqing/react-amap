@@ -211,6 +211,13 @@
 }
 .search-parent .search-circle{
 
+    position:absolute;
+    left:466px;
+    top:0;
+    width:50px;
+    height:38px;
+    background:url(../image/point.png) no-repeat 7px 1px  #3385ff;
+    background-size: 35px 35px;
 }
 
 .search-route-end .route-clear-end{
