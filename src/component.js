@@ -166,6 +166,11 @@ export function initGovernmentArea() {
 }
 
 export function drawBounds(val) {
+    if(!window.AMap.DistrictLayer){
+        window.map.plugin([ 'AMap.DistrictLayer'], function(){
+            window.map.addControl(new window.AMap.DistrictLayer());
+        });
+    }
 
     //行政区查询
     district.setLevel('district'); //city  province   country
