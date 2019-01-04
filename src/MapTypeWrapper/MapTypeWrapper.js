@@ -24,9 +24,9 @@ class MapTypeWrapper extends React.Component{
         $(e.target).addClass("active");
         let className = $(e.target).prop("className").split(" ")[1];
         if(className == "normal"){
-            mapType("2D");
+            this.props.handle('2')
         } else if (className == "earth"){
-            mapType("3D");
+            this.props.handle('3')
         }
     };
 

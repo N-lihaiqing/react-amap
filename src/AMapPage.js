@@ -1,10 +1,7 @@
 import React, {Component} from 'react';
-import SearchPlate from "./MapPlate/SearchPlate";
-import AMapData from "./AMapData";
-import DropdownFun from "./ToolBox/DropdownFun";
-import ToolBar from "./ToolZoom/ToolBar";
 import MapTypeWrapper from "./MapTypeWrapper/MapTypeWrapper";
-
+import SecondDimensional from "./SecondDimensional";
+import ThreeDimensional from "./ThreeDimensional"
 
 
 class AMapPage extends Component {
@@ -17,14 +14,23 @@ class AMapPage extends Component {
 
     }
 
+    handle = (type) => {
+        if(type==='2'){
+            this.refs.second.showDimensional('block');
+            this.refs.three.showDimensional('none');
+        }else if(type==='3'){
+            this.refs.second.showDimensional('none');
+            this.refs.three.showDimensional('block');
+        }
+    };
+
+
     render() {
         return (
             <div>
-                <SearchPlate />
-                <AMapData />
-                <ToolBar/>
-                <DropdownFun />
-                <MapTypeWrapper/>
+                <MapTypeWrapper handle={this.handle}/>
+                <SecondDimensional ref="second"/>
+                <ThreeDimensional ref="three"/>
             </div>
         );
     }
