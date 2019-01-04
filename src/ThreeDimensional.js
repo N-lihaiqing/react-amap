@@ -26,7 +26,7 @@ class ThreeDimensional extends Component {
         const {show} = this.state;
         return (
             <div style={{display:show}}>
-                <DropdownFun/>
+                三维模型
             </div>
         );
     }
