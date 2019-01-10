@@ -1,8 +1,10 @@
-import {Component} from "react";
-import React from "react";
+import { Checkbox, Row, Col } from 'antd';
+import React, {Component} from "react";
 import 'antd/dist/antd.css'
 import {location,drawBounds, rulerOffOrOn, setZoom, addMarkSign} from "../component";
 require("./DropdownFun.css");
+
+
 
 class DropdownFun extends Component{
 
@@ -13,6 +15,7 @@ class DropdownFun extends Component{
             businessPopup: 'none',
             hover: false,
             city: '',
+            layerBox: 'none',
         }
     }
 
@@ -104,6 +107,16 @@ class DropdownFun extends Component{
             if(length === 3){
                 $(".citychangeopt").removeClass("ui3-city-change-click");
                 this.setState({mapPopup: 'none'});
+            }
+        }
+
+        if(obj != 'layer'){
+            let val = $(".layer-box").prop("className");
+            let length = val.split(" ").length;
+            if(length === 2){
+                $(".layer-box").removeClass("active");
+                $(".layer-box em").removeClass("active");
+                this.setState({layerBox: 'none'});
             }
         }
     };
@@ -217,6 +230,27 @@ class DropdownFun extends Component{
         }
     };
 
+    onChange = (checkedValues) => {
+        console.log('checked = ', checkedValues);
+    };
+
+    ClickLayerBox = () => {
+        this.removeClass('layer');
+        let $ = require("jquery");
+        let val = $(".layer-box").prop("className");
+        let length = val.split(" ").length;
+        if(length === 2){
+            $(".layer-box").removeClass("active");
+            $(".layer-box em").removeClass("active");
+            this.setState({layerBox: 'none'});
+        } else {
+            $(".layer-box").addClass("active");
+            $(".layer-box em").addClass("active");
+            this.setState({layerBox: 'block'});
+        }
+    };
+
+
     render() {
 
         let mapPopup = {
@@ -240,6 +274,10 @@ class DropdownFun extends Component{
 
         let citySpan = {
             marginRight:'10px',
+        };
+
+        let layerBoxStyle = {
+            display: this.state.layerBox,
         };
 
 
@@ -271,6 +309,21 @@ class DropdownFun extends Component{
                                         <li className="map-mark" onClick={() => {this.menuClick("mark")}}>
                                             <span className="last mark"/><i>标记</i></li>
                                     </ul>
+                                </div>
+                                <b></b>
+                                <div className="layer-box" onClick={this.ClickLayerBox}>
+                                    <span id="util_control" className="layerutils boxicon"></span>
+                                    <i className="layertext">图层</i><em id={"layeroptem"}></em></div>
+                                <div className="layer-detail-box" style={layerBoxStyle}>
+                                    <Checkbox.Group style={{ width: '100%' }} onChange={this.onChange}>
+                                        <Row>
+                                            <Col span={25}><Checkbox value="SZYX">影像图</Checkbox></Col>
+                                            <Col span={25}><Checkbox value="XZQH">行政区划</Checkbox></Col>
+                                            <Col span={25}><Checkbox value="midLine">中线</Checkbox></Col>
+                                            <Col span={25}><Checkbox value="sideLint">边线</Checkbox></Col>
+                                            <Col span={25}><Checkbox value="roadFace">面</Checkbox></Col>
+                                        </Row>
+                                    </Checkbox.Group>
                                 </div>
                             </div>
                         </div>

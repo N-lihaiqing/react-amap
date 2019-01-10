@@ -208,7 +208,10 @@
     background-position: -80px -117px;
 }
 
-.right-container .ui3-control-wrap .left span, .ui3-control-wrap .right span {
+.right-container .ui3-control-wrap .left .trafficopt span,
+.right-container .ui3-control-wrap .left .boxopt span,
+.right-container .ui3-control-wrap .left .detail-box span,
+.right-container .ui3-control-wrap .left .layer-box span{
     float: left;
     height: 34px;
     width: 29px;
@@ -260,14 +263,6 @@
     background-position: -80px -168px;
 }
 
-.right-container .ui3-control-wrap .left span, .ui3-control-wrap .right span {
-    float: left;
-    height: 34px;
-    width: 29px;
-    background-image: url(//webmap1.bdimg.com/wolfman/static/common/images/ui3/tools/newtools_9ddbaad.png);
-    background-repeat: no-repeat;
-}
-
 .right-container .ui3-control-wrap .boxutils {
   padding-right: 7px;
   background-position: -38px -116px;
@@ -283,7 +278,7 @@
     background: #fff;
     box-shadow: 1px 2px 1px rgba(0,0,0,.15);
     top: 34px;
-    right: 0;
+    right: 75px;
     float: left;
     display: none;
     z-index: 80000;
@@ -456,4 +451,56 @@
     right: 190px;
     z-index: 4;
     position: fixed;
+}
+
+.right-container .ui3-control-wrap .layer-box {
+    padding-right: 12px;
+    line-height: 34px;
+    float: left;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.right-container .ui3-control-wrap .layer-box em {
+    width: 7px;
+    height: 7px;
+    float: left;
+    margin-top: 13px;
+    margin-left: 5px;
+    background-image: url(//webmap1.bdimg.com/wolfman/static/common/images/ui3/tools/newtools_9ddbaad.png);
+    background-repeat: no-repeat;
+    background-position: -13px -17px;
+}
+
+.right-container .ui3-control-wrap .layer-box em.active {
+    background-position: -12px -177px;
+}
+
+.right-container .ui3-control-wrap .layer-box li .mark {
+    background-position: -80px -168px;
+}
+
+.right-container .ui3-control-wrap .layer-detail-box {
+    position: absolute;
+    width: 100px;
+    background: #fff;
+    box-shadow: 1px 2px 1px rgba(0,0,0,.15);
+    top: 34px;
+    right: 0;
+    float: left;
+    display: none;
+    z-index: 80000;
+}
+
+.right-container .ui3-control-wrap .layer-detail-box .ant-col-25{
+    padding: 5px;
+}
+
+.right-container .ui3-control-wrap .layerutils {
+    padding-right: 7px;
+    background-position: -38px -116px;
+}
+
+.right-container .ui3-control-wrap .layerutils.active {
+    background-position: -38px -48px;
 }
