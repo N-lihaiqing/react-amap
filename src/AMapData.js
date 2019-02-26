@@ -20,7 +20,7 @@ class AMapData extends Component {
             return
         }
         this.initMap();
-        initPlugin();
+        //initPlugin();
     }
 
     changeMapType =() =>{
@@ -88,17 +88,7 @@ class AMapData extends Component {
 
         rangingTool();  //初始化测距控件
 
-        // initToolBar(); //初始化工具条控件
-
-        // let lnglats = [
-        //     [114.06391, 22.548443],
-        //     [114.064134, 22.548172],
-        //     [114.064507, 22.548168],
-        //     [114.064826, 22.548089]
-        // ];
-        // this.addMarker(lnglats); // 实例化点标记
-        // this.polyline();
-        // this.circle(); //初始化矢量图层
+        map.plugin(['AMap.RoadInfoSearch']);
     };
 
 

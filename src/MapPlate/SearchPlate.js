@@ -1,5 +1,5 @@
 import React from 'react';
-import {Tabs} from 'antd';
+import {Tabs,message} from 'antd';
 import 'antd/dist/antd.css';
 import './map.css';
 import $ from 'jquery';
@@ -18,6 +18,7 @@ class SearchPlate extends React.Component {
             navigate: 'none',
             routeClearEnd:'none'
         };
+
     }
 
     changeTabs = (key) => {
@@ -34,6 +35,7 @@ class SearchPlate extends React.Component {
         window.navigateWay = 'Driving'; //    导航方式
         window.driving='';              //    导航路径
         window.endLocation={};          //    终点坐标
+
     }
 
 
@@ -48,6 +50,71 @@ class SearchPlate extends React.Component {
         location();
     };
 
+    /**
+     * 根据道路名称搜索
+     */
+    routeSearch =() =>{
+
+        let map = window.map;
+        map.plugin('AMap.Autocomplete', function () {
+            // 实例化Autocomplete
+            let autoOptions = {
+                // input 为绑定输入提示功能的input的DOM ID
+                input: 'search-input-way'
+            };
+            let autoComplete = new window.AMap.Autocomplete(autoOptions);
+
+            window.AMap.event.addListener(autoComplete, 'select', onComplete);
+
+            function onComplete(data) {
+
+                console.log('data',data);
+
+                let roadInfo = new window.AMap.RoadInfoSearch({
+                    city:data.poi.district.slice(3,6)
+                });
+
+                roadInfo.roadInfoSearchByRoadName(data.poi.name,function roadComplete(status,result) {
+
+                    if(status==='complete'){
+
+                        map.clearMap();
+                        let roadResult = result.roadInfo.filter((item)=>{return item.name===data.poi.name})[0];
+
+
+                        roadResult.path.map((item)=>{
+                            //path.push(new window.AMap.LngLat(item[0].lng,item[0].lat));
+                            let path = [];
+                            item.map((index)=>{
+                                path.push(new window.AMap.LngLat(index.lng,index.lat));
+                            });
+
+                            let polyline = new window.AMap.Polyline({
+                                path: path,
+                                borderWeight: 2, // 线条宽度，默认为 1
+                                strokeColor: 'red', // 线条颜色
+                                lineJoin: 'round' // 折线拐点连接处样式
+                            });
+
+                            map.add(polyline);
+
+                        });
+
+
+                        let viewCenter = roadResult.center.split(',');
+                        map.setZoomAndCenter(15, viewCenter);
+
+                    }else{
+                        message.error('当前数据无查询结果')
+                    }
+
+
+
+
+                })
+            }
+        });
+    };
 
     /* 起始点坐标的POI搜索 */
     startOPI = () =>{
@@ -183,7 +250,7 @@ class SearchPlate extends React.Component {
 
             <div className="search-parent">
                 <div style={{display: searchFrame}}>
-                    <input className="search-input-way" placeholder="请输入设施和道路名称"/>
+                    <input id="search-input-way" className="search-input-way" onClick={this.routeSearch} placeholder="请输入设施和道路名称"/>
                     <div title="路线" onClick={this.openNavigate} className="search-route"/>
                 </div>
                 <div onClick={this.search} className="search-button"/>
