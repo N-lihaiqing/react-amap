@@ -3,6 +3,8 @@ import SearchPlate from "./MapPlate/SearchPlate";
 import AMapData from "./AMapData";
 import DropdownFun from "./ToolBox/DropdownFun";
 import ToolBar from "./ToolZoom/ToolBar";
+import GisMap from "./GisMap";
+import {GisClick} from "./GisUtils"
 
 
 class SecondDimensional extends Component {
@@ -14,13 +16,14 @@ class SecondDimensional extends Component {
         }
     }
 
-    componentWillMount() {
+    componentDidMount() {
+        if(!window.map) return;
 
+        // 点击事件
+        window.map.on('click',GisClick)
     }
 
     showDimensional = (flag) =>{
-
-
         this.setState({
             show:flag
         })
@@ -30,10 +33,7 @@ class SecondDimensional extends Component {
         const {show} = this.state;
         return (
             <div style={{display:show}}>
-                <SearchPlate/>
-                <AMapData/>
-                <ToolBar/>
-                <DropdownFun/>
+                <GisMap/>
             </div>
         );
     }

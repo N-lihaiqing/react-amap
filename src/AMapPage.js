@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import MapTypeWrapper from "./MapTypeWrapper/MapTypeWrapper";
 import SecondDimensional from "./SecondDimensional";
-import ThreeDimensional from "./ThreeDimensional"
+import Toolbox from "./ToolBox/Toolbox";
+import SearchPlate from "./MapPlate/SearchPlate";
 
 
 class AMapPage extends Component {
@@ -30,7 +31,7 @@ class AMapPage extends Component {
             <div>
                 <MapTypeWrapper handle={this.handle}/>
                 <SecondDimensional ref="second"/>
-                <ThreeDimensional ref="three"/>
+
             </div>
         );
     }

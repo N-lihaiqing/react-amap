@@ -3,7 +3,7 @@ import {Tabs,message} from 'antd';
 import 'antd/dist/antd.css';
 import './map.css';
 import $ from 'jquery';
-import {startNavigate,location} from '../component';
+import {startNavigate,location} from "../GisUtils";
 
 
 /**
@@ -30,25 +30,13 @@ class SearchPlate extends React.Component {
         }
     };
 
-    componentWillMount(){
+    componentDidMount(){
 
         window.navigateWay = 'Driving'; //    导航方式
         window.driving='';              //    导航路径
         window.endLocation={};          //    终点坐标
-
-    }
-
-
-    /*打开导航*/
-    openNavigate = () => {
-
-        this.setState({
-            searchFrame: 'none',
-            navigate: 'block'
-        });
-
         location();
-    };
+    }
 
     /**
      * 根据道路名称搜索
@@ -102,7 +90,8 @@ class SearchPlate extends React.Component {
 
 
                         let viewCenter = roadResult.center.split(',');
-                        map.setZoomAndCenter(15, viewCenter);
+                        //map.setZoomAndCenter(15, viewCenter);
+                        map.panTo(viewCenter);
 
                     }else{
                         message.error('当前数据无查询结果')
@@ -173,27 +162,6 @@ class SearchPlate extends React.Component {
 
     };
 
-    //  关闭路线导航
-    closeNavigate = () => {
-
-        if(window.driving){
-            window.driving.clear();
-        }
-
-        this.setState({
-            searchFrame: 'block',
-            navigate: 'none',
-            routeClearEnd:'none'
-        });
-
-        window.startLocation = {};
-        window.endLocation = {}
-
-        $('#routeWay-start').val('');
-        $('#routeWay-end').val('');
-        $('#routeWay-end').attr('placeholder','请输入终点位置');
-        $('#routeWay-start').attr('placeholder','我的位置');
-    };
 
     //  清除所选的终点位置
     clearEndLocation=()=>{
@@ -244,21 +212,16 @@ class SearchPlate extends React.Component {
     };
 
     render() {
-        const {searchFrame, navigate,routeClearEnd} = this.state;
+        const {routeClearEnd} = this.state;
         return (
 
 
             <div className="search-parent">
-                <div style={{display: searchFrame}}>
-                    <input id="search-input-way" className="search-input-way" onClick={this.routeSearch} placeholder="请输入设施和道路名称"/>
-                    <div title="路线" onClick={this.openNavigate} className="search-route"/>
-                </div>
-                <div onClick={this.search} className="search-button"/>
-                <div className="search-circle"/>
-                <div className="search-navigate" style={{display: navigate}}>
+
+
+                <div className="search-navigate" >
                     <div className="searchbox-content-common ">
                         <Tabs defaultActiveKey="Driving" onChange={this.changeTabs}>
-                            <Tabs.TabPane tab={<span className="bus-tab"><i/>公交</span>} key="Transfer"/>
                             <Tabs.TabPane tab={<span className="car-tab"><i/>驾车</span>} key="Driving"/>
                             <Tabs.TabPane tab={<span className="walk-tab"><i/>步行</span>} key="Walking"/>
                             <Tabs.TabPane tab={<span className="bike-tab"><i/>骑行</span>} key="Riding"/>
@@ -278,8 +241,7 @@ class SearchPlate extends React.Component {
                     <div onClick={this.changeRoute} className="search-change">
                         <div className="change-start-end"/>
                     </div>
-                    <div className="search-add-white"/>
-                    <div className="search-closeNavigate" onClick={this.closeNavigate}/>
+
                 </div>
             </div>
 

@@ -1,81 +1,89 @@
 import {Component} from "react";
-import {startNavigate, initGovernmentArea, initPlugin, rangingTool,showInfoOver,mapClickOver,showInfoOut} from "./component";
+import {
+    startNavigate,
+    initGovernmentArea,
+    initPlugin,
+    rangingTool,
+    showInfoOver,
+    mapClickOver,
+    showInfoOut
+} from "./component";
 import React from "react";
 import "./ToolBox/DropdownFun.css";
 
-let map = null,marker = null ;
+let map = null, marker = null;
 
 class AMapData extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            secType:'block',
-            thrType:'none'
+            secType: 'block',
+            thrType: 'none'
         };
     }
 
     componentDidMount() {
-        if(!window.AMap){
+        if (!window.AMap) {
             return
         }
         this.initMap();
         //initPlugin();
     }
 
-    changeMapType =() =>{
+    changeMapType = () => {
 
 
-        let {secType,thrType} = this.state;
+        let {secType, thrType} = this.state;
         let map = window.map;
-        secType=secType === 'block'?'none':'block';
-        thrType=thrType === 'block'?'none':'block';
-        if(Object.keys(window.endLocation).length>0){
-            startNavigate(window.navigateWay,window.startLocation,window.endLocation);
+        secType = secType === 'block' ? 'none' : 'block';
+        thrType = thrType === 'block' ? 'none' : 'block';
+        if (Object.keys(window.endLocation).length > 0) {
+            startNavigate(window.navigateWay, window.startLocation, window.endLocation);
         }
 
-        if(map.getPitch()===0){
+        if (map.getPitch() === 0) {
             map.setPitch(50);
             let that = this;
             map.plugin([
                 'AMap.ControlBar',
-            ], function(){
+            ], function () {
                 that.controlBar = new window.AMap.ControlBar({
-                    showZoomBar:false,
-                    showControlButton:true,
-                    position:{
-                        right:'10px',
-                        bottom:'150px',
+                    showZoomBar: false,
+                    showControlButton: true,
+                    position: {
+                        right: '10px',
+                        bottom: '150px',
                     }
                 });
 
                 map.addControl(that.controlBar);
             });
 
-        }else{
+        } else {
             map.setPitch(0);
             map.removeControl(this.controlBar);
         }
 
         this.setState({
 
-            secType:secType,
-            thrType:thrType
+            secType: secType,
+            thrType: thrType
         });
     };
 
     initMap = () => {
         let markerObj, mapObj = new window.AMap.Map("allmap", {
             resizeEnable: true,
-            rotateEnable:true,
-            pitchEnable:true,
+            rotateEnable: true,
+            pitchEnable: true,
             zoom: 17,
-            zooms:[3,20],
-            viewMode:'3D',//开启3D视图,默认为关闭
-            expandZoomRange:true,
-            buildingAnimation:true,//楼块出现是否带动画
-            features:['bg','road','building'],
-            showBuildingBlock:true,
+            zooms: [3, 20],
+            viewMode: '3D',//开启3D视图,默认为关闭
+            expandZoomRange: true,
+            buildingAnimation: true,//楼块出现是否带动画
+            features: ['bg', 'road', 'building'],
+            showBuildingBlock: true,
             center: [114.127277, 22.53317],
         });
 
@@ -89,6 +97,8 @@ class AMapData extends Component {
         rangingTool();  //初始化测距控件
 
         map.plugin(['AMap.RoadInfoSearch']);
+
+        this.addMarkerInfo();
     };
 
 
@@ -119,6 +129,19 @@ class AMapData extends Component {
             marker.on('mouseover', showInfoOver);
             marker.on('mouseout', showInfoOut);
         }
+    };
+
+
+    /** 添加点标记 */
+    addMarkerInfo = () => {
+        marker = new window.AMap.Marker({
+            position: [114.063766, 22.548147]
+        });
+
+        marker.setMap(map);
+        marker.on('click', mapClickOver);
+        marker.on('mouseover', showInfoOver);
+        marker.on('mouseout', showInfoOut);
     };
 
     /** 坐标连线 */
@@ -153,9 +176,9 @@ class AMapData extends Component {
         ];
 
         let circle = null;
-        for(let i = 0; i < lnglats.length; i++){
+        for (let i = 0; i < lnglats.length; i++) {
             circle = new window.AMap.Circle({
-                center: new window.AMap.LngLat(lnglats[i][0],lnglats[i][1]),// 圆心位置
+                center: new window.AMap.LngLat(lnglats[i][0], lnglats[i][1]),// 圆心位置
                 radius: 500, //半径
                 strokeColor: "#FFF", //线颜色
                 strokeOpacity: 1, //线透明度
@@ -169,26 +192,26 @@ class AMapData extends Component {
 
 
             let html = "";
-            if(i == 1){
+            if (i == 1) {
                 html = "宝安区"
-            } else if(i == 2){
+            } else if (i == 2) {
                 html = "南山区"
-            } else if(i == 3){
+            } else if (i == 3) {
                 html = "龙华区"
-            } else if(i == 4){
+            } else if (i == 4) {
                 html = "福田区"
             } else {
                 html = "盐田区"
             }
             // 创建纯文本标记
             let text = new window.AMap.Text({
-                text:html,
-                textAlign:'center', // 'left' 'right', 'center',
-                verticalAlign:'middle', //middle 、bottom
-                draggable:true,
-                cursor:'pointer',
-                angle:10,
-                style:{
+                text: html,
+                textAlign: 'center', // 'left' 'right', 'center',
+                verticalAlign: 'middle', //middle 、bottom
+                draggable: true,
+                cursor: 'pointer',
+                angle: 10,
+                style: {
                     'background-color': 'transparent',
                     'width': 'auto',
                     'border-width': 0,
@@ -211,25 +234,26 @@ class AMapData extends Component {
 
     render() {
         const mapBody = {
-            width:'100%',
-            height:  document.body.clientHeight,
-            display:'block',
+            width: '100%',
+            height: document.body.clientHeight,
+            display: 'block',
             position: 'absolute'
         };
 
-        const {secType,thrType} = this.state;
+        const {secType, thrType} = this.state;
 
         return (
             <div className="AMap-data">
-                <div >
+                <div>
                     <div id='allmap' style={{...mapBody}}/>
                 </div>
-                <div  onClick={this.changeMapType} className="change-map-type">
-                    <div style={{display:secType}} className="change-map-2D-icon"/>
-                    <div style={{display:thrType}} className="change-map-3D-icon"/>
+                <div onClick={this.changeMapType} className="change-map-type">
+                    <div style={{display: secType}} className="change-map-2D-icon"/>
+                    <div style={{display: thrType}} className="change-map-3D-icon"/>
                 </div>
             </div>
         );
     }
 }
+
 export default AMapData;
