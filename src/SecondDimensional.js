@@ -5,6 +5,7 @@ import DropdownFun from "./ToolBox/DropdownFun";
 import ToolBar from "./ToolZoom/ToolBar";
 import GisMap from "./GisMap";
 import {GisClick} from "./GisUtils"
+import Statement from "./Statement";
 
 
 class SecondDimensional extends Component {
@@ -12,7 +13,8 @@ class SecondDimensional extends Component {
     constructor(props) {
         super(props);
         this.state={
-            show:'block'
+            show:'block',
+            open: false
         }
     }
 
@@ -29,11 +31,23 @@ class SecondDimensional extends Component {
         })
     };
 
+    openCount = () =>{
+        let markers = window.map.getAllOverlays();
+        let marker = markers.find(o => o.getExtData().id === 1);
+        marker.setIcon(new window.AMap.Icon({
+            image: require('./image/upline.png'),
+            size: [ 20,  27],
+            imageSize: [ 20, 27]
+        }))
+    };
+
     render() {
-        const {show} = this.state;
+        const {show,open} = this.state;
         return (
             <div style={{display:show}}>
+                <button onClick={this.openCount}>统计信息</button>
                 <GisMap/>
+
             </div>
         );
     }

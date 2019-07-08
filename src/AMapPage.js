@@ -31,7 +31,6 @@ class AMapPage extends Component {
             <div>
                 <MapTypeWrapper handle={this.handle}/>
                 <SecondDimensional ref="second"/>
-
             </div>
         );
     }

@@ -1,15 +1,7 @@
 import {Component} from "react";
-import {
-    startNavigate,
-    initGovernmentArea,
-    initPlugin,
-    rangingTool,
-    showInfoOver,
-    mapClickOver,
-    showInfoOut
-} from "./component";
 import React from "react";
 import "./ToolBox/DropdownFun.css";
+import {circle,aggregationScroll,aggregation} from "./GisUtils";
 
 let map = null, marker = null;
 
@@ -28,7 +20,7 @@ class GisMap extends Component {
             return
         }
         this.initMap();
-
+        aggregation();
     }
 
 
@@ -49,9 +41,19 @@ class GisMap extends Component {
 
         map.setFitView();
         window.map = map;
+        this.initPlugin();
+
     };
 
 
+    // 初始化地图插件
+    initPlugin = () =>{
+        /*地图控件*/
+        window.map.plugin([
+            'AMap.MarkerClusterer',
+            'AMap.Geocoder'
+        ], function(){});
+    };
 
     render() {
         const mapBody = {
