@@ -1,5 +1,6 @@
 
 let infoWindow;
+let cluster;
 
 let clickMarker = {
     icon : null,
@@ -25,33 +26,37 @@ let points = [{
 
 
 
-export function GisClick(e) {
+export function GisClick(e,callback) {
     let text = '您在 [ '+e.lnglat.getLng()+','+e.lnglat.getLat()+' ] 的位置双击了地图！';
     clickPoint.push(e.lnglat.getLng());
     clickPoint.push(e.lnglat.getLat());
-    console.log(text);
-    /*points.map(item =>{
+    points.map(item =>{
         addMarker(item,{
             info:'地址：研祥城市广场',
             phone:'联系方式：13109535228',
             imgUrl:'http://tpc.googlesyndication.com/simgad/5843493769827749134'
         });
-    });*/
+    });
+    //getAddress([e.lnglat.getLng(),e.lnglat.getLat()],callback);
 
-
-    getAddress([e.lnglat.getLng(),e.lnglat.getLat()]);
 }
 
-export function addressCallback(status,result) {
+export function getClickPoint() {
+
+    return clickPoint;
+
+}
+
+/*export function addressCallback(status,result) {
     let data = {
         address : result.regeocode.formattedAddress,
         point : clickPoint
     };
 
-    console.log(data);
-}
+    alert(data.address);
+}*/
 
-export function getAddress(clickPoint) {
+export function getAddress(clickPoint,callback) {
     window.map.clearMap();
     let marker = new window.AMap.Marker({
         position: clickPoint,
@@ -59,7 +64,7 @@ export function getAddress(clickPoint) {
     });
     marker.setMap(window.map);
     let geocoder = new window.AMap.Geocoder({});
-    geocoder.getAddress(clickPoint, addressCallback)
+    geocoder.getAddress(clickPoint, callback)
 }
 
 // 自定义标注
@@ -412,10 +417,52 @@ export function aggregation() {
     }*/];
 
     /*地图控件*/
-    let cluster = new window.AMap.MarkerClusterer(window.map, markers, {
+    cluster = new window.AMap.MarkerClusterer(window.map, markers, {
         styles: sts,
         gridSize: 80
     });
+
+
+}
+
+
+export function removeAggration() {
+    if(!window.map) return;
+
+    if(cluster){
+        cluster.clearMarkers();
+    }
+}
+/**
+ * 获取指定的Marker
+ * point = {
+ *      id : marker的ID
+ *      img : 高亮显示的图片
+ *      size : 高亮显示的大小
+ * }
+ * @param point
+ */
+export function getMarker(point) {
+    let markers = window.map.getAllOverlays();
+    let marker = markers.find(o => o.getExtData().id === point.id);
+
+    // 恢复上一个Marker的Icon
+    if(clickMarker.marker && clickMarker.icon){
+        clickMarker.marker.setIcon(clickMarker.icon);
+    }
+    if(marker){
+
+        clickMarker = {
+            marker : marker,
+            icon : marker.getIcon()
+        };
+
+        marker.setIcon(new window.AMap.Icon({
+            image : point.img,
+            size : point.size,
+            imageSize : point.size
+        }))
+    }
 }
 
 

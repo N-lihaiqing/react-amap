@@ -4,7 +4,7 @@ import AMapData from "./AMapData";
 import DropdownFun from "./ToolBox/DropdownFun";
 import ToolBar from "./ToolZoom/ToolBar";
 import GisMap from "./GisMap";
-import {GisClick} from "./GisUtils"
+import {GisClick, getMarker, removeAggration, getAddress,addressCallback,getClickPoint} from "./GisUtils"
 import Statement from "./Statement";
 
 
@@ -16,14 +16,29 @@ class SecondDimensional extends Component {
             show:'block',
             open: false
         }
+        this.index = 1;
+        this.point = [];
     }
 
     componentDidMount() {
+        let that = this;
         if(!window.map) return;
 
         // 点击事件
-        window.map.on('click',GisClick)
+        window.map.on('click',function (e) {
+            GisClick(e,that.addressData)
+        });
+
     }
+
+    addressData = (status,result) =>{
+        let data = {
+            address : result.regeocode.formattedAddress,
+            point : getClickPoint()
+        };
+
+        alert(data.address);
+    };
 
     showDimensional = (flag) =>{
         this.setState({
@@ -32,13 +47,17 @@ class SecondDimensional extends Component {
     };
 
     openCount = () =>{
-        let markers = window.map.getAllOverlays();
-        let marker = markers.find(o => o.getExtData().id === 1);
-        marker.setIcon(new window.AMap.Icon({
-            image: require('./image/upline.png'),
-            size: [ 20,  27],
-            imageSize: [ 20, 27]
-        }))
+
+
+        /*let point = {
+            id : this.index,
+            img : require('./image/upline.png'),
+            size : [20 , 27]
+        };
+
+        getMarker(point);
+        this.index++;*/
+        removeAggration();
     };
 
     render() {

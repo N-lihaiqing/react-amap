@@ -11,7 +11,8 @@ class GisMap extends Component {
         super(props);
         this.state = {
             secType: 'block',
-            thrType: 'none'
+            thrType: 'none',
+            flag : false
         };
     }
 
@@ -20,7 +21,6 @@ class GisMap extends Component {
             return
         }
         this.initMap();
-        aggregation();
     }
 
 
