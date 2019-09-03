@@ -85,7 +85,7 @@ export function addMarker(point,message) {
     let marker = new window.AMap.Marker({
         icon: preIcon,
         position: [point.lon,point.lat],
-        offset: new window.AMap.Pixel(-13, -30)
+        offset: new window.AMap.Pixel(-10, -27)
     });
     point.icon = preIcon;
     marker.setExtData(point);
@@ -115,15 +115,16 @@ export function addMarker(point,message) {
         if(e.target.getIcon() !== heightIcon){
             flag = false;
             e.target.setIcon(heightIcon);
+            e.target.setOffset(new window.AMap.Pixel(-15, -40))
         }
         infoWindow.open(window.map,marker.getPosition());
     });
     marker.on('mouseout',function (e) {
 
         if(isClicked){
-            !flag && e.target.setIcon(preIcon);
+            !flag && e.target.setIcon(preIcon) && e.target.setOffset(new window.AMap.Pixel(5, 13));
         }else{
-            !isClicked && e.target.setIcon(preIcon);
+            !isClicked && e.target.setIcon(preIcon) && e.target.setOffset(new window.AMap.Pixel(5, 13));
         }
 
         closeInfoWindow();
